@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIL Benchmark – Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#0f1f38;--navy-mid:#162d50;--navy-light:#1e3d6e;
+  --gold:#e8a020;--gold-pale:#fdf3df;
+  --sky:#3b82c4;--sky-mid:#2563a8;--sky-light:#dbeafe;
+  --white:#fff;--off-white:#f7f9fc;--border:#dce4ed;--border-mid:#c8d4e0;
+  --text-1:#0f1f38;--text-2:#4a6480;--text-3:#8fa3b8;
+  --green:#22c55e;--green-pale:#dcfce7;--green-dark:#16a34a;
+  --red:#ef4444;--red-pale:#fee2e2;--red-dark:#dc2626;
+  --amber:#f59e0b;--amber-pale:#fef3c7;--amber-dark:#d97706;
+  --radius:10px;--radius-sm:6px;
+  --shadow-md:0 2px 12px rgba(15,31,56,.08);--shadow-lg:0 8px 28px rgba(15,31,56,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--off-white);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height:56px;border-bottom:2.5px solid var(--gold);position:sticky;top:0;z-index:200}
+.nav-logo{font-family:'DM Serif Display',serif;color:var(--white);font-size:17px;letter-spacing:.02em;margin-right:36px;white-space:nowrap;flex-shrink:0}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2px;flex:1}
+.nav-link{color:rgba(255,255,255,.55);font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .15s;white-space:nowrap}
+.nav-link:hover{color:var(--white);background:rgba(255,255,255,.07)}
+.nav-link.active{color:var(--gold);background:rgba(232,160,32,.13)}
+.nav-user{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0}
+.nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center}
+.nav-user-school{color:var(--white);font-weight:600;font-size:12px;display:block;text-align:right}
+.nav-user-role{color:rgba(255,255,255,.5);font-size:11px;text-align:right;display:block}
+
+/* HEADER BAND */
+.page-header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 28px 16px;display:flex;align-items:flex-end;justify-content:space-between}
+.page-header-left{}
+.page-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy)}
+.page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+.header-actions{display:flex;gap:10px;align-items:center}
+
+/* LAYOUT */
+.page-layout{display:grid;grid-template-columns:252px 1fr;min-height:calc(100vh - 56px - 75px)}
+
+/* SIDEBAR */
+.sidebar{background:var(--white);border-right:1px solid var(--border);padding:22px 18px;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text-3);margin-bottom:16px}
+.filter-group{margin-bottom:15px}
+.filter-label{font-size:10.5px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px;display:block}
+.filter-select{width:100%;background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 11px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-1);font-weight:500;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' fill='none'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%238fa3b8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center}
+.radio-group{display:flex;flex-direction:column;gap:6px}
+.radio-option{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-1);cursor:pointer}
+.radio-dot{width:15px;height:15px;border-radius:50%;border:2px solid var(--border-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.radio-dot.on{border-color:var(--sky)}
+.radio-dot.on::after{content:'';width:7px;height:7px;border-radius:50%;background:var(--sky)}
+.chip-row{display:flex;flex-wrap:wrap;gap:5px}
+.chip{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--text-2)}
+.chip.on{background:var(--sky-light);border-color:var(--sky);color:var(--sky)}
+.chip-ck{width:11px;height:11px;border-radius:2px;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:7px}
+.divider{height:1px;background:var(--border);margin:14px 0}
+.apply-btn{width:100%;background:var(--navy);color:var(--white);border:none;border-radius:var(--radius-sm);padding:11px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.05em;margin-top:10px;text-transform:uppercase}
+
+/* MAIN */
+.main{padding:24px 26px;display:flex;flex-direction:column;gap:24px}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kpi-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);padding:18px 20px;position:relative;overflow:hidden;transition:box-shadow .2s}
+.kpi-card:hover{box-shadow:var(--shadow-lg)}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-card.sky::before{background:var(--sky)}
+.kpi-card.gold::before{background:var(--gold)}
+.kpi-card.green::before{background:var(--green)}
+.kpi-card.amber::before{background:var(--amber)}
+.kpi-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);margin-bottom:10px}
+.kpi-value{font-family:'DM Mono',monospace;font-size:28px;font-weight:500;color:var(--navy);letter-spacing:-.02em;line-height:1}
+.kpi-meta{display:flex;align-items:center;gap:8px;margin-top:8px}
+.kpi-delta-up{display:inline-flex;align-items:center;gap:3px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 8px;font-size:11px;font-weight:700;font-family:'DM Mono',monospace}
+.kpi-delta-dn{display:inline-flex;align-items:center;gap:3px;background:var(--red-pale);color:var(--red-dark);border-radius:100px;padding:2px 8px;font-size:11px;font-weight:700;font-family:'DM Mono',monospace}
+.kpi-comp{font-size:11.5px;color:var(--text-3)}
+.kpi-comp b{color:var(--text-2)}
+
+/* 2-COL GRID */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.three-col{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+
+/* CARD */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md)}
+.card-head{padding:15px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:'DM Serif Display',serif;font-size:15px;color:var(--navy)}
+.card-sub{font-size:12px;color:var(--text-3);margin-top:2px}
+.card-body{padding:18px 20px}
+
+/* BENCH MINI TABLE */
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--off-white);border-bottom:1.5px solid var(--border)}
+th{padding:9px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);text-align:left}
+th.r{text-align:right}
+tbody tr{border-bottom:1px solid var(--border)}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#f0f6ff}
+td{padding:11px 16px;font-size:13px;color:var(--text-1)}
+td.r{text-align:right;font-family:'DM Mono',monospace;font-size:12.5px;font-weight:500}
+td.yours{color:var(--navy);font-weight:600}
+td.conf{color:var(--text-3)}
+td.dim{font-weight:500}
+
+/* MINI BAR CHART */
+.bar-chart-mini{display:flex;flex-direction:column;gap:10px;padding:4px 0}
+.bar-row{display:flex;align-items:center;gap:10px}
+.bar-label{width:32px;font-size:11px;font-weight:600;color:var(--text-2);text-align:right;flex-shrink:0}
+.bar-tracks{flex:1;display:flex;flex-direction:column;gap:3px}
+.bar-track{height:10px;border-radius:3px;min-width:4px;transition:width .6s cubic-bezier(.34,1.56,.64,1)}
+.bar-track.school{background:var(--sky)}
+.bar-track.conf{background:#c8d8e8}
+.bar-val{font-family:'DM Mono',monospace;font-size:10.5px;color:var(--text-2);width:42px;text-align:right;flex-shrink:0}
+
+/* ACTIVITY FEED */
+.feed{display:flex;flex-direction:column}
+.feed-item{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid var(--border)}
+.feed-item:last-child{border-bottom:none}
+.feed-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:1px}
+.feed-icon.deal{background:var(--sky-light);color:var(--sky)}
+.feed-icon.cert{background:var(--green-pale);color:var(--green-dark)}
+.feed-icon.warn{background:var(--amber-pale);color:var(--amber-dark)}
+.feed-icon.export{background:var(--off-white);color:var(--text-3)}
+.feed-body{flex:1}
+.feed-title{font-size:13px;font-weight:600;color:var(--text-1);line-height:1.3}
+.feed-desc{font-size:12px;color:var(--text-3);margin-top:2px}
+.feed-time{font-size:11px;color:var(--text-3);white-space:nowrap;margin-top:2px}
+
+/* COMPLIANCE HEALTH */
+.health-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;text-align:center}
+.health-cell{padding:14px 10px;border-right:1px solid var(--border)}
+.health-cell:last-child{border-right:none}
+.health-num{font-family:'DM Mono',monospace;font-size:24px;font-weight:500;color:var(--navy)}
+.health-num.warn{color:var(--amber-dark)}
+.health-num.ok{color:var(--green-dark)}
+.health-num.bad{color:var(--red-dark)}
+.health-lbl{font-size:10.5px;color:var(--text-3);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.07em}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-green{background:var(--green-pale);color:var(--green-dark)}
+.b-amber{background:var(--amber-pale);color:var(--amber-dark)}
+.b-red{background:var(--red-pale);color:var(--red-dark)}
+.b-sky{background:var(--sky-light);color:var(--sky-mid)}
+.b-gray{background:var(--off-white);color:var(--text-3);border:1px solid var(--border)}
+
+/* SPORT PILLS */
+.sport-pills{display:flex;gap:6px;flex-wrap:wrap}
+.sport-pill{padding:5px 12px;border-radius:100px;border:1.5px solid var(--border);font-size:12px;font-weight:500;cursor:pointer;color:var(--text-2);transition:all .12s}
+.sport-pill.active{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.sport-pill:hover:not(.active){border-color:var(--sky);color:var(--sky)}
+
+/* BTN */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--radius-sm);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;white-space:nowrap}
+.btn-navy{background:var(--navy);color:var(--white)}
+.btn-outline{background:var(--white);color:var(--text-1);border:1.5px solid var(--border)}
+
+/* WELCOME BAND */
+.welcome-band{background:linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);border-radius:var(--radius);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative}
+.welcome-band::after{content:'NIL';position:absolute;right:-10px;top:-18px;font-family:'DM Serif Display',serif;font-size:110px;color:rgba(255,255,255,.04);font-style:italic;pointer-events:none;user-select:none}
+.welcome-text h2{font-family:'DM Serif Display',serif;font-size:20px;color:var(--white)}
+.welcome-text p{font-size:13px;color:rgba(255,255,255,.6);margin-top:4px}
+.welcome-badge{background:rgba(232,160,32,.2);border:1px solid rgba(232,160,32,.35);border-radius:8px;padding:10px 16px;text-align:right}
+.wb-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);margin-bottom:3px}
+.wb-value{font-family:'DM Mono',monospace;font-size:17px;color:var(--gold);font-weight:500}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">NIL <span>Benchmark</span></div>
+  <div class="nav-links">
+    <div class="nav-link active">Dashboard</div>
+    <div class="nav-link">Deals</div>
+    <div class="nav-link">Benchmarks</div>
+    <div class="nav-link">Compliance</div>
+    <div class="nav-link">Admin</div>
+  </div>
+  <div class="nav-user">
+    <div>
+      <span class="nav-user-school">Your University</span>
+      <span class="nav-user-role">Athletic Director</span>
+    </div>
+    <div class="nav-avatar">AD</div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-left">
+    <div class="page-title">Dashboard</div>
+    <div class="page-sub">2025–26 Academic Year · Football · SEC · Last updated today at 9:41 AM</div>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-outline" style="font-size:12px">⬇ Export Report</button>
+    <button class="btn btn-navy" style="font-size:12px">+ Submit Deal</button>
+  </div>
+</div>
+
+<div class="page-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Quick Filters</div>
+
+    <div class="filter-group">
+      <span class="filter-label">View</span>
+      <div class="radio-group">
+        <label class="radio-option"><div class="radio-dot on"></div>vs Conference</label>
+        <label class="radio-option"><div class="radio-dot"></div>My School Only</label>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Division</span>
+      <select class="filter-select"><option>FBS</option></select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Conference</span>
+      <select class="filter-select"><option>SEC</option></select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Year</span>
+      <select class="filter-select"><option>2025–26 Academic Year</option></select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Sport</span>
+      <select class="filter-select"><option>Football</option></select>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="filter-group">
+      <span class="filter-label">Compensation</span>
+      <div class="chip-row">
+        <div class="chip on"><div class="chip-ck">✓</div>Cash</div>
+        <div class="chip on"><div class="chip-ck">✓</div>Sponsor</div>
+        <div class="chip on"><div class="chip-ck">✓</div>Mixed</div>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Class Year</span>
+      <div class="chip-row">
+        <div class="chip on"><div class="chip-ck">✓</div>All</div>
+        <div class="chip">FR</div>
+        <div class="chip">SO</div>
+        <div class="chip">JR</div>
+        <div class="chip">SR</div>
+      </div>
+    </div>
+
+    <button class="apply-btn">Apply Filters</button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- Welcome band -->
+    <div class="welcome-band">
+      <div class="welcome-text">
+        <h2>Good morning, Your University</h2>
+        <p>You have <strong style="color:var(--gold)">3 deals</strong> pending certification and <strong style="color:var(--gold-pale)">2 flagged</strong> for missing fields.</p>
+      </div>
+      <div class="welcome-badge">
+        <div class="wb-label">Reporting Period</div>
+        <div class="wb-value">Fall 2025</div>
+      </div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="kpi-grid">
+      <div class="kpi-card sky">
+        <div class="kpi-label">Total NIL Value</div>
+        <div class="kpi-value">$4.8M</div>
+        <div class="kpi-meta">
+          <span class="kpi-delta-up">▲ +12%</span>
+          <span class="kpi-comp">vs <b>$4.2M</b> conf avg</span>
+        </div>
+      </div>
+      <div class="kpi-card gold">
+        <div class="kpi-label">Avg NIL / Athlete</div>
+        <div class="kpi-value">$45K</div>
+        <div class="kpi-meta">
+          <span class="kpi-delta-up">▲ +7%</span>
+          <span class="kpi-comp">vs <b>$42K</b> conf avg</span>
+        </div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Athletes with Deals</div>
+        <div class="kpi-value">68%</div>
+        <div class="kpi-meta">
+          <span class="kpi-delta-up">▲ +7 pts</span>
+          <span class="kpi-comp">vs <b>61%</b> conf avg</span>
+        </div>
+      </div>
+      <div class="kpi-card amber">
+        <div class="kpi-label">Active Deals</div>
+        <div class="kpi-value">107</div>
+        <div class="kpi-meta">
+          <span class="kpi-delta-up">▲ +14</span>
+          <span class="kpi-comp">vs last period</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Middle row -->
+    <div class="three-col">
+
+      <!-- Benchmark snapshot -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Benchmark Snapshot</div>
+            <div class="card-sub">Football · You vs SEC · 2025–26</div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center">
+            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-3)"><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:var(--sky)"></span>Yours</span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-3)"><span style="display:inline-block;width:12px;height:12px;border-radius:2px;background:#c8d8e8"></span>Conf</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="margin-bottom:16px">
+            <div class="sport-pills">
+              <div class="sport-pill active">Football</div>
+              <div class="sport-pill">Basketball</div>
+              <div class="sport-pill">Baseball</div>
+              <div class="sport-pill">Track</div>
+            </div>
+          </div>
+          <div class="bar-chart-mini" id="miniChart">
+            <div class="bar-row">
+              <div class="bar-label">QB</div>
+              <div class="bar-tracks">
+                <div class="bar-track school" style="width:87.5%"></div>
+                <div class="bar-track conf" style="width:78%"></div>
+              </div>
+              <div class="bar-val">$350K</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">WR</div>
+              <div class="bar-tracks">
+                <div class="bar-track school" style="width:45%"></div>
+                <div class="bar-track conf" style="width:40.5%"></div>
+              </div>
+              <div class="bar-val">$180K</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">RB</div>
+              <div class="bar-tracks">
+                <div class="bar-track school" style="width:30%"></div>
+                <div class="bar-track conf" style="width:24.5%"></div>
+              </div>
+              <div class="bar-val">$120K</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">DB</div>
+              <div class="bar-tracks">
+                <div class="bar-track school" style="width:27.5%"></div>
+                <div class="bar-track conf" style="width:24%"></div>
+              </div>
+              <div class="bar-val">$110K</div>
+            </div>
+            <div class="bar-row">
+              <div class="bar-label">OL</div>
+              <div class="bar-tracks">
+                <div class="bar-track school" style="width:22%"></div>
+                <div class="bar-track conf" style="width:18%"></div>
+              </div>
+              <div class="bar-val">$88K</div>
+            </div>
+          </div>
+          <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:flex-end">
+            <a style="font-size:12.5px;color:var(--sky);font-weight:600;cursor:pointer">View Full Benchmarks →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <!-- Compliance health -->
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Compliance Health</div>
+            <a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View All →</a>
+          </div>
+          <div class="health-grid">
+            <div class="health-cell">
+              <div class="health-num ok">89</div>
+              <div class="health-lbl">Certified</div>
+            </div>
+            <div class="health-cell">
+              <div class="health-num warn">3</div>
+              <div class="health-lbl">Pending</div>
+            </div>
+            <div class="health-cell">
+              <div class="health-num bad">2</div>
+              <div class="health-lbl">Flagged</div>
+            </div>
+          </div>
+          <div style="padding:12px 16px;border-top:1px solid var(--border)">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <span style="font-size:11.5px;color:var(--text-3)">Certification rate</span>
+              <span style="font-size:12px;font-weight:700;font-family:'DM Mono',monospace;color:var(--green-dark)">94.7%</span>
+            </div>
+            <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="height:100%;width:94.7%;background:var(--green);border-radius:3px"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submission summary -->
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">This Period</div>
+            <span class="badge b-sky">Fall 2025</span>
+          </div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+              <span style="color:var(--text-2)">Deals submitted</span>
+              <span style="font-family:'DM Mono',monospace;font-weight:600">94</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+              <span style="color:var(--text-2)">Deals certified</span>
+              <span style="font-family:'DM Mono',monospace;font-weight:600;color:var(--green-dark)">89</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+              <span style="color:var(--text-2)">Avg processing time</span>
+              <span style="font-family:'DM Mono',monospace;font-weight:600">1.4 days</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+              <span style="color:var(--text-2)">Period deadline</span>
+              <span style="font-family:'DM Mono',monospace;font-weight:600;color:var(--amber-dark)">Dec 15, 2025</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Activity Feed -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Recent Activity</div>
+          <div class="card-sub">Latest submissions, certifications, and flags</div>
+        </div>
+        <a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View All Activity →</a>
+      </div>
+      <div style="padding:0 20px">
+        <div class="feed">
+          <div class="feed-item">
+            <div class="feed-icon cert">✓</div>
+            <div class="feed-body">
+              <div class="feed-title">Deal #1087 certified — QB Endorsement (Nike)</div>
+              <div class="feed-desc">Reviewed and certified by J. Williams · $350,000 · Football</div>
+            </div>
+            <div class="feed-time">2h ago</div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon warn">⚠</div>
+            <div class="feed-body">
+              <div class="feed-title">Deal #1091 flagged — missing compensation structure</div>
+              <div class="feed-desc">Social media deal submitted without cash/product split · WR · Basketball</div>
+            </div>
+            <div class="feed-time">4h ago</div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon deal">📄</div>
+            <div class="feed-body">
+              <div class="feed-title">3 new deals submitted via upload portal</div>
+              <div class="feed-desc">AI extraction complete · Pending institutional review</div>
+            </div>
+            <div class="feed-time">Yesterday</div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-icon export">⬇</div>
+            <div class="feed-body">
+              <div class="feed-title">Benchmark report exported — Football Q1 2025</div>
+              <div class="feed-desc">Downloaded by M. Johnson (Associate AD, Finance)</div>
+            </div>
+            <div class="feed-time">2 days ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// Animate bars
+document.querySelectorAll('.bar-track').forEach((b,i)=>{
+  const w=b.style.width; b.style.width='0'; b.style.transition='width 0.55s cubic-bezier(.34,1.2,.64,1)';
+  setTimeout(()=>{b.style.width=w}, 150+i*35);
+});
+// Animate kpi values
+document.querySelectorAll('.kpi-card').forEach((c,i)=>{
+  c.style.opacity='0'; c.style.transform='translateY(10px)'; c.style.transition='opacity .4s ease, transform .4s ease';
+  setTimeout(()=>{c.style.opacity='1'; c.style.transform='translateY(0)'; }, 100+i*80);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIL Benchmark – Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f1f38;--navy-mid:#162d50;--navy-light:#1e3d6e;
+  --gold:#e8a020;--gold-pale:#fdf3df;
+  --sky:#3b82c4;--sky-mid:#2563a8;--sky-light:#dbeafe;
+  --white:#fff;--off-white:#f7f9fc;--border:#dce4ed;--border-mid:#c8d4e0;
+  --text-1:#0f1f38;--text-2:#4a6480;--text-3:#8fa3b8;
+  --green:#22c55e;--green-pale:#dcfce7;--green-dark:#16a34a;
+  --red:#ef4444;--red-pale:#fee2e2;--red-dark:#dc2626;
+  --amber:#f59e0b;--amber-pale:#fef3c7;--amber-dark:#d97706;
+  --radius:10px;--radius-sm:6px;
+  --shadow-md:0 2px 12px rgba(15,31,56,.08);--shadow-lg:0 8px 28px rgba(15,31,56,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--off-white);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height:56px;border-bottom:2.5px solid var(--gold);position:sticky;top:0;z-index:200}
+.nav-logo{font-family:'DM Serif Display',serif;color:var(--white);font-size:17px;letter-spacing:.02em;margin-right:36px;white-space:nowrap}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2px;flex:1}
+.nav-link{color:rgba(255,255,255,.55);font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:.06em;text-transform:uppercase}
+.nav-link.active{color:var(--gold);background:rgba(232,160,32,.13)}
+.nav-user{display:flex;align-items:center;gap:10px;margin-left:auto}
+.nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center}
+.nav-user-school{color:var(--white);font-weight:600;font-size:12px;display:block;text-align:right}
+.nav-user-role{color:rgba(255,255,255,.5);font-size:11px;text-align:right;display:block}
+
+.page-header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 28px 14px;display:flex;align-items:flex-end;justify-content:space-between}
+.page-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy)}
+.page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--radius-sm);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;white-space:nowrap;transition:all .15s}
+.btn-navy{background:var(--navy);color:var(--white)}
+.btn-navy:hover{background:var(--navy-light)}
+.btn-outline{background:var(--white);color:var(--text-1);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--sky);color:var(--sky)}
+.btn-sky{background:var(--sky);color:var(--white)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-danger{background:var(--red-pale);color:var(--red-dark);border:1.5px solid rgba(239,68,68,.25)}
+.btn-danger:hover{background:var(--red);color:var(--white)}
+
+/* PAGE BODY */
+.admin-body{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:24px 28px}
+
+/* SECTION CARD */
+.section-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md)}
+.section-card.full{grid-column:1/-1}
+.card-head{padding:15px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:'DM Serif Display',serif;font-size:16px;color:var(--navy)}
+.card-sub{font-size:12px;color:var(--text-3);margin-top:2px}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-green{background:var(--green-pale);color:var(--green-dark)}
+.b-amber{background:var(--amber-pale);color:var(--amber-dark)}
+.b-red{background:var(--red-pale);color:var(--red-dark)}
+.b-sky{background:var(--sky-light);color:var(--sky-mid)}
+.b-gray{background:var(--off-white);color:var(--text-3);border:1px solid var(--border)}
+.b-navy{background:var(--navy);color:var(--white)}
+.b-gold{background:var(--gold-pale);color:#7a5a10}
+
+/* USER TABLE */
+table.user-table{width:100%;border-collapse:collapse}
+table.user-table thead tr{background:var(--off-white);border-bottom:1.5px solid var(--border)}
+table.user-table th{padding:9px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);text-align:left}
+table.user-table tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+table.user-table tbody tr:last-child{border-bottom:none}
+table.user-table tbody tr:hover{background:#f0f6ff}
+table.user-table td{padding:11px 16px;font-size:13px;color:var(--text-1)}
+table.user-table td.muted{color:var(--text-3);font-size:12px}
+
+.user-cell{display:flex;align-items:center;gap:10px}
+.user-avatar{width:30px;height:30px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--white)}
+.user-name{font-weight:600;font-size:13px;color:var(--text-1)}
+.user-email{font-size:11.5px;color:var(--text-3);margin-top:1px}
+
+/* ROLE SELECT */
+.role-select{background:var(--off-white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:5px 10px;font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--text-1);transition:border-color .12s}
+.role-select:focus{outline:none;border-color:var(--sky)}
+.role-select.admin-role{border-color:var(--gold);background:var(--gold-pale);color:#7a5a10}
+.role-select.ad-role{border-color:rgba(59,130,196,.35);background:var(--sky-light);color:var(--sky-mid)}
+.role-select.comp-role{border-color:rgba(34,197,94,.3);background:var(--green-pale);color:var(--green-dark)}
+.role-select.coach-role{border-color:var(--border);background:var(--off-white);color:var(--text-2)}
+
+/* ROLE LEGEND */
+.role-legend{display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px;border-top:1px solid var(--border);background:var(--off-white)}
+.role-leg-item{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:500;color:var(--text-2)}
+.role-leg-dot{width:8px;height:8px;border-radius:50%}
+
+/* REPORTING PERIOD TABLE */
+table.period-table{width:100%;border-collapse:collapse}
+table.period-table thead tr{background:var(--off-white);border-bottom:1.5px solid var(--border)}
+table.period-table th{padding:9px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);text-align:left}
+table.period-table tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+table.period-table tbody tr:last-child{border-bottom:none}
+table.period-table tbody tr:hover{background:#f0f6ff}
+table.period-table td{padding:11px 16px;font-size:13px;color:var(--text-1)}
+table.period-table td.mono{font-family:'DM Mono',monospace;font-size:12.5px;font-weight:500}
+table.period-table td.muted{color:var(--text-3);font-size:12px}
+
+/* STATUS toggle (open/closed) */
+.period-toggle{display:flex;align-items:center;gap:8px}
+.toggle-track{width:36px;height:20px;border-radius:100px;background:var(--border);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.toggle-track.on{background:var(--green)}
+.toggle-thumb{width:14px;height:14px;border-radius:50%;background:var(--white);position:absolute;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle-track.on .toggle-thumb{left:19px}
+.toggle-label{font-size:12.5px;font-weight:600}
+.toggle-label.on{color:var(--green-dark)}
+.toggle-label.off{color:var(--text-3)}
+
+/* PROGRESS BAR */
+.period-progress{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:5px;width:80px}
+.period-progress-fill{height:100%;border-radius:3px;background:var(--sky)}
+
+/* NEW PERIOD FORM */
+.new-period-form{padding:16px 18px;border-top:1px solid var(--border);background:var(--off-white)}
+.form-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3)}
+.form-input{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:8px 11px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-1)}
+.form-input:focus{outline:none;border-color:var(--sky)}
+.form-select{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:8px 11px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-1);cursor:pointer}
+
+/* SEARCH */
+.search-box{display:flex;align-items:center;gap:8px;background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 11px;width:220px}
+.search-box input{border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-1);outline:none;width:100%}
+.search-box input::placeholder{color:var(--text-3)}
+
+/* INVITE MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,20,40,.5);z-index:500;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.modal{background:var(--white);border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,.2);width:480px;max-width:95vw}
+.modal-header{padding:22px 24px 0}
+.modal-title{font-family:'DM Serif Display',serif;font-size:18px;color:var(--navy)}
+.modal-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+.modal-close{float:right;background:var(--off-white);border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--text-3);margin-top:-4px}
+.modal-body{padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+.modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+.invite-field{display:flex;flex-direction:column;gap:5px}
+.invite-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3)}
+.invite-input{background:var(--off-white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:10px 13px;font-family:'Outfit',sans-serif;font-size:13.5px;color:var(--text-1)}
+.invite-input:focus{outline:none;border-color:var(--sky)}
+.role-option-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.role-option{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;cursor:pointer;transition:all .15s}
+.role-option:hover{border-color:var(--sky);background:var(--sky-light)}
+.role-option.selected{border-color:var(--sky);background:var(--sky-light)}
+.ro-name{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.ro-desc{font-size:11.5px;color:var(--text-3);line-height:1.4}
+
+/* INVITE MODAL OPEN */
+.modal-overlay{display:none}
+.modal-overlay.open{display:flex}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">NIL <span>Benchmark</span></div>
+  <div class="nav-links">
+    <div class="nav-link">Dashboard</div>
+    <div class="nav-link">Deals</div>
+    <div class="nav-link">Benchmarks</div>
+    <div class="nav-link">Compliance</div>
+    <div class="nav-link active">Admin</div>
+  </div>
+  <div class="nav-user">
+    <div>
+      <span class="nav-user-school">Your University</span>
+      <span class="nav-user-role">Admin</span>
+    </div>
+    <div class="nav-avatar">AD</div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div>
+    <div class="page-title">Admin</div>
+    <div class="page-sub">User management, role assignment, and reporting period configuration · Your University</div>
+  </div>
+</div>
+
+<div class="admin-body">
+
+  <!-- ── USER MANAGEMENT ── -->
+  <div class="section-card full">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Users & Roles</div>
+        <div class="card-sub">Manage who has access to the platform and what they can do</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="search-box">
+          <span style="color:var(--text-3);font-size:13px">🔍</span>
+          <input type="text" placeholder="Search users…">
+        </div>
+        <button class="btn btn-sky btn-sm" onclick="openInvite()">+ Invite User</button>
+      </div>
+    </div>
+
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Role</th>
+          <th>Access Level</th>
+          <th>Last Active</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar" style="background:#e8a020;color:var(--navy)">JW</div>
+              <div>
+                <div class="user-name">James Williams</div>
+                <div class="user-email">j.williams@youruniversity.edu</div>
+              </div>
+            </div>
+          </td>
+          <td><select class="role-select admin-role"><option>Admin</option><option>Athletic Director</option><option>NIL Compliance Officer</option><option>NIL Strategy Staff</option><option>Assoc. AD (Finance)</option><option>Coach (View Only)</option></select></td>
+          <td><span class="badge b-gold">Full Access</span></td>
+          <td class="muted">Today, 9:41 AM</td>
+          <td><span class="badge b-green">● Active</span></td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Edit</button></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar" style="background:var(--navy-light)">MJ</div>
+              <div>
+                <div class="user-name">Monica Johnson</div>
+                <div class="user-email">m.johnson@youruniversity.edu</div>
+              </div>
+            </div>
+          </td>
+          <td><select class="role-select ad-role"><option>Assoc. AD (Finance)</option><option>Admin</option><option>Athletic Director</option><option>NIL Compliance Officer</option><option>NIL Strategy Staff</option><option>Coach (View Only)</option></select></td>
+          <td><span class="badge b-sky">Reports + Export</span></td>
+          <td class="muted">Yesterday</td>
+          <td><span class="badge b-green">● Active</span></td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Edit</button></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar" style="background:#0d9488">TR</div>
+              <div>
+                <div class="user-name">Tom Roberts</div>
+                <div class="user-email">t.roberts@youruniversity.edu</div>
+              </div>
+            </div>
+          </td>
+          <td><select class="role-select comp-role"><option>NIL Compliance Officer</option><option>Admin</option><option>Athletic Director</option><option>Assoc. AD (Finance)</option><option>NIL Strategy Staff</option><option>Coach (View Only)</option></select></td>
+          <td><span class="badge b-green">Deals + Compliance</span></td>
+          <td class="muted">2 days ago</td>
+          <td><span class="badge b-green">● Active</span></td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Edit</button></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar" style="background:#7c3aed">SK</div>
+              <div>
+                <div class="user-name">Sara Kim</div>
+                <div class="user-email">s.kim@youruniversity.edu</div>
+              </div>
+            </div>
+          </td>
+          <td><select class="role-select"><option>NIL Strategy Staff</option><option>Admin</option><option>Athletic Director</option><option>NIL Compliance Officer</option><option>Assoc. AD (Finance)</option><option>Coach (View Only)</option></select></td>
+          <td><span class="badge b-gray">Deals (Submit)</span></td>
+          <td class="muted">3 days ago</td>
+          <td><span class="badge b-green">● Active</span></td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Edit</button></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar" style="background:#be185d">RC</div>
+              <div>
+                <div class="user-name">Rick Carlson</div>
+                <div class="user-email">r.carlson@youruniversity.edu</div>
+              </div>
+            </div>
+          </td>
+          <td><select class="role-select coach-role"><option>Coach (View Only)</option><option>Admin</option><option>Athletic Director</option><option>NIL Compliance Officer</option><option>Assoc. AD (Finance)</option><option>NIL Strategy Staff</option></select></td>
+          <td><span class="badge b-gray">Benchmarks (Read)</span></td>
+          <td class="muted">1 week ago</td>
+          <td><span class="badge b-green">● Active</span></td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Edit</button></td>
+        </tr>
+        <tr style="opacity:.6">
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar" style="background:var(--text-3)">DL</div>
+              <div>
+                <div class="user-name">Dana Lee</div>
+                <div class="user-email">d.lee@youruniversity.edu</div>
+              </div>
+            </div>
+          </td>
+          <td><select class="role-select coach-role"><option>Coach (View Only)</option><option>Admin</option><option>NIL Strategy Staff</option></select></td>
+          <td><span class="badge b-gray">Benchmarks (Read)</span></td>
+          <td class="muted">Invited · Not yet joined</td>
+          <td><span class="badge b-amber">⏳ Pending</span></td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Resend</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Role legend -->
+    <div class="role-legend">
+      <span style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-right:4px">Roles:</span>
+      <div class="role-leg-item"><div class="role-leg-dot" style="background:var(--gold)"></div>Admin — Full access, user mgmt</div>
+      <div class="role-leg-item"><div class="role-leg-dot" style="background:var(--sky)"></div>Athletic Director / Assoc. AD — Reports, export, benchmarks</div>
+      <div class="role-leg-item"><div class="role-leg-dot" style="background:var(--green)"></div>Compliance Officer — Deals, certify, compliance</div>
+      <div class="role-leg-item"><div class="role-leg-dot" style="background:#7c3aed"></div>NIL Strategy Staff — Submit deals</div>
+      <div class="role-leg-item"><div class="role-leg-dot" style="background:var(--text-3)"></div>Coach — Benchmarks view only</div>
+    </div>
+  </div>
+
+  <!-- ── REPORTING PERIODS ── -->
+  <div class="section-card full">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Reporting Periods</div>
+        <div class="card-sub">Academic year periods — control when deal submissions are accepted and when data locks for benchmarking</div>
+      </div>
+    </div>
+
+    <table class="period-table">
+      <thead>
+        <tr>
+          <th>Academic Year</th>
+          <th>Period Label</th>
+          <th>Open Date</th>
+          <th>Deadline</th>
+          <th>Deals Submitted</th>
+          <th>Certified</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700">2025–26</td>
+          <td><span class="badge b-sky">Fall 2025</span></td>
+          <td class="muted">Aug 1, 2025</td>
+          <td style="color:var(--amber-dark);font-weight:600">Dec 15, 2025</td>
+          <td>
+            <span style="font-family:'DM Mono',monospace;font-weight:600">94</span>
+            <div class="period-progress"><div class="period-progress-fill" style="width:88%"></div></div>
+          </td>
+          <td style="font-family:'DM Mono',monospace;font-weight:600;color:var(--green-dark)">89 / 94</td>
+          <td>
+            <div class="period-toggle">
+              <div class="toggle-track on" onclick="togglePeriod(this)"><div class="toggle-thumb"></div></div>
+              <span class="toggle-label on">Open</span>
+            </div>
+          </td>
+          <td style="text-align:right">
+            <button class="btn btn-outline btn-sm">Edit</button>
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">2024–25</td>
+          <td><span class="badge b-gray">Spring 2025</span></td>
+          <td class="muted">Jan 1, 2025</td>
+          <td class="muted">May 31, 2025</td>
+          <td>
+            <span style="font-family:'DM Mono',monospace;font-weight:600">118</span>
+            <div class="period-progress"><div class="period-progress-fill" style="width:100%;background:var(--green)"></div></div>
+          </td>
+          <td style="font-family:'DM Mono',monospace;font-weight:600;color:var(--green-dark)">118 / 118</td>
+          <td>
+            <div class="period-toggle">
+              <div class="toggle-track" onclick="togglePeriod(this)"><div class="toggle-thumb"></div></div>
+              <span class="toggle-label off">Closed</span>
+            </div>
+          </td>
+          <td style="text-align:right">
+            <button class="btn btn-outline btn-sm">View</button>
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">2024–25</td>
+          <td><span class="badge b-gray">Fall 2024</span></td>
+          <td class="muted">Aug 1, 2024</td>
+          <td class="muted">Dec 15, 2024</td>
+          <td>
+            <span style="font-family:'DM Mono',monospace;font-weight:600">101</span>
+            <div class="period-progress"><div class="period-progress-fill" style="width:100%;background:var(--green)"></div></div>
+          </td>
+          <td style="font-family:'DM Mono',monospace;font-weight:600;color:var(--green-dark)">101 / 101</td>
+          <td>
+            <div class="period-toggle">
+              <div class="toggle-track" onclick="togglePeriod(this)"><div class="toggle-thumb"></div></div>
+              <span class="toggle-label off">Closed</span>
+            </div>
+          </td>
+          <td style="text-align:right">
+            <button class="btn btn-outline btn-sm">View</button>
+          </td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">2023–24</td>
+          <td><span class="badge b-gray">Full Year</span></td>
+          <td class="muted">Aug 1, 2023</td>
+          <td class="muted">Jul 31, 2024</td>
+          <td><span style="font-family:'DM Mono',monospace;font-weight:600">87</span></td>
+          <td style="font-family:'DM Mono',monospace;font-weight:600;color:var(--green-dark)">87 / 87</td>
+          <td>
+            <div class="period-toggle">
+              <div class="toggle-track" onclick="togglePeriod(this)"><div class="toggle-thumb"></div></div>
+              <span class="toggle-label off">Closed</span>
+            </div>
+          </td>
+          <td style="text-align:right">
+            <button class="btn btn-outline btn-sm">View</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- New period form -->
+    <div class="new-period-form">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);margin-bottom:10px">Create New Reporting Period</div>
+      <div class="form-row">
+        <div class="form-group">
+          <span class="form-label">Academic Year</span>
+          <select class="form-select"><option>2026–27</option><option>2025–26</option></select>
+        </div>
+        <div class="form-group">
+          <span class="form-label">Period Label</span>
+          <select class="form-select"><option>Fall 2026</option><option>Spring 2026</option><option>Full Year 2026–27</option></select>
+        </div>
+        <div class="form-group">
+          <span class="form-label">Deadline</span>
+          <input type="text" class="form-input" placeholder="e.g. Dec 15, 2026">
+        </div>
+        <button class="btn btn-navy btn-sm" style="align-self:flex-end">+ Create Period</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /admin-body -->
+
+<!-- INVITE MODAL -->
+<div class="modal-overlay" id="inviteModal">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeInvite()">✕</button>
+      <div class="modal-title">Invite New User</div>
+      <div class="modal-sub">They'll receive an email with a link to set up their account</div>
+    </div>
+    <div class="modal-body">
+      <div class="invite-field">
+        <span class="invite-label">Email Address</span>
+        <input class="invite-input" type="email" placeholder="colleague@youruniversity.edu">
+      </div>
+      <div class="invite-field">
+        <span class="invite-label">Full Name <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-3)">(optional)</span></span>
+        <input class="invite-input" type="text" placeholder="First Last">
+      </div>
+      <div class="invite-field">
+        <span class="invite-label">Assign Role</span>
+        <div class="role-option-grid">
+          <div class="role-option" onclick="selectRole(this)">
+            <div class="ro-name">Athletic Director</div>
+            <div class="ro-desc">Reports, benchmarks, export. Cannot manage users.</div>
+          </div>
+          <div class="role-option selected" onclick="selectRole(this)">
+            <div class="ro-name">Compliance Officer</div>
+            <div class="ro-desc">Submit, review, and certify deals. Full compliance access.</div>
+          </div>
+          <div class="role-option" onclick="selectRole(this)">
+            <div class="ro-name">NIL Strategy Staff</div>
+            <div class="ro-desc">Submit deals only. No benchmarks or compliance.</div>
+          </div>
+          <div class="role-option" onclick="selectRole(this)">
+            <div class="ro-name">Coach (View Only)</div>
+            <div class="ro-desc">Read-only access to benchmark reports. No deal data.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" onclick="closeInvite()">Cancel</button>
+      <button class="btn btn-sky btn-sm">Send Invite →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openInvite(){document.getElementById('inviteModal').classList.add('open')}
+function closeInvite(){document.getElementById('inviteModal').classList.remove('open')}
+document.getElementById('inviteModal').addEventListener('click',function(e){if(e.target===this)closeInvite()})
+
+function selectRole(el){
+  document.querySelectorAll('.role-option').forEach(r=>r.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function togglePeriod(track){
+  const isOn=track.classList.toggle('on');
+  const lbl=track.nextElementSibling;
+  lbl.textContent=isOn?'Open':'Closed';
+  lbl.className='toggle-label '+(isOn?'on':'off');
+}
+
+// Animate rows in
+document.querySelectorAll('tbody tr').forEach((r,i)=>{
+  r.style.opacity='0';r.style.transform='translateY(4px)';r.style.transition='opacity .3s ease,transform .3s ease';
+  setTimeout(()=>{r.style.opacity='1';r.style.transform='translateY(0)'},50+i*60);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIL Benchmark – Deals</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f1f38;--navy-mid:#162d50;--navy-light:#1e3d6e;
+  --gold:#e8a020;--gold-pale:#fdf3df;
+  --sky:#3b82c4;--sky-mid:#2563a8;--sky-light:#dbeafe;
+  --white:#fff;--off-white:#f7f9fc;--border:#dce4ed;--border-mid:#c8d4e0;
+  --text-1:#0f1f38;--text-2:#4a6480;--text-3:#8fa3b8;
+  --green:#22c55e;--green-pale:#dcfce7;--green-dark:#16a34a;
+  --red:#ef4444;--red-pale:#fee2e2;--red-dark:#dc2626;
+  --amber:#f59e0b;--amber-pale:#fef3c7;--amber-dark:#d97706;
+  --radius:10px;--radius-sm:6px;
+  --shadow-md:0 2px 12px rgba(15,31,56,.08);--shadow-lg:0 8px 28px rgba(15,31,56,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--off-white);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height:56px;border-bottom:2.5px solid var(--gold);position:sticky;top:0;z-index:200}
+.nav-logo{font-family:'DM Serif Display',serif;color:var(--white);font-size:17px;letter-spacing:.02em;margin-right:36px;white-space:nowrap}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2px;flex:1}
+.nav-link{color:rgba(255,255,255,.55);font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .15s}
+.nav-link:hover{color:var(--white);background:rgba(255,255,255,.07)}
+.nav-link.active{color:var(--gold);background:rgba(232,160,32,.13)}
+.nav-user{display:flex;align-items:center;gap:10px;margin-left:auto}
+.nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center}
+.nav-user-school{color:var(--white);font-weight:600;font-size:12px;display:block;text-align:right}
+.nav-user-role{color:rgba(255,255,255,.5);font-size:11px;text-align:right;display:block}
+
+/* PAGE HEADER */
+.page-header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 28px 14px;display:flex;align-items:flex-end;justify-content:space-between}
+.page-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy)}
+.page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+
+/* SUMMARY STRIP */
+.summary-strip{display:flex;gap:0;background:var(--white);border-bottom:1px solid var(--border)}
+.strip-cell{flex:1;padding:13px 20px;border-right:1px solid var(--border);text-align:center;cursor:pointer;transition:background .12s}
+.strip-cell:last-child{border-right:none}
+.strip-cell:hover{background:var(--off-white)}
+.strip-cell.active-filter{background:var(--sky-light);border-bottom:2.5px solid var(--sky)}
+.strip-val{font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:var(--navy)}
+.strip-val.ok{color:var(--green-dark)}
+.strip-val.warn{color:var(--amber-dark)}
+.strip-val.bad{color:var(--red-dark)}
+.strip-lbl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-top:2px}
+
+/* TOOLBAR */
+.toolbar{background:var(--white);border-bottom:1px solid var(--border);padding:10px 28px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 12px;flex:0 0 260px}
+.search-box input{border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-1);outline:none;width:100%}
+.search-box input::placeholder{color:var(--text-3)}
+.toolbar-sep{width:1px;height:24px;background:var(--border);flex-shrink:0}
+.toolbar-gap{flex:1}
+
+/* FILTER DROPDOWN PILLS */
+.filt-pill{position:relative;display:inline-block}
+.filt-btn{display:flex;align-items:center;gap:6px;padding:7px 12px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:12.5px;font-weight:500;cursor:pointer;color:var(--text-2);transition:all .12s;user-select:none}
+.filt-btn:hover{border-color:var(--sky);color:var(--sky)}
+.filt-btn.active{border-color:var(--sky);color:var(--sky);background:var(--sky-light)}
+.filt-btn .arrow{font-size:9px;opacity:.6;margin-left:2px}
+.filt-tag{background:var(--sky);color:var(--white);border-radius:100px;padding:1px 6px;font-size:10px;font-weight:700}
+.filt-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:100;min-width:170px;padding:6px 0}
+.filt-dropdown.open{display:block}
+.filt-opt{display:flex;align-items:center;gap:9px;padding:8px 14px;font-size:13px;cursor:pointer;color:var(--text-1);transition:background .1s}
+.filt-opt:hover{background:var(--off-white)}
+.filt-opt.selected{color:var(--sky);font-weight:600}
+.filt-check{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+.filt-opt.selected .filt-check{background:var(--sky);border-color:var(--sky);color:var(--white)}
+
+/* SORT HEADER */
+.sort-header{display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none}
+.sort-header:hover .sort-icon{color:var(--text-2)}
+.sort-icon{color:var(--border-mid);font-size:11px;transition:color .15s}
+.sort-icon.asc::after{content:'↑';color:var(--sky)}
+.sort-icon.desc::after{content:'↓';color:var(--sky)}
+.sort-icon:not(.asc):not(.desc)::after{content:'↕'}
+
+/* NEW badge */
+.new-dot{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;color:var(--sky);background:var(--sky-light);border-radius:100px;padding:1px 7px}
+
+/* ACTIVE FILTER CHIPS BAR */
+.active-filters{background:var(--sky-light);border-bottom:1px solid rgba(59,130,196,.15);padding:7px 28px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.af-label{font-size:12px;font-weight:600;color:var(--sky-mid);flex-shrink:0}
+.af-chip{display:inline-flex;align-items:center;gap:6px;background:var(--white);border:1.5px solid rgba(59,130,196,.3);border-radius:100px;padding:3px 10px;font-size:12px;font-weight:500;color:var(--sky-mid)}
+.af-chip-x{cursor:pointer;font-size:10px;opacity:.7}
+.af-chip-x:hover{opacity:1}
+.af-clear{font-size:12px;font-weight:600;color:var(--sky-mid);cursor:pointer;margin-left:auto;opacity:.7}
+.af-clear:hover{opacity:1}
+
+/* TABLE */
+.table-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);margin:18px 28px;overflow:hidden}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+thead tr{background:var(--off-white);border-bottom:1.5px solid var(--border)}
+th{padding:10px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);text-align:left;white-space:nowrap;overflow:hidden}
+th.r{text-align:right}
+tbody tr{border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#f0f6ff}
+tbody tr.flagged-row{background:#fffbf0}
+tbody tr.flagged-row:hover{background:#fef3c7}
+td{padding:11px 14px;font-size:13px;color:var(--text-1);overflow:hidden}
+td.r{text-align:right}
+td.mono{font-family:'DM Mono',monospace;font-size:12.5px;font-weight:500}
+td.strong{font-weight:600}
+td.muted{color:var(--text-3);font-size:12px}
+
+/* COL WIDTHS */
+col.c-athlete{width:14%}
+col.c-sport{width:11%}
+col.c-brand{width:11%}
+col.c-dtype{width:11%}
+col.c-ctype{width:10%}
+col.c-total{width:9%}
+col.c-guar{width:9%}
+col.c-perf{width:9%}
+col.c-period{width:8%}
+col.c-status{width:9%}
+col.c-act{width:5%}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-green{background:var(--green-pale);color:var(--green-dark)}
+.b-amber{background:var(--amber-pale);color:var(--amber-dark)}
+.b-red{background:var(--red-pale);color:var(--red-dark)}
+.b-sky{background:var(--sky-light);color:var(--sky-mid)}
+.b-gray{background:var(--off-white);color:var(--text-3);border:1px solid var(--border)}
+.b-purple{background:#ede9fe;color:#7c3aed}
+.b-teal{background:#ccfbf1;color:#0d9488}
+.b-indigo{background:#e0e7ff;color:#4338ca}
+
+.avatar-cell{display:flex;align-items:center;gap:8px}
+.athlete-avatar{width:26px;height:26px;border-radius:50%;background:var(--navy-mid);color:var(--white);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--radius-sm);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;white-space:nowrap;transition:all .15s}
+.btn-navy{background:var(--navy);color:var(--white)}
+.btn-sky{background:var(--sky);color:var(--white)}
+.btn-outline{background:var(--white);color:var(--text-1);border:1.5px solid var(--border)}
+.btn-sm{padding:6px 12px;font-size:12px}
+
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;border-top:1px solid var(--border);background:var(--off-white)}
+.page-info{font-size:12.5px;color:var(--text-3)}
+.page-btns{display:flex;gap:4px}
+.pg-btn{padding:5px 10px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:600;cursor:pointer;color:var(--text-2);transition:all .12s}
+.pg-btn:hover{border-color:var(--sky);color:var(--sky)}
+.pg-btn.active{background:var(--navy);border-color:var(--navy);color:var(--white)}
+
+/* ─── MODAL ─── */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,20,40,.55);z-index:500;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.modal{background:var(--white);border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,.2);width:800px;max-width:95vw;max-height:92vh;overflow-y:auto;position:relative}
+.modal-header{padding:22px 28px 0;background:var(--white);z-index:10}
+.modal-title{font-family:'DM Serif Display',serif;font-size:20px;color:var(--navy)}
+.modal-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+.modal-close{position:absolute;top:18px;right:22px;width:30px;height:30px;border-radius:50%;border:none;background:var(--off-white);color:var(--text-3);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* WIZARD STEPS */
+.wizard-steps{display:flex;align-items:center;padding:16px 28px 14px;border-bottom:1px solid var(--border);gap:0}
+.wiz-step{display:flex;align-items:center;gap:8px;flex:1}
+.wiz-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.wiz-step.done .wiz-num{background:var(--green);color:var(--white)}
+.wiz-step.active .wiz-num{background:var(--sky);color:var(--white)}
+.wiz-step.todo .wiz-num{background:var(--off-white);color:var(--text-3);border:1.5px solid var(--border)}
+.wiz-label{font-size:12.5px;font-weight:600}
+.wiz-step.done .wiz-label{color:var(--green-dark)}
+.wiz-step.active .wiz-label{color:var(--navy)}
+.wiz-step.todo .wiz-label{color:var(--text-3)}
+.wiz-line{flex:0 0 28px;height:2px;margin:0 4px}
+.wiz-line.done{background:var(--green)}
+.wiz-line.todo{background:var(--border)}
+
+/* UPLOAD ZONE */
+.upload-zone{border:2px dashed var(--border-mid);border-radius:var(--radius);padding:32px 24px;text-align:center;background:var(--off-white);cursor:pointer;margin:18px 28px;transition:all .2s}
+.upload-zone:hover{border-color:var(--sky);background:var(--sky-light)}
+.upload-icon{font-size:34px;margin-bottom:8px}
+.upload-title{font-family:'DM Serif Display',serif;font-size:16px;color:var(--navy);margin-bottom:5px}
+.upload-desc{font-size:12.5px;color:var(--text-3);line-height:1.5}
+.upload-types{display:flex;gap:6px;justify-content:center;margin-top:12px}
+.type-badge{padding:3px 10px;background:var(--white);border:1px solid var(--border);border-radius:100px;font-size:11.5px;font-weight:600;color:var(--text-2)}
+
+/* EXTRACTION PANEL */
+.ext-panel{padding:18px 28px 20px}
+.ext-panel-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+.ext-panel-title{font-size:13.5px;font-weight:700;color:var(--navy)}
+.ext-panel-file{font-size:12px;color:var(--text-3);margin-top:2px}
+.ai-tag{display:inline-flex;align-items:center;gap:5px;background:var(--sky-light);color:var(--sky-mid);border-radius:100px;padding:3px 10px;font-size:11px;font-weight:700;flex-shrink:0}
+.ext-notice{background:var(--sky-light);border:1px solid rgba(59,130,196,.2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:14px;font-size:12.5px;color:var(--sky-mid)}
+.ext-notice.warn{background:var(--amber-pale);border-color:rgba(245,158,11,.25);color:var(--amber-dark)}
+.ext-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ext-field{background:var(--off-white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;position:relative;transition:border-color .15s}
+.ext-field:hover{border-color:var(--sky)}
+.ext-field.high{border-color:rgba(34,197,94,.35);background:#f0fdf4}
+.ext-field.med{border-color:rgba(245,158,11,.4);background:var(--amber-pale)}
+.ext-field.low{border-color:rgba(239,68,68,.4);background:var(--red-pale)}
+.ext-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
+
+/* CONFIDENCE BADGE — key new element */
+.conf-badge{display:inline-flex;align-items:center;gap:3px;border-radius:100px;padding:2px 7px;font-size:10px;font-weight:700;letter-spacing:.03em}
+.conf-high{background:var(--green-pale);color:var(--green-dark)}
+.conf-med{background:var(--amber-pale);color:var(--amber-dark)}
+.conf-low{background:var(--red-pale);color:var(--red-dark)}
+.conf-bar-wrap{margin-top:5px;height:3px;background:rgba(0,0,0,.08);border-radius:2px;overflow:hidden}
+.conf-bar-fill{height:100%;border-radius:2px}
+.conf-fill-high{background:var(--green)}
+.conf-fill-med{background:var(--amber)}
+.conf-fill-low{background:var(--red)}
+
+.ext-value{font-size:13.5px;font-weight:600;color:var(--text-1);margin-top:3px;line-height:1.3}
+.ext-value.placeholder{color:var(--text-3);font-style:italic;font-weight:400}
+.ext-edit{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--sky);cursor:pointer;font-weight:600;margin-top:5px}
+
+.cert-section{background:var(--gold-pale);border-top:1px solid rgba(232,160,32,.25);border-bottom:1px solid rgba(232,160,32,.25);padding:16px 28px;display:flex;gap:14px;align-items:flex-start}
+.cert-icon{font-size:20px;margin-top:2px}
+.cert-body h4{font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.cert-body p{font-size:12.5px;color:var(--text-2);line-height:1.5}
+.cert-check{display:flex;align-items:flex-start;gap:8px;margin-top:10px}
+.cert-cb{width:16px;height:16px;border-radius:3px;background:var(--sky);display:flex;align-items:center;justify-content:center;color:white;font-size:9px;flex-shrink:0;margin-top:2px}
+.cert-check-label{font-size:12px;color:var(--text-1);line-height:1.4}
+
+.modal-footer{padding:14px 28px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--white);position:sticky;bottom:0}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">NIL <span>Benchmark</span></div>
+  <div class="nav-links">
+    <div class="nav-link">Dashboard</div>
+    <div class="nav-link active">Deals</div>
+    <div class="nav-link">Benchmarks</div>
+    <div class="nav-link">Compliance</div>
+    <div class="nav-link">Admin</div>
+  </div>
+  <div class="nav-user">
+    <div>
+      <span class="nav-user-school">Your University</span>
+      <span class="nav-user-role">Athletic Director</span>
+    </div>
+    <div class="nav-avatar">AD</div>
+  </div>
+</nav>
+
+<!-- Page header -->
+<div class="page-header">
+  <div>
+    <div class="page-title">Deals</div>
+    <div class="page-sub">All NIL deals submitted by Your University · 2025–26 Academic Year</div>
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-outline btn-sm">⬇ Export (CSV)</button>
+    <button class="btn btn-sky" onclick="openModal()">+ Submit New Deal</button>
+  </div>
+</div>
+
+<!-- Summary strip — clickable to filter -->
+<div class="summary-strip">
+  <div class="strip-cell" onclick="setStripFilter(this,'all')">
+    <div class="strip-val">107</div>
+    <div class="strip-lbl">All Deals</div>
+  </div>
+  <div class="strip-cell" onclick="setStripFilter(this,'new')">
+    <div class="strip-val" style="color:var(--sky)">14</div>
+    <div class="strip-lbl">New This Week</div>
+  </div>
+  <div class="strip-cell" onclick="setStripFilter(this,'cert')">
+    <div class="strip-val ok">89</div>
+    <div class="strip-lbl">Certified</div>
+  </div>
+  <div class="strip-cell" onclick="setStripFilter(this,'pend')">
+    <div class="strip-val warn">3</div>
+    <div class="strip-lbl">Pending Review</div>
+  </div>
+  <div class="strip-cell" onclick="setStripFilter(this,'flag')">
+    <div class="strip-val bad">2</div>
+    <div class="strip-lbl">Flagged</div>
+  </div>
+  <div class="strip-cell">
+    <div class="strip-val">$4.8M</div>
+    <div class="strip-lbl">Total Value</div>
+  </div>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <div class="search-box">
+    <span style="color:var(--text-3);font-size:14px">🔍</span>
+    <input type="text" placeholder="Search athlete, brand, deal ID…">
+  </div>
+
+  <div class="toolbar-sep"></div>
+
+  <!-- Deal Type filter pill -->
+  <div class="filt-pill" id="fpDealType">
+    <div class="filt-btn active" onclick="toggleDrop('fpDealType')">
+      Deal Type <span class="filt-tag">2</span> <span class="arrow">▾</span>
+    </div>
+    <div class="filt-dropdown open" id="ddDealType">
+      <div class="filt-opt selected" onclick="toggleOpt(this)"><div class="filt-check">✓</div>Endorsement</div>
+      <div class="filt-opt selected" onclick="toggleOpt(this)"><div class="filt-check">✓</div>Social Media</div>
+      <div class="filt-opt" onclick="toggleOpt(this)"><div class="filt-check"></div>Appearance</div>
+      <div class="filt-opt" onclick="toggleOpt(this)"><div class="filt-check"></div>Licensing</div>
+    </div>
+  </div>
+
+  <!-- Comp Type filter pill -->
+  <div class="filt-pill" id="fpCompType">
+    <div class="filt-btn" onclick="toggleDrop('fpCompType')">
+      Comp Type <span class="arrow">▾</span>
+    </div>
+    <div class="filt-dropdown" id="ddCompType">
+      <div class="filt-opt" onclick="toggleOpt(this)"><div class="filt-check"></div>Cash</div>
+      <div class="filt-opt" onclick="toggleOpt(this)"><div class="filt-check"></div>Product</div>
+      <div class="filt-opt" onclick="toggleOpt(this)"><div class="filt-check"></div>Mixed</div>
+      <div class="filt-opt" onclick="toggleOpt(this)"><div class="filt-check"></div>Equity</div>
+      <div class="filt-opt" onclick="toggleOpt(this)"><div class="filt-check"></div>Revenue Share</div>
+    </div>
+  </div>
+
+  <!-- Sport filter -->
+  <div class="filt-pill" id="fpSport">
+    <div class="filt-btn active" onclick="toggleDrop('fpSport')">
+      Football ✕
+    </div>
+    <div class="filt-dropdown" id="ddSport">
+      <div class="filt-opt selected" onclick="toggleOpt(this)"><div class="filt-check">✓</div>Football</div>
+      <div class="filt-opt" onclick="toggleOpt(this)"><div class="filt-check"></div>Basketball</div>
+      <div class="filt-opt" onclick="toggleOpt(this)"><div class="filt-check"></div>Baseball</div>
+      <div class="filt-opt" onclick="toggleOpt(this)"><div class="filt-check"></div>Track & Field</div>
+    </div>
+  </div>
+
+  <!-- Period -->
+  <div class="filt-pill" id="fpPeriod">
+    <div class="filt-btn" onclick="toggleDrop('fpPeriod')">
+      Period <span class="arrow">▾</span>
+    </div>
+    <div class="filt-dropdown" id="ddPeriod">
+      <div class="filt-opt selected" onclick="toggleOpt(this)"><div class="filt-check">✓</div>Fall 2025</div>
+      <div class="filt-opt" onclick="toggleOpt(this)"><div class="filt-check"></div>Spring 2025</div>
+      <div class="filt-opt" onclick="toggleOpt(this)"><div class="filt-check"></div>Fall 2024</div>
+    </div>
+  </div>
+
+  <div class="toolbar-gap"></div>
+  <span style="font-size:12px;color:var(--text-3)">Sort by:</span>
+  <select style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:7px 11px;font-family:'Outfit',sans-serif;font-size:12.5px;color:var(--text-2);cursor:pointer">
+    <option>Newest First</option>
+    <option>Total Value ↓</option>
+    <option>Total Value ↑</option>
+    <option>Status</option>
+    <option>Deal Type</option>
+    <option>Comp Type</option>
+  </select>
+</div>
+
+<!-- Active filter chips -->
+<div class="active-filters">
+  <span class="af-label">Filters:</span>
+  <span class="af-chip">Football ✕</span>
+  <span class="af-chip">Endorsement ✕</span>
+  <span class="af-chip">Social Media ✕</span>
+  <span class="af-chip">Fall 2025 ✕</span>
+  <span class="af-clear">Clear all ✕</span>
+</div>
+
+<!-- Table -->
+<div class="table-wrap">
+  <table>
+    <colgroup>
+      <col class="c-athlete"><col class="c-sport"><col class="c-brand">
+      <col class="c-dtype"><col class="c-ctype">
+      <col class="c-total"><col class="c-guar"><col class="c-perf">
+      <col class="c-period"><col class="c-status"><col class="c-act">
+    </colgroup>
+    <thead>
+      <tr>
+        <th><div class="sort-header">Athlete <span class="sort-icon">↕</span></div></th>
+        <th><div class="sort-header">Sport / Pos <span class="sort-icon">↕</span></div></th>
+        <th><div class="sort-header">Brand <span class="sort-icon">↕</span></div></th>
+        <th>
+          <!-- Deal Type — sortable + filtered indicator -->
+          <div class="sort-header" style="color:var(--sky)">
+            Deal Type <span class="sort-icon">↕</span>
+            <span style="background:var(--sky);color:var(--white);border-radius:100px;padding:1px 5px;font-size:9px;font-weight:700;margin-left:3px">2</span>
+          </div>
+        </th>
+        <th>
+          <!-- Comp Type — sortable -->
+          <div class="sort-header">Comp Type <span class="sort-icon desc"></span></div>
+        </th>
+        <th class="r"><div class="sort-header" style="justify-content:flex-end">Total Value <span class="sort-icon asc"></span></div></th>
+        <th class="r"><div class="sort-header" style="justify-content:flex-end">Guaranteed <span class="sort-icon">↕</span></div></th>
+        <th class="r"><div class="sort-header" style="justify-content:flex-end">Perf. Bonus <span class="sort-icon">↕</span></div></th>
+        <th><div class="sort-header">Period <span class="sort-icon">↕</span></div></th>
+        <th><div class="sort-header">Status <span class="sort-icon">↕</span></div></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><div class="avatar-cell"><div class="athlete-avatar">JW</div><span style="font-weight:600">Athlete #44</span></div></td>
+        <td class="muted">Football · QB</td>
+        <td style="font-weight:600">Nike</td>
+        <td><span class="badge b-sky">Endorsement</span></td>
+        <td><span class="badge b-gray">Cash</span></td>
+        <td class="mono r">$350,000</td>
+        <td class="mono r" style="color:var(--green-dark)">$310,000</td>
+        <td class="mono r" style="color:var(--text-2)">$40,000</td>
+        <td class="muted">Fall 2025</td>
+        <td><span class="badge b-green">● Certified</span></td>
+        <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View</a></td>
+      </tr>
+      <tr>
+        <td><div class="avatar-cell"><div class="athlete-avatar" style="background:#1e3d6e">TR</div><span style="font-weight:600">Athlete #17</span></div>
+          <div style="margin-top:2px"><span class="new-dot">● New</span></div>
+        </td>
+        <td class="muted">Football · WR</td>
+        <td style="font-weight:600">Gatorade</td>
+        <td><span class="badge b-teal">Social Media</span></td>
+        <td><span class="badge b-purple">Mixed</span></td>
+        <td class="mono r">$180,000</td>
+        <td class="mono r" style="color:var(--green-dark)">$150,000</td>
+        <td class="mono r" style="color:var(--text-2)">$30,000</td>
+        <td class="muted">Fall 2025</td>
+        <td><span class="badge b-green">● Certified</span></td>
+        <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View</a></td>
+      </tr>
+      <tr class="flagged-row">
+        <td><div class="avatar-cell"><div class="athlete-avatar" style="background:#7c3aed">MK</div><span style="font-weight:600">Athlete #83</span></div></td>
+        <td class="muted">Football · WR</td>
+        <td style="font-weight:600">Under Armour</td>
+        <td><span class="badge b-sky">Endorsement</span></td>
+        <td><span class="badge b-amber">⚠ Missing</span></td>
+        <td class="mono r">$95,000</td>
+        <td class="mono r" style="color:var(--text-3)">—</td>
+        <td class="mono r" style="color:var(--text-3)">—</td>
+        <td class="muted">Fall 2025</td>
+        <td><span class="badge b-amber">⚠ Flagged</span></td>
+        <td style="text-align:right"><a style="font-size:12px;color:var(--amber-dark);font-weight:600;cursor:pointer">Fix</a></td>
+      </tr>
+      <tr>
+        <td><div class="avatar-cell"><div class="athlete-avatar" style="background:#0d9488">DC</div><span style="font-weight:600">Athlete #55</span></div></td>
+        <td class="muted">Football · LB</td>
+        <td style="font-weight:600">State Farm</td>
+        <td><span class="badge b-indigo">Appearance</span></td>
+        <td><span class="badge b-gray">Cash</span></td>
+        <td class="mono r">$72,000</td>
+        <td class="mono r" style="color:var(--green-dark)">$72,000</td>
+        <td class="mono r" style="color:var(--text-3)">—</td>
+        <td class="muted">Fall 2025</td>
+        <td><span class="badge b-amber">● Pending</span></td>
+        <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">Review</a></td>
+      </tr>
+      <tr>
+        <td><div class="avatar-cell"><div class="athlete-avatar">AB</div><span style="font-weight:600">Athlete #22</span></div>
+          <div style="margin-top:2px"><span class="new-dot">● New</span></div>
+        </td>
+        <td class="muted">Football · RB</td>
+        <td style="font-weight:600">Adidas</td>
+        <td><span class="badge b-gray">Licensing</span></td>
+        <td><span class="badge b-purple">Mixed</span></td>
+        <td class="mono r">$120,000</td>
+        <td class="mono r" style="color:var(--green-dark)">$100,000</td>
+        <td class="mono r" style="color:var(--text-2)">$20,000</td>
+        <td class="muted">Fall 2025</td>
+        <td><span class="badge b-green">● Certified</span></td>
+        <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View</a></td>
+      </tr>
+      <tr class="flagged-row">
+        <td><div class="avatar-cell"><div class="athlete-avatar" style="background:#be185d">PL</div><span style="font-weight:600">Athlete #91</span></div></td>
+        <td class="muted">Football · DL</td>
+        <td style="font-weight:600">Local Dealership</td>
+        <td><span class="badge b-sky">Endorsement</span></td>
+        <td><span class="badge b-gray">Cash</span></td>
+        <td class="mono r">$48,000</td>
+        <td class="mono r" style="color:var(--green-dark)">$48,000</td>
+        <td class="mono r" style="color:var(--text-3)">—</td>
+        <td class="muted">Fall 2025</td>
+        <td><span class="badge b-red">⚠ Flagged</span></td>
+        <td style="text-align:right"><a style="font-size:12px;color:var(--red-dark);font-weight:600;cursor:pointer">Fix</a></td>
+      </tr>
+      <tr>
+        <td><div class="avatar-cell"><div class="athlete-avatar" style="background:#1e3d6e">RM</div><span style="font-weight:600">Athlete #7</span></div>
+          <div style="margin-top:2px"><span class="new-dot">● New</span></div>
+        </td>
+        <td class="muted">Football · QB</td>
+        <td style="font-weight:600">Celsius</td>
+        <td><span class="badge b-teal">Social Media</span></td>
+        <td><span class="badge b-gray">Product</span></td>
+        <td class="mono r">$35,000</td>
+        <td class="mono r" style="color:var(--green-dark)">$35,000</td>
+        <td class="mono r" style="color:var(--text-3)">—</td>
+        <td class="muted">Fall 2025</td>
+        <td><span class="badge b-amber">● Pending</span></td>
+        <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">Review</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <div class="page-info">Showing 1–7 of 107 deals · 3 filtered by Deal Type</div>
+    <div class="page-btns">
+      <div class="pg-btn">‹ Prev</div>
+      <div class="pg-btn active">1</div>
+      <div class="pg-btn">2</div>
+      <div class="pg-btn">3</div>
+      <div class="pg-btn">…</div>
+      <div class="pg-btn">16</div>
+      <div class="pg-btn">Next ›</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" style="display:none">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Submit New Deal</div>
+      <div class="modal-sub">Upload contract · AI extracts fields · Review & certify</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="wizard-steps">
+      <div class="wiz-step done"><div class="wiz-num">✓</div><div class="wiz-label">Upload Contract</div></div>
+      <div class="wiz-line done"></div>
+      <div class="wiz-step active"><div class="wiz-num">2</div><div class="wiz-label">Review Extraction</div></div>
+      <div class="wiz-line todo"></div>
+      <div class="wiz-step todo"><div class="wiz-num">3</div><div class="wiz-label">Certify & Submit</div></div>
+    </div>
+
+    <div class="ext-panel">
+      <div class="ext-panel-header">
+        <div>
+          <div class="ext-panel-title">AI-Extracted Fields</div>
+          <div class="ext-panel-file">From: <strong>Nike_NIL_QB44_2025.pdf</strong> · Review all fields — edit anything the AI got wrong</div>
+        </div>
+        <div class="ai-tag">✦ AI Extracted</div>
+      </div>
+
+      <div class="ext-notice">
+        <strong>8 of 9 fields extracted.</strong> 1 field needs your attention (Compensation Type, low confidence). All others are high confidence — review and correct any errors before certifying.
+      </div>
+
+      <div class="ext-grid">
+
+        <!-- HIGH confidence field -->
+        <div class="ext-field high">
+          <div class="ext-label">
+            Athlete
+            <span class="conf-badge conf-high">99% ✓ High</span>
+          </div>
+          <div class="ext-value">Athlete #44 — Football, QB</div>
+          <div class="conf-bar-wrap"><div class="conf-bar-fill conf-fill-high" style="width:99%"></div></div>
+          <div class="ext-edit">✏ Edit</div>
+        </div>
+
+        <div class="ext-field high">
+          <div class="ext-label">
+            Brand / Sponsor
+            <span class="conf-badge conf-high">98% ✓ High</span>
+          </div>
+          <div class="ext-value">Nike, Inc.</div>
+          <div class="conf-bar-wrap"><div class="conf-bar-fill conf-fill-high" style="width:98%"></div></div>
+          <div class="ext-edit">✏ Edit</div>
+        </div>
+
+        <div class="ext-field high">
+          <div class="ext-label">
+            Deal Type
+            <span class="conf-badge conf-high">97% ✓ High</span>
+          </div>
+          <div class="ext-value">Endorsement</div>
+          <div class="conf-bar-wrap"><div class="conf-bar-fill conf-fill-high" style="width:97%"></div></div>
+          <div class="ext-edit">✏ Edit</div>
+        </div>
+
+        <div class="ext-field high">
+          <div class="ext-label">
+            Total Contract Value
+            <span class="conf-badge conf-high">98% ✓ High</span>
+          </div>
+          <div class="ext-value">$350,000</div>
+          <div class="conf-bar-wrap"><div class="conf-bar-fill conf-fill-high" style="width:98%"></div></div>
+          <div class="ext-edit">✏ Edit</div>
+        </div>
+
+        <div class="ext-field high">
+          <div class="ext-label">
+            Guaranteed Value
+            <span class="conf-badge conf-high">95% ✓ High</span>
+          </div>
+          <div class="ext-value">$310,000</div>
+          <div class="conf-bar-wrap"><div class="conf-bar-fill conf-fill-high" style="width:95%"></div></div>
+          <div class="ext-edit">✏ Edit</div>
+        </div>
+
+        <div class="ext-field high">
+          <div class="ext-label">
+            Performance Incentives
+            <span class="conf-badge conf-high">92% ✓ High</span>
+          </div>
+          <div class="ext-value">$40,000 (bowl game participation)</div>
+          <div class="conf-bar-wrap"><div class="conf-bar-fill conf-fill-high" style="width:92%"></div></div>
+          <div class="ext-edit">✏ Edit</div>
+        </div>
+
+        <div class="ext-field high">
+          <div class="ext-label">
+            Contract Start Date
+            <span class="conf-badge conf-high">99% ✓ High</span>
+          </div>
+          <div class="ext-value">August 15, 2025</div>
+          <div class="conf-bar-wrap"><div class="conf-bar-fill conf-fill-high" style="width:99%"></div></div>
+          <div class="ext-edit">✏ Edit</div>
+        </div>
+
+        <div class="ext-field high">
+          <div class="ext-label">
+            Contract End Date
+            <span class="conf-badge conf-high">99% ✓ High</span>
+          </div>
+          <div class="ext-value">August 14, 2026</div>
+          <div class="conf-bar-wrap"><div class="conf-bar-fill conf-fill-high" style="width:99%"></div></div>
+          <div class="ext-edit">✏ Edit</div>
+        </div>
+
+        <!-- LOW confidence field — spans full width, flagged -->
+        <div class="ext-field low" style="grid-column:1/-1">
+          <div class="ext-label">
+            Compensation Type
+            <span class="conf-badge conf-low">61% ✗ Low — Action Required</span>
+          </div>
+          <div class="ext-value placeholder">Unclear — contract language ambiguous. Cash-only or Mixed (cash + product)?</div>
+          <div class="conf-bar-wrap"><div class="conf-bar-fill conf-fill-low" style="width:61%"></div></div>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button class="btn btn-sm" style="background:var(--white);border:1.5px solid var(--border);color:var(--text-1)">Cash</button>
+            <button class="btn btn-sm" style="background:var(--white);border:1.5px solid var(--border);color:var(--text-1)">Mixed</button>
+            <button class="btn btn-sm" style="background:var(--white);border:1.5px solid var(--border);color:var(--text-1)">Product</button>
+            <button class="btn btn-sm" style="background:var(--white);border:1.5px solid var(--border);color:var(--text-1)">Equity</button>
+            <span style="font-size:12px;color:var(--text-3);align-self:center;margin-left:4px">Select to resolve</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Cert block -->
+    <div class="cert-section">
+      <div class="cert-icon">🏛</div>
+      <div class="cert-body">
+        <h4>Institutional Certification</h4>
+        <p>By certifying this deal, Your University confirms the extracted information accurately reflects the executed NIL agreement. Certified data will be included in the anonymized benchmarking dataset.</p>
+        <div class="cert-check">
+          <div class="cert-cb">✓</div>
+          <div class="cert-check-label">I confirm the above information is accurate and reflects the executed NIL contract. I understand this data will be anonymized and included in the benchmarking dataset.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-outline">← Back</button>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-outline">Save Draft</button>
+        <button class="btn" style="background:#d1d5db;color:#6b7280;cursor:not-allowed" title="Resolve low-confidence fields first">Certify & Submit → <span style="font-size:10px;opacity:.7">(resolve 1 field)</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(){document.getElementById('modalOverlay').style.display='flex'}
+function closeModal(){document.getElementById('modalOverlay').style.display='none'}
+document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal()})
+
+let openDrop=null;
+function toggleDrop(id){
+  const dd=document.getElementById('dd'+id.replace('fp',''));
+  if(!dd)return;
+  if(openDrop && openDrop!==dd){openDrop.classList.remove('open');openDrop=null}
+  dd.classList.toggle('open');
+  openDrop=dd.classList.contains('open')?dd:null;
+}
+function toggleOpt(el){
+  el.classList.toggle('selected');
+  const ck=el.querySelector('.filt-check');
+  ck.textContent=el.classList.contains('selected')?'✓':'';
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.filt-pill')&&openDrop){openDrop.classList.remove('open');openDrop=null}
+});
+function setStripFilter(el,type){
+  document.querySelectorAll('.strip-cell').forEach(c=>c.classList.remove('active-filter'));
+  if(type!=='all')el.classList.add('active-filter');
+}
+// Animate rows in
+document.querySelectorAll('tbody tr').forEach((r,i)=>{
+  r.style.opacity='0';r.style.transform='translateY(4px)';r.style.transition='opacity .3s ease, transform .3s ease';
+  setTimeout(()=>{r.style.opacity='1';r.style.transform='translateY(0)'},50+i*50);
+});
+</script>
+</body>
+</html>

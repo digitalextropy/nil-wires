@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIL Benchmark – Compliance</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f1f38;--navy-mid:#162d50;--navy-light:#1e3d6e;
+  --gold:#e8a020;--gold-pale:#fdf3df;
+  --sky:#3b82c4;--sky-mid:#2563a8;--sky-light:#dbeafe;
+  --white:#fff;--off-white:#f7f9fc;--border:#dce4ed;--border-mid:#c8d4e0;
+  --text-1:#0f1f38;--text-2:#4a6480;--text-3:#8fa3b8;
+  --green:#22c55e;--green-pale:#dcfce7;--green-dark:#16a34a;
+  --red:#ef4444;--red-pale:#fee2e2;--red-dark:#dc2626;
+  --amber:#f59e0b;--amber-pale:#fef3c7;--amber-dark:#d97706;
+  --radius:10px;--radius-sm:6px;
+  --shadow-md:0 2px 12px rgba(15,31,56,.08);--shadow-lg:0 8px 28px rgba(15,31,56,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--off-white);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height:56px;border-bottom:2.5px solid var(--gold);position:sticky;top:0;z-index:200}
+.nav-logo{font-family:'DM Serif Display',serif;color:var(--white);font-size:17px;letter-spacing:.02em;margin-right:36px}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2px;flex:1}
+.nav-link{color:rgba(255,255,255,.55);font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:.06em;text-transform:uppercase}
+.nav-link.active{color:var(--gold);background:rgba(232,160,32,.13)}
+.nav-user{display:flex;align-items:center;gap:10px;margin-left:auto}
+.nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center}
+.nav-user-school{color:var(--white);font-weight:600;font-size:12px;display:block;text-align:right}
+.nav-user-role{color:rgba(255,255,255,.5);font-size:11px;text-align:right;display:block}
+
+.page-header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 28px 14px;display:flex;align-items:flex-end;justify-content:space-between}
+.page-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy)}
+.page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--radius-sm);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;white-space:nowrap;transition:all .15s}
+.btn-navy{background:var(--navy);color:var(--white)}
+.btn-outline{background:var(--white);color:var(--text-1);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--sky);color:var(--sky)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-amber{background:var(--amber-pale);color:var(--amber-dark);border:1.5px solid rgba(245,158,11,.3)}
+
+/* BANNER */
+.alert-banner{background:var(--amber-pale);border-bottom:2px solid var(--amber);padding:12px 28px;display:flex;align-items:center;gap:12px}
+.alert-icon{font-size:18px}
+.alert-text{font-size:13px;color:var(--amber-dark);flex:1}
+.alert-text strong{font-weight:700}
+.alert-action{font-size:13px;font-weight:700;color:var(--amber-dark);cursor:pointer;text-decoration:underline}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:0;background:var(--white);border-bottom:1px solid var(--border)}
+.stat-cell{padding:14px 20px;border-right:1px solid var(--border);text-align:center}
+.stat-cell:last-child{border-right:none}
+.stat-val{font-family:'DM Mono',monospace;font-size:26px;font-weight:500;color:var(--navy)}
+.stat-val.ok{color:var(--green-dark)}
+.stat-val.warn{color:var(--amber-dark)}
+.stat-val.bad{color:var(--red-dark)}
+.stat-lbl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-top:3px}
+.stat-bar{height:4px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
+.stat-bar-fill{height:100%;border-radius:2px}
+
+/* MAIN LAYOUT */
+.page-layout{display:grid;grid-template-columns:1fr 360px;gap:20px;padding:20px 28px;min-height:calc(100vh - 56px - 57px - 47px - 58px)}
+
+/* LEFT */
+.left-col{display:flex;flex-direction:column;gap:16px}
+
+/* TABS */
+.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:0}
+.tab{padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer;color:var(--text-3);border-bottom:2.5px solid transparent;margin-bottom:-2px;transition:all .15s;display:flex;align-items:center;gap:7px}
+.tab.active{color:var(--navy);border-bottom-color:var(--sky)}
+.tab-count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:100px;font-size:10.5px;font-weight:700;padding:0 5px}
+.tab-count.bad{background:var(--red-pale);color:var(--red-dark)}
+.tab-count.warn{background:var(--amber-pale);color:var(--amber-dark)}
+.tab-count.ok{background:var(--green-pale);color:var(--green-dark)}
+
+/* CARD */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md)}
+.card-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:'DM Serif Display',serif;font-size:15px;color:var(--navy)}
+
+/* DEAL QUEUE */
+.deal-item{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);transition:background .1s;cursor:pointer}
+.deal-item:last-child{border-bottom:none}
+.deal-item:hover{background:#f0f6ff}
+.deal-item.flagged{background:#fffbf0}
+.deal-item.flagged:hover{background:#fef3c7}
+.deal-status-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-top:1px}
+.deal-status-icon.pending{background:var(--amber-pale);color:var(--amber-dark)}
+.deal-status-icon.flagged{background:var(--red-pale);color:var(--red-dark)}
+.deal-status-icon.certified{background:var(--green-pale);color:var(--green-dark)}
+.deal-info{flex:1}
+.deal-title{font-size:13.5px;font-weight:600;color:var(--text-1);margin-bottom:3px}
+.deal-meta{font-size:12px;color:var(--text-3);display:flex;gap:10px;flex-wrap:wrap}
+.deal-flag{background:var(--red-pale);border:1px solid rgba(239,68,68,.25);border-radius:5px;padding:5px 10px;font-size:11.5px;color:var(--red-dark);font-weight:600;margin-top:6px;display:inline-flex;align-items:center;gap:5px}
+.deal-flag.amber{background:var(--amber-pale);border-color:rgba(245,158,11,.25);color:var(--amber-dark)}
+.deal-actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex-shrink:0}
+.deal-value{font-family:'DM Mono',monospace;font-size:14px;font-weight:600;color:var(--navy)}
+.deal-date{font-size:11px;color:var(--text-3)}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-green{background:var(--green-pale);color:var(--green-dark)}
+.b-amber{background:var(--amber-pale);color:var(--amber-dark)}
+.b-red{background:var(--red-pale);color:var(--red-dark)}
+.b-sky{background:var(--sky-light);color:var(--sky-mid)}
+.b-gray{background:var(--off-white);color:var(--text-3);border:1px solid var(--border)}
+
+/* RIGHT COL */
+.right-col{display:flex;flex-direction:column;gap:16px}
+
+/* AUDIT LOG */
+.audit-item{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);position:relative}
+.audit-item:last-child{border-bottom:none}
+.audit-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.audit-dot.green{background:var(--green)}
+.audit-dot.amber{background:var(--amber)}
+.audit-dot.red{background:var(--red)}
+.audit-dot.sky{background:var(--sky)}
+.audit-dot.gray{background:var(--text-3)}
+.audit-body{flex:1}
+.audit-title{font-size:12.5px;font-weight:600;color:var(--text-1);line-height:1.3}
+.audit-desc{font-size:11.5px;color:var(--text-3);margin-top:2px}
+.audit-time{font-size:11px;color:var(--text-3);white-space:nowrap}
+
+/* POLICY FLAGS */
+.policy-item{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px}
+.policy-item:last-child{border-bottom:none}
+.policy-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.policy-text{flex:1}
+.policy-title{font-size:12.5px;font-weight:700;color:var(--text-1);margin-bottom:3px}
+.policy-desc{font-size:11.5px;color:var(--text-3);line-height:1.4}
+.policy-count{font-size:11px;font-family:'DM Mono',monospace;font-weight:600}
+
+/* SEARCH */
+.search-box{display:flex;align-items:center;gap:8px;background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px}
+.search-box input{border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-1);outline:none;width:100%}
+.search-box input::placeholder{color:var(--text-3)}
+
+/* PROGRESS RING AREA */
+.cert-gauge{display:flex;align-items:center;gap:16px;padding:16px 18px}
+.gauge-ring{position:relative;width:72px;height:72px;flex-shrink:0}
+.gauge-ring svg{transform:rotate(-90deg)}
+.gauge-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:15px;font-weight:600;color:var(--green-dark)}
+.gauge-info{flex:1}
+.gauge-label{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.gauge-sub{font-size:12px;color:var(--text-3);line-height:1.4}
+
+/* DEADLINE COUNTDOWN */
+.deadline-band{background:linear-gradient(90deg,var(--navy) 0%,var(--navy-light) 100%);border-radius:var(--radius-sm);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.dl-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.5);margin-bottom:3px}
+.dl-value{font-family:'DM Mono',monospace;font-size:17px;color:var(--gold);font-weight:500}
+.dl-sub{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px}
+.dl-days{background:rgba(232,160,32,.2);border:1px solid rgba(232,160,32,.3);border-radius:6px;padding:6px 12px;text-align:center}
+.dl-days-num{font-family:'DM Mono',monospace;font-size:20px;color:var(--gold);font-weight:500}
+.dl-days-lbl{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">NIL <span>Benchmark</span></div>
+  <div class="nav-links">
+    <div class="nav-link">Dashboard</div>
+    <div class="nav-link">Deals</div>
+    <div class="nav-link">Benchmarks</div>
+    <div class="nav-link active">Compliance</div>
+    <div class="nav-link">Admin</div>
+  </div>
+  <div class="nav-user">
+    <div>
+      <span class="nav-user-school">Your University</span>
+      <span class="nav-user-role">Compliance Officer</span>
+    </div>
+    <div class="nav-avatar">CO</div>
+  </div>
+</nav>
+
+<!-- Alert banner -->
+<div class="alert-banner">
+  <div class="alert-icon">⚠</div>
+  <div class="alert-text"><strong>2 deals are flagged</strong> for missing required fields and <strong>3 deals</strong> are awaiting certification. Period deadline: Dec 15, 2025.</div>
+  <div class="alert-action">Review Now →</div>
+</div>
+
+<div class="page-header">
+  <div>
+    <div class="page-title">Compliance</div>
+    <div class="page-sub">Deal certification status, policy flags, and submission audit log · Fall 2025</div>
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-outline btn-sm">⬇ Export Report</button>
+  </div>
+</div>
+
+<!-- Stats row -->
+<div class="stats-row">
+  <div class="stat-cell">
+    <div class="stat-val ok">89</div>
+    <div class="stat-lbl">Certified</div>
+    <div class="stat-bar"><div class="stat-bar-fill" style="width:83%;background:var(--green)"></div></div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val warn">3</div>
+    <div class="stat-lbl">Pending Review</div>
+    <div class="stat-bar"><div class="stat-bar-fill" style="width:3%;background:var(--amber)"></div></div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val bad">2</div>
+    <div class="stat-lbl">Flagged</div>
+    <div class="stat-bar"><div class="stat-bar-fill" style="width:2%;background:var(--red)"></div></div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val" style="font-size:22px">94.7%</div>
+    <div class="stat-lbl">Certification Rate</div>
+    <div class="stat-bar"><div class="stat-bar-fill" style="width:94.7%;background:var(--sky)"></div></div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val">1.4d</div>
+    <div class="stat-lbl">Avg Review Time</div>
+    <div class="stat-bar"><div class="stat-bar-fill" style="width:30%;background:var(--navy-light)"></div></div>
+  </div>
+</div>
+
+<!-- Main layout -->
+<div class="page-layout">
+
+  <!-- LEFT: deal queue -->
+  <div class="left-col">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="search-box" style="flex:1">
+        <span style="color:var(--text-3);font-size:14px">🔍</span>
+        <input type="text" placeholder="Search deals by athlete, brand, or deal ID…">
+      </div>
+      <select style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-2);cursor:pointer">
+        <option>All Sports</option>
+        <option>Football</option>
+        <option>Basketball</option>
+      </select>
+      <select style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-2);cursor:pointer">
+        <option>Fall 2025</option>
+        <option>Spring 2025</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <div style="padding:0 18px;border-bottom:1px solid var(--border)">
+        <div class="tab-bar">
+          <div class="tab active">Needs Action <span class="tab-count bad">5</span></div>
+          <div class="tab">All Deals <span class="tab-count ok" style="background:var(--off-white);color:var(--text-3)">107</span></div>
+          <div class="tab">Certified <span class="tab-count ok">89</span></div>
+        </div>
+      </div>
+
+      <!-- Flagged items -->
+      <div class="deal-item flagged">
+        <div class="deal-status-icon flagged">⛔</div>
+        <div class="deal-info">
+          <div class="deal-title">Deal #1091 — Under Armour · WR Endorsement</div>
+          <div class="deal-meta">
+            <span>Football · WR</span>
+            <span>Submitted Oct 28, 2025</span>
+            <span>·</span>
+            <span style="color:var(--text-2)">By: T. Roberts (Staff)</span>
+          </div>
+          <div class="deal-flag">⛔ Missing: Compensation type not specified (cash vs. mixed)</div>
+        </div>
+        <div class="deal-actions">
+          <div class="deal-value">$95,000</div>
+          <button class="btn btn-sm" style="background:var(--red-pale);color:var(--red-dark);border:1.5px solid rgba(239,68,68,.3)">Resolve →</button>
+        </div>
+      </div>
+
+      <div class="deal-item flagged">
+        <div class="deal-status-icon flagged">⛔</div>
+        <div class="deal-info">
+          <div class="deal-title">Deal #1091b — Local Dealership · DL Endorsement</div>
+          <div class="deal-meta">
+            <span>Football · DL</span>
+            <span>Submitted Oct 25, 2025</span>
+          </div>
+          <div class="deal-flag">⛔ Missing: Contract end date not found in document</div>
+          <div class="deal-flag amber" style="margin-top:4px">⚠ Also: Guaranteed value not extracted — manual review needed</div>
+        </div>
+        <div class="deal-actions">
+          <div class="deal-value">$48,000</div>
+          <button class="btn btn-sm" style="background:var(--red-pale);color:var(--red-dark);border:1.5px solid rgba(239,68,68,.3)">Resolve →</button>
+        </div>
+      </div>
+
+      <!-- Pending items -->
+      <div class="deal-item">
+        <div class="deal-status-icon pending">⏳</div>
+        <div class="deal-info">
+          <div class="deal-title">Deal #1088 — State Farm · LB Appearance</div>
+          <div class="deal-meta">
+            <span>Football · LB</span>
+            <span>Submitted Oct 30, 2025</span>
+            <span>·</span>
+            <span style="color:var(--text-2)">AI extraction: complete</span>
+          </div>
+          <div style="margin-top:6px;display:inline-flex;align-items:center;gap:5px;background:var(--sky-light);border-radius:5px;padding:4px 9px;font-size:11.5px;color:var(--sky-mid);font-weight:600">
+            ✦ Ready to certify — all fields extracted at high confidence
+          </div>
+        </div>
+        <div class="deal-actions">
+          <div class="deal-value">$72,000</div>
+          <button class="btn btn-sm" style="background:var(--sky-light);color:var(--sky-mid);border:1.5px solid rgba(59,130,196,.3)">Review & Certify →</button>
+        </div>
+      </div>
+
+      <div class="deal-item">
+        <div class="deal-status-icon pending">⏳</div>
+        <div class="deal-info">
+          <div class="deal-title">Deal #1092 — Celsius · QB Social Media</div>
+          <div class="deal-meta">
+            <span>Football · QB</span>
+            <span>Submitted Nov 1, 2025</span>
+          </div>
+          <div style="margin-top:6px;display:inline-flex;align-items:center;gap:5px;background:var(--sky-light);border-radius:5px;padding:4px 9px;font-size:11.5px;color:var(--sky-mid);font-weight:600">
+            ✦ Ready to certify — all fields extracted at high confidence
+          </div>
+        </div>
+        <div class="deal-actions">
+          <div class="deal-value">$35,000</div>
+          <button class="btn btn-sm" style="background:var(--sky-light);color:var(--sky-mid);border:1.5px solid rgba(59,130,196,.3)">Review & Certify →</button>
+        </div>
+      </div>
+
+      <div class="deal-item">
+        <div class="deal-status-icon pending">⏳</div>
+        <div class="deal-info">
+          <div class="deal-title">Deal #1093 — New Balance · TE Endorsement</div>
+          <div class="deal-meta">
+            <span>Football · TE</span>
+            <span>Submitted Nov 2, 2025</span>
+          </div>
+          <div style="margin-top:6px;display:inline-flex;align-items:center;gap:5px;background:var(--sky-light);border-radius:5px;padding:4px 9px;font-size:11.5px;color:var(--sky-mid);font-weight:600">
+            ✦ Ready to certify — all fields extracted at high confidence
+          </div>
+        </div>
+        <div class="deal-actions">
+          <div class="deal-value">$41,000</div>
+          <button class="btn btn-sm" style="background:var(--sky-light);color:var(--sky-mid);border:1.5px solid rgba(59,130,196,.3)">Review & Certify →</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Policy rules summary -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Policy Checks</div>
+        <span class="badge b-red">2 Issues</span>
+      </div>
+      <div class="policy-item">
+        <div class="policy-icon">⛔</div>
+        <div class="policy-text">
+          <div class="policy-title">Missing Required Field: Compensation Type</div>
+          <div class="policy-desc">All deals must specify whether compensation is cash, product, equity, or mixed. <span class="policy-count" style="color:var(--red-dark)">1 deal affected</span></div>
+        </div>
+      </div>
+      <div class="policy-item">
+        <div class="policy-icon">⛔</div>
+        <div class="policy-text">
+          <div class="policy-title">Missing Required Field: Contract End Date</div>
+          <div class="policy-desc">A valid contract end date is required for all submissions. <span class="policy-count" style="color:var(--red-dark)">1 deal affected</span></div>
+        </div>
+      </div>
+      <div class="policy-item">
+        <div class="policy-icon">✅</div>
+        <div class="policy-text">
+          <div class="policy-title">Total Value Present</div>
+          <div class="policy-desc">All submitted deals include a total contract value. <span class="policy-count" style="color:var(--green-dark)">107 / 107</span></div>
+        </div>
+      </div>
+      <div class="policy-item">
+        <div class="policy-icon">✅</div>
+        <div class="policy-text">
+          <div class="policy-title">Athlete ID Verified</div>
+          <div class="policy-desc">All deals linked to a verified athlete record. <span class="policy-count" style="color:var(--green-dark)">107 / 107</span></div>
+        </div>
+      </div>
+      <div class="policy-item">
+        <div class="policy-icon">✅</div>
+        <div class="policy-text">
+          <div class="policy-title">Brand Record Present</div>
+          <div class="policy-desc">All deals have a linked brand / sponsor entity. <span class="policy-count" style="color:var(--green-dark)">107 / 107</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: audit log + health -->
+  <div class="right-col">
+
+    <!-- Deadline countdown -->
+    <div class="deadline-band">
+      <div>
+        <div class="dl-label">Reporting Deadline</div>
+        <div class="dl-value">Dec 15, 2025</div>
+        <div class="dl-sub">Fall 2025 · SEC · FBS</div>
+      </div>
+      <div class="dl-days">
+        <div class="dl-days-num">44</div>
+        <div class="dl-days-lbl">Days Left</div>
+      </div>
+    </div>
+
+    <!-- Certification gauge -->
+    <div class="card">
+      <div class="card-head"><div class="card-title">Certification Progress</div></div>
+      <div class="cert-gauge">
+        <div class="gauge-ring">
+          <svg width="72" height="72" viewBox="0 0 72 72">
+            <circle cx="36" cy="36" r="28" fill="none" stroke="#dce4ed" stroke-width="8"/>
+            <circle cx="36" cy="36" r="28" fill="none" stroke="#22c55e" stroke-width="8"
+              stroke-dasharray="175.9" stroke-dashoffset="9.3" stroke-linecap="round"/>
+          </svg>
+          <div class="gauge-center">95%</div>
+        </div>
+        <div class="gauge-info">
+          <div class="gauge-label">94.7% Certified</div>
+          <div class="gauge-sub">89 of 94 submitted deals certified · 5 need action before Dec 15</div>
+        </div>
+      </div>
+      <div style="padding:0 16px 14px;display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block"></span>Certified</span>
+          <span style="font-family:'DM Mono',monospace;font-weight:600">89</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--amber);display:inline-block"></span>Pending Review</span>
+          <span style="font-family:'DM Mono',monospace;font-weight:600">3</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--red);display:inline-block"></span>Flagged</span>
+          <span style="font-family:'DM Mono',monospace;font-weight:600">2</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audit log -->
+    <div class="card" style="flex:1">
+      <div class="card-head">
+        <div class="card-title">Audit Log</div>
+        <a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">Full Log →</a>
+      </div>
+      <div style="padding:0 16px">
+        <div class="audit-item">
+          <div class="audit-dot green"></div>
+          <div class="audit-body">
+            <div class="audit-title">Deal #1087 certified</div>
+            <div class="audit-desc">QB #44 · Nike · $350K · by J. Williams</div>
+          </div>
+          <div class="audit-time">2h ago</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot red"></div>
+          <div class="audit-body">
+            <div class="audit-title">Deal #1091 flagged</div>
+            <div class="audit-desc">Missing compensation type — WR #83</div>
+          </div>
+          <div class="audit-time">4h ago</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot sky"></div>
+          <div class="audit-body">
+            <div class="audit-title">3 new deals submitted</div>
+            <div class="audit-desc">AI extraction complete · Awaiting review</div>
+          </div>
+          <div class="audit-time">Yesterday</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot green"></div>
+          <div class="audit-body">
+            <div class="audit-title">Deal #1085 certified</div>
+            <div class="audit-desc">RB #22 · Adidas · $120K · by M. Johnson</div>
+          </div>
+          <div class="audit-time">2 days ago</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot amber"></div>
+          <div class="audit-body">
+            <div class="audit-title">Deal #1080 updated</div>
+            <div class="audit-desc">Guaranteed value corrected from $80K → $100K</div>
+          </div>
+          <div class="audit-time">3 days ago</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot gray"></div>
+          <div class="audit-body">
+            <div class="audit-title">Report exported — Q1 Football</div>
+            <div class="audit-desc">Downloaded by M. Johnson (Assoc AD, Finance)</div>
+          </div>
+          <div class="audit-time">4 days ago</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot green"></div>
+          <div class="audit-body">
+            <div class="audit-title">Deal #1078 certified</div>
+            <div class="audit-desc">WR #17 · Gatorade · $180K · by J. Williams</div>
+          </div>
+          <div class="audit-time">5 days ago</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Animate stat bars
+document.querySelectorAll('.stat-bar-fill').forEach((b,i)=>{
+  const w=b.style.width; b.style.width='0';
+  b.style.transition='width 0.6s cubic-bezier(.34,1.2,.64,1)';
+  setTimeout(()=>b.style.width=w, 100+i*80);
+});
+// Animate gauge
+const circle=document.querySelector('circle[stroke="#22c55e"]');
+if(circle){
+  circle.style.strokeDashoffset='175.9';
+  circle.style.transition='stroke-dashoffset 1s cubic-bezier(.34,1.2,.64,1)';
+  setTimeout(()=>circle.style.strokeDashoffset='9.3', 200);
+}
+</script>
+</body>
+</html>
