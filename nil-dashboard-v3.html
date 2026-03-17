@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIL Benchmark – Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f1f38;--navy-mid:#162d50;--navy-light:#1e3d6e;
+  --gold:#e8a020;--gold-pale:#fdf3df;
+  --sky:#3b82c4;--sky-mid:#2563a8;--sky-light:#dbeafe;
+  --white:#fff;--off-white:#f7f9fc;--border:#dce4ed;--border-mid:#c8d4e0;
+  --text-1:#0f1f38;--text-2:#4a6480;--text-3:#8fa3b8;
+  --green:#22c55e;--green-pale:#dcfce7;--green-dark:#16a34a;
+  --red:#ef4444;--red-pale:#fee2e2;--red-dark:#dc2626;
+  --amber:#f59e0b;--amber-pale:#fef3c7;--amber-dark:#d97706;
+  --radius:10px;--radius-sm:6px;
+  --shadow-md:0 2px 12px rgba(15,31,56,.08);--shadow-lg:0 8px 28px rgba(15,31,56,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--off-white);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height:56px;border-bottom:2.5px solid var(--gold);position:sticky;top:0;z-index:200}
+.nav-logo{font-family:'DM Serif Display',serif;color:var(--white);font-size:17px;letter-spacing:.02em;margin-right:36px;white-space:nowrap;flex-shrink:0}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2px;flex:1}
+.nav-link{color:rgba(255,255,255,.55);font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .15s;white-space:nowrap}
+.nav-link:hover{color:var(--white);background:rgba(255,255,255,.07)}
+.nav-link.active{color:var(--gold);background:rgba(232,160,32,.13)}
+.nav-user{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0}
+.nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center}
+.nav-school{color:var(--white);font-weight:600;font-size:12px;display:block;text-align:right}
+.nav-role{color:rgba(255,255,255,.5);font-size:11px;text-align:right;display:block}
+
+/* PAGE HEADER */
+.page-header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 28px 14px;display:flex;align-items:flex-end;justify-content:space-between}
+.page-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy)}
+.page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+
+/* LAYOUT */
+.page-layout{display:grid;grid-template-columns:252px 1fr;min-height:calc(100vh - 56px - 73px)}
+
+/* SIDEBAR */
+.sidebar{background:var(--white);border-right:1px solid var(--border);padding:20px 18px;display:flex;flex-direction:column}
+.sidebar-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text-3);margin-bottom:16px}
+.filter-group{margin-bottom:15px}
+.filter-label{font-size:10.5px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px;display:block}
+
+/* Fixed label (non-editable) */
+.fixed-label{background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-size:13px;font-weight:600;color:var(--text-2);display:flex;align-items:center;justify-content:space-between}
+.fixed-label .lock{font-size:11px;color:var(--text-3)}
+
+.filter-select{width:100%;background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 11px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-1);font-weight:500;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' fill='none'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%238fa3b8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center}
+.radio-group{display:flex;flex-direction:column;gap:6px}
+.radio-option{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-1);cursor:pointer}
+.radio-dot{width:15px;height:15px;border-radius:50%;border:2px solid var(--border-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.radio-dot.on{border-color:var(--sky)}
+.radio-dot.on::after{content:'';width:7px;height:7px;border-radius:50%;background:var(--sky)}
+.chip-row{display:flex;flex-wrap:wrap;gap:5px}
+.chip{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--text-2)}
+.chip.on{background:var(--sky-light);border-color:var(--sky);color:var(--sky)}
+.chip-ck{width:11px;height:11px;border-radius:2px;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:7px}
+.divider{height:1px;background:var(--border);margin:12px 0}
+.apply-btn{width:100%;background:var(--navy);color:var(--white);border:none;border-radius:var(--radius-sm);padding:11px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.05em;margin-top:10px;text-transform:uppercase}
+
+/* MAIN */
+.main{padding:22px 24px;display:flex;flex-direction:column;gap:20px}
+
+/* WELCOME */
+.welcome-band{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);border-radius:var(--radius);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden}
+.welcome-band::after{content:'NIL';position:absolute;right:-8px;top:-16px;font-family:'DM Serif Display',serif;font-size:100px;color:rgba(255,255,255,.04);font-style:italic;pointer-events:none}
+.welcome-text h2{font-family:'DM Serif Display',serif;font-size:19px;color:var(--white)}
+.welcome-text p{font-size:13px;color:rgba(255,255,255,.6);margin-top:3px}
+.welcome-meta{display:flex;gap:10px}
+.wmeta-badge{background:rgba(232,160,32,.18);border:1px solid rgba(232,160,32,.3);border-radius:8px;padding:9px 14px;text-align:right}
+.wmeta-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);margin-bottom:2px}
+.wmeta-value{font-family:'DM Mono',monospace;font-size:15px;color:var(--gold);font-weight:500}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.kpi-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);padding:16px 18px;position:relative;overflow:hidden;transition:box-shadow .2s;cursor:pointer}
+.kpi-card:hover{box-shadow:var(--shadow-lg)}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-card.sky::before{background:var(--sky)}
+.kpi-card.gold::before{background:var(--gold)}
+.kpi-card.green::before{background:var(--green)}
+.kpi-card.amber::before{background:var(--amber)}
+.kpi-card.red::before{background:var(--red)}
+.kpi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);margin-bottom:8px}
+.kpi-value{font-family:'DM Mono',monospace;font-size:24px;font-weight:500;color:var(--navy);letter-spacing:-.02em;line-height:1}
+.kpi-meta{display:flex;align-items:center;gap:6px;margin-top:7px;flex-wrap:wrap}
+.delta-up{display:inline-flex;align-items:center;gap:3px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace}
+.delta-dn{display:inline-flex;align-items:center;gap:3px;background:var(--red-pale);color:var(--red-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace}
+.delta-warn{display:inline-flex;align-items:center;gap:3px;background:var(--amber-pale);color:var(--amber-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace}
+.kpi-comp{font-size:11px;color:var(--text-3)}
+.kpi-comp b{color:var(--text-2)}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-green{background:var(--green-pale);color:var(--green-dark)}
+.b-amber{background:var(--amber-pale);color:var(--amber-dark)}
+.b-red{background:var(--red-pale);color:var(--red-dark)}
+.b-sky{background:var(--sky-light);color:var(--sky-mid)}
+.b-gray{background:var(--off-white);color:var(--text-3);border:1px solid var(--border)}
+
+/* CARD */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md)}
+.card-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:'DM Serif Display',serif;font-size:15px;color:var(--navy)}
+.card-sub{font-size:12px;color:var(--text-3);margin-top:1px}
+.card-link{font-size:12px;color:var(--sky);font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* 3-COL GRID */
+.three-col{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* BENCHMARK SNAPSHOT */
+.sport-select-wrap{margin-bottom:14px}
+.sport-select{background:var(--off-white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:7px 11px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--text-1);appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' fill='none'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%238fa3b8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+
+/* Mini comparison bar rows */
+.snap-rows{display:flex;flex-direction:column;gap:0}
+.snap-row{display:grid;grid-template-columns:36px 1fr 60px 60px;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)}
+.snap-row:last-child{border-bottom:none}
+.snap-pos{font-size:11px;font-weight:700;color:var(--text-2);text-align:right}
+.snap-bars{display:flex;flex-direction:column;gap:3px}
+.snap-bar{height:9px;border-radius:3px;min-width:3px;transition:width .5s cubic-bezier(.34,1.2,.64,1)}
+.snap-bar.school{background:var(--sky)}
+.snap-bar.conf{background:#c8d8e8}
+.snap-val{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;text-align:right}
+.snap-val.school{color:var(--navy)}
+.snap-val.conf{color:var(--text-3)}
+.snap-delta{text-align:right}
+
+/* SPEND BY SPORT TABLE */
+.sport-table{width:100%;border-collapse:collapse}
+.sport-table thead tr{background:var(--off-white);border-bottom:1.5px solid var(--border)}
+.sport-table th{padding:8px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);text-align:left}
+.sport-table th.r{text-align:right}
+.sport-table tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+.sport-table tbody tr:last-child{border-bottom:none}
+.sport-table tbody tr:hover{background:#f0f6ff}
+.sport-table td{padding:10px 14px;font-size:13px}
+.sport-table td.r{text-align:right;font-family:'DM Mono',monospace;font-size:12.5px;font-weight:500}
+.sport-bar-cell{padding:10px 14px}
+.sport-bar-wrap{display:flex;align-items:center;gap:8px}
+.sport-bar-track{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.sport-bar-fill{height:100%;border-radius:3px;background:var(--sky)}
+.sport-bar-fill.conf{background:#c8d8e8}
+
+/* EXPIRING SOON CARD */
+.expiry-item{display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+.expiry-item:last-child{border-bottom:none}
+.expiry-item:hover{background:#f0f6ff}
+.expiry-avatar{width:30px;height:30px;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--white);flex-shrink:0}
+.expiry-info{flex:1}
+.expiry-name{font-size:13px;font-weight:600;color:var(--text-1)}
+.expiry-meta{font-size:11.5px;color:var(--text-3);margin-top:1px}
+.expiry-days{text-align:right;flex-shrink:0}
+.expiry-days-num{font-family:'DM Mono',monospace;font-size:13px;font-weight:600}
+.expiry-days-lbl{font-size:10.5px;color:var(--text-3)}
+
+/* REPORTING STATUS */
+.health-grid{display:grid;grid-template-columns:repeat(3,1fr);text-align:center}
+.health-cell{padding:13px 8px;border-right:1px solid var(--border)}
+.health-cell:last-child{border-right:none}
+.health-num{font-family:'DM Mono',monospace;font-size:22px;font-weight:500}
+.health-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-top:3px}
+
+/* ACTIVITY FEED */
+.feed-item{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid var(--border)}
+.feed-item:last-child{border-bottom:none}
+.feed-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:1px}
+.feed-icon.agree{background:var(--sky-light);color:var(--sky)}
+.feed-icon.cert{background:var(--green-pale);color:var(--green-dark)}
+.feed-icon.warn{background:var(--amber-pale);color:var(--amber-dark)}
+.feed-icon.export{background:var(--off-white);color:var(--text-3)}
+.feed-body{flex:1}
+.feed-title{font-size:13px;font-weight:600;color:var(--text-1);line-height:1.3}
+.feed-desc{font-size:12px;color:var(--text-3);margin-top:1px}
+.feed-time{font-size:11px;color:var(--text-3);white-space:nowrap;margin-top:2px}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--radius-sm);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;white-space:nowrap;transition:all .15s}
+.btn-navy{background:var(--navy);color:var(--white)}
+.btn-outline{background:var(--white);color:var(--text-1);border:1.5px solid var(--border)}
+.btn-sky{background:var(--sky);color:var(--white)}
+.btn-sm{padding:6px 12px;font-size:12px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">NIL <span>Benchmark</span></div>
+  <div class="nav-links">
+    <div class="nav-link active">Dashboard</div>
+    <div class="nav-link">Agreements</div>
+    <div class="nav-link">Benchmarks</div>
+    <div class="nav-link">Reporting</div>
+    <div class="nav-link">Admin</div>
+  </div>
+  <div class="nav-user">
+    <div>
+      <span class="nav-school">Your University</span>
+      <span class="nav-role">Athletic Director</span>
+    </div>
+    <div class="nav-avatar">AD</div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div>
+    <div class="page-title">Dashboard</div>
+    <div class="page-sub">2025–26 Academic Year · SEC · FBS · Last updated today at 9:41 AM</div>
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-outline btn-sm">⬇ Export Report</button>
+    <button class="btn btn-sky btn-sm">+ Submit Agreement</button>
+  </div>
+</div>
+
+<div class="page-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Filters</div>
+
+    <div class="filter-group">
+      <span class="filter-label">View</span>
+      <div class="radio-group">
+        <label class="radio-option"><div class="radio-dot on"></div>vs Conference</label>
+        <label class="radio-option"><div class="radio-dot"></div>vs Peer Group</label>
+        <label class="radio-option"><div class="radio-dot"></div>My School Only</label>
+      </div>
+    </div>
+
+    <!-- Division - fixed read-only -->
+    <div class="filter-group">
+      <span class="filter-label">Division <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-3);font-size:10px">(fixed)</span></span>
+      <div class="fixed-label">FBS <span class="lock">🔒</span></div>
+    </div>
+
+    <!-- Conference - fixed read-only -->
+    <div class="filter-group">
+      <span class="filter-label">Conference <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-3);font-size:10px">(fixed)</span></span>
+      <div class="fixed-label">SEC <span class="lock">🔒</span></div>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Reporting Period</span>
+      <select class="filter-select"><option>2025–26 Academic Year</option><option>2024–25 Academic Year</option></select>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Sport</span>
+      <select class="filter-select"><option>Football</option><option>Basketball (M)</option><option>Baseball</option><option>Track & Field</option></select>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="filter-group">
+      <span class="filter-label">Compensation Type</span>
+      <div class="chip-row">
+        <div class="chip on"><div class="chip-ck">✓</div>Cash</div>
+        <div class="chip on"><div class="chip-ck">✓</div>Sponsor</div>
+        <div class="chip on"><div class="chip-ck">✓</div>Mixed</div>
+      </div>
+    </div>
+
+    <button class="apply-btn">Apply Filters</button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- Welcome band -->
+    <div class="welcome-band">
+      <div class="welcome-text">
+        <h2>Good morning, Your University</h2>
+        <p><strong style="color:var(--gold)">3 agreements</strong> pending verification · <strong style="color:#fca5a5">2 need review</strong> · <strong style="color:var(--amber-pale)">5 expiring within 30 days</strong></p>
+      </div>
+      <div class="welcome-meta">
+        <div class="wmeta-badge">
+          <div class="wmeta-label">Reporting Period</div>
+          <div class="wmeta-value">2025–26 AY</div>
+        </div>
+        <div class="wmeta-badge">
+          <div class="wmeta-label">Submit Deadline</div>
+          <div class="wmeta-value">May 31, 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI Row — 5 tiles, Active Agreements now vs conf -->
+    <div class="kpi-grid">
+      <div class="kpi-card sky">
+        <div class="kpi-label">Total NIL Value</div>
+        <div class="kpi-value">$4.8M</div>
+        <div class="kpi-meta"><span class="delta-up">▲ +12%</span><span class="kpi-comp">vs <b>$4.2M</b> conf</span></div>
+      </div>
+      <div class="kpi-card gold">
+        <div class="kpi-label">Avg Value / Athlete</div>
+        <div class="kpi-value">$45K</div>
+        <div class="kpi-meta"><span class="delta-up">▲ +7%</span><span class="kpi-comp">vs <b>$42K</b> conf</span></div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Active NIL Agreements</div>
+        <div class="kpi-value">107</div>
+        <!-- Updated: now vs conference instead of prior period -->
+        <div class="kpi-meta"><span class="delta-up">▲ +11%</span><span class="kpi-comp">vs <b>96</b> conf avg</span></div>
+      </div>
+      <div class="kpi-card amber">
+        <div class="kpi-label">Athletes with Agreement</div>
+        <div class="kpi-value">68%</div>
+        <div class="kpi-meta"><span class="delta-up">▲ +7 pts</span><span class="kpi-comp">vs <b>61%</b> conf</span></div>
+      </div>
+      <!-- NEW: Expiring Soon KPI tile -->
+      <div class="kpi-card red">
+        <div class="kpi-label">Expiring in 30 Days</div>
+        <div class="kpi-value">5</div>
+        <div class="kpi-meta"><span class="delta-warn">⚠ 2 within 7 days</span></div>
+      </div>
+    </div>
+
+    <!-- Middle: Benchmark snapshot + right col -->
+    <div class="three-col">
+
+      <!-- Benchmark snapshot — sport dropdown + comparison rows -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Benchmark Snapshot</div>
+            <div class="card-sub">You vs SEC Conference Avg · Avg Agreement Value by Position</div>
+          </div>
+          <a class="card-link">View Full Benchmarks →</a>
+        </div>
+        <div style="padding:16px 18px">
+          <!-- Sport as dropdown per Matthew -->
+          <div class="sport-select-wrap">
+            <select class="sport-select">
+              <option>Football</option>
+              <option>Basketball (M)</option>
+              <option>Baseball</option>
+              <option>Track & Field</option>
+              <option>Soccer (W)</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:16px;margin-bottom:12px">
+            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-3)"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--sky)"></span>Your School</span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-3)"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#c8d8e8"></span>SEC Avg</span>
+          </div>
+          <!-- Comparison rows: pos, your bar vs conf bar, your val, conf val, delta -->
+          <div class="snap-rows">
+            <div class="snap-row">
+              <div class="snap-pos">QB</div>
+              <div class="snap-bars">
+                <div class="snap-bar school" style="width:87.5%"></div>
+                <div class="snap-bar conf" style="width:78%"></div>
+              </div>
+              <div class="snap-val school">$350K</div>
+              <div class="snap-val conf">$312K</div>
+              <div class="snap-delta"><span class="delta-up">+12%</span></div>
+            </div>
+            <div class="snap-row">
+              <div class="snap-pos">WR</div>
+              <div class="snap-bars">
+                <div class="snap-bar school" style="width:45%"></div>
+                <div class="snap-bar conf" style="width:40%"></div>
+              </div>
+              <div class="snap-val school">$180K</div>
+              <div class="snap-val conf">$162K</div>
+              <div class="snap-delta"><span class="delta-up">+11%</span></div>
+            </div>
+            <div class="snap-row">
+              <div class="snap-pos">RB</div>
+              <div class="snap-bars">
+                <div class="snap-bar school" style="width:30%"></div>
+                <div class="snap-bar conf" style="width:24.5%"></div>
+              </div>
+              <div class="snap-val school">$120K</div>
+              <div class="snap-val conf">$98K</div>
+              <div class="snap-delta"><span class="delta-up">+22%</span></div>
+            </div>
+            <div class="snap-row">
+              <div class="snap-pos">DB</div>
+              <div class="snap-bars">
+                <div class="snap-bar school" style="width:27.5%"></div>
+                <div class="snap-bar conf" style="width:26%"></div>
+              </div>
+              <div class="snap-val school">$110K</div>
+              <div class="snap-val conf">$96K</div>
+              <div class="snap-delta"><span class="delta-up">+15%</span></div>
+            </div>
+            <div class="snap-row">
+              <div class="snap-pos">OL</div>
+              <div class="snap-bars">
+                <div class="snap-bar school" style="width:22%"></div>
+                <div class="snap-bar conf" style="width:18%"></div>
+              </div>
+              <div class="snap-val school">$88K</div>
+              <div class="snap-val conf">$72K</div>
+              <div class="snap-delta"><span class="delta-up">+22%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right col -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+
+        <!-- Reporting Status (renamed from Compliance Health) -->
+        <div class="card">
+          <div class="card-head">
+            <div class="card-title">Reporting Status</div>
+            <a class="card-link">View All →</a>
+          </div>
+          <div class="health-grid">
+            <div class="health-cell"><div class="health-num" style="color:var(--green-dark)">89</div><div class="health-lbl">Verified</div></div>
+            <div class="health-cell"><div class="health-num" style="color:var(--amber-dark)">3</div><div class="health-lbl">Pending</div></div>
+            <div class="health-cell"><div class="health-num" style="color:var(--red-dark)">2</div><div class="health-lbl">Needs Review</div></div>
+          </div>
+          <div style="padding:10px 16px;border-top:1px solid var(--border)">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px">
+              <span style="font-size:11.5px;color:var(--text-3)">Verification rate</span>
+              <span style="font-size:12px;font-weight:700;font-family:'DM Mono',monospace;color:var(--green-dark)">94.7%</span>
+            </div>
+            <div style="height:5px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="height:100%;width:94.7%;background:var(--green);border-radius:3px"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- This Period -->
+        <div class="card">
+          <div class="card-head"><div class="card-title">This Period</div><span class="badge b-sky">2025–26 AY</span></div>
+          <div style="padding:14px 18px;display:flex;flex-direction:column;gap:9px">
+            <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text-2)">Agreements submitted</span><span style="font-family:'DM Mono',monospace;font-weight:600">94</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text-2)">Agreements verified</span><span style="font-family:'DM Mono',monospace;font-weight:600;color:var(--green-dark)">89</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text-2)">Avg review time</span><span style="font-family:'DM Mono',monospace;font-weight:600">1.4 days</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text-2)">Submit deadline</span><span style="font-family:'DM Mono',monospace;font-weight:600;color:var(--amber-dark)">May 31, 2026</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- NEW: Spend by Sport + Expiring Soon side by side -->
+    <div class="two-col">
+
+      <!-- Spend by Sport — simple table with inline bars -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Spend by Sport</div>
+            <div class="card-sub">Total NIL value vs SEC conference avg</div>
+          </div>
+          <a class="card-link">Full Benchmarks →</a>
+        </div>
+        <table class="sport-table">
+          <thead>
+            <tr>
+              <th>Sport</th>
+              <th class="r">Your Total</th>
+              <th class="r">Conf Avg</th>
+              <th>vs Conf</th>
+              <th class="r">Δ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:600">Football</td>
+              <td class="r">$4.8M</td>
+              <td class="r" style="color:var(--text-3)">$4.2M</td>
+              <td class="sport-bar-cell">
+                <div class="sport-bar-wrap">
+                  <div class="sport-bar-track"><div class="sport-bar-fill" style="width:80%"></div></div>
+                </div>
+              </td>
+              <td class="r"><span class="delta-up">+14%</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Basketball (M)</td>
+              <td class="r">$1.2M</td>
+              <td class="r" style="color:var(--text-3)">$1.4M</td>
+              <td class="sport-bar-cell">
+                <div class="sport-bar-wrap">
+                  <div class="sport-bar-track"><div class="sport-bar-fill" style="width:55%;background:#c8d8e8"></div></div>
+                </div>
+              </td>
+              <td class="r"><span class="delta-dn">-14%</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Baseball</td>
+              <td class="r">$620K</td>
+              <td class="r" style="color:var(--text-3)">$580K</td>
+              <td class="sport-bar-cell">
+                <div class="sport-bar-wrap">
+                  <div class="sport-bar-track"><div class="sport-bar-fill" style="width:62%"></div></div>
+                </div>
+              </td>
+              <td class="r"><span class="delta-up">+7%</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Track & Field</td>
+              <td class="r">$310K</td>
+              <td class="r" style="color:var(--text-3)">$295K</td>
+              <td class="sport-bar-cell">
+                <div class="sport-bar-wrap">
+                  <div class="sport-bar-track"><div class="sport-bar-fill" style="width:58%"></div></div>
+                </div>
+              </td>
+              <td class="r"><span class="delta-up">+5%</span></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Soccer (W)</td>
+              <td class="r">$185K</td>
+              <td class="r" style="color:var(--text-3)">$210K</td>
+              <td class="sport-bar-cell">
+                <div class="sport-bar-wrap">
+                  <div class="sport-bar-track"><div class="sport-bar-fill" style="width:44%;background:#c8d8e8"></div></div>
+                </div>
+              </td>
+              <td class="r"><span class="delta-dn">-12%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Expiring Soon — dedicated card -->
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Agreements Expiring Soon</div>
+            <div class="card-sub">Next 60 days · 5 agreements</div>
+          </div>
+          <a class="card-link">View All →</a>
+        </div>
+        <div>
+          <div class="expiry-item">
+            <div class="expiry-avatar" style="background:var(--red-dark)">JW</div>
+            <div class="expiry-info">
+              <div class="expiry-name">Athlete #44 · QB</div>
+              <div class="expiry-meta">Football · Nike Endorsement · $350K</div>
+            </div>
+            <div class="expiry-days">
+              <div class="expiry-days-num" style="color:var(--red-dark)">5 days</div>
+              <div class="expiry-days-lbl">remaining</div>
+            </div>
+          </div>
+          <div class="expiry-item">
+            <div class="expiry-avatar" style="background:var(--red-dark)">TR</div>
+            <div class="expiry-info">
+              <div class="expiry-name">Athlete #17 · WR</div>
+              <div class="expiry-meta">Football · Gatorade Social · $180K</div>
+            </div>
+            <div class="expiry-days">
+              <div class="expiry-days-num" style="color:var(--red-dark)">7 days</div>
+              <div class="expiry-days-lbl">remaining</div>
+            </div>
+          </div>
+          <div class="expiry-item">
+            <div class="expiry-avatar" style="background:var(--amber-dark)">DC</div>
+            <div class="expiry-info">
+              <div class="expiry-name">Athlete #55 · LB</div>
+              <div class="expiry-meta">Football · State Farm Appearance · $72K</div>
+            </div>
+            <div class="expiry-days">
+              <div class="expiry-days-num" style="color:var(--amber-dark)">18 days</div>
+              <div class="expiry-days-lbl">remaining</div>
+            </div>
+          </div>
+          <div class="expiry-item">
+            <div class="expiry-avatar" style="background:var(--amber-dark)">AB</div>
+            <div class="expiry-info">
+              <div class="expiry-name">Athlete #22 · RB</div>
+              <div class="expiry-meta">Football · Adidas Licensing · $120K</div>
+            </div>
+            <div class="expiry-days">
+              <div class="expiry-days-num" style="color:var(--amber-dark)">24 days</div>
+              <div class="expiry-days-lbl">remaining</div>
+            </div>
+          </div>
+          <div class="expiry-item">
+            <div class="expiry-avatar" style="background:var(--text-3)">MK</div>
+            <div class="expiry-info">
+              <div class="expiry-name">Athlete #83 · WR</div>
+              <div class="expiry-meta">Football · Under Armour · $95K</div>
+            </div>
+            <div class="expiry-days">
+              <div class="expiry-days-num" style="color:var(--text-2)">47 days</div>
+              <div class="expiry-days-lbl">remaining</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity feed -->
+    <div class="card">
+      <div class="card-head">
+        <div><div class="card-title">Recent Activity</div><div class="card-sub">Latest submissions, verifications, and flags</div></div>
+        <a class="card-link">View All →</a>
+      </div>
+      <div style="padding:0 18px">
+        <div class="feed-item">
+          <div class="feed-icon cert">✓</div>
+          <div class="feed-body"><div class="feed-title">Agreement #1087 verified — QB Endorsement</div><div class="feed-desc">Reviewed and verified by J. Williams · $350,000 · Football</div></div>
+          <div class="feed-time">2h ago</div>
+        </div>
+        <div class="feed-item">
+          <div class="feed-icon warn">⚠</div>
+          <div class="feed-body"><div class="feed-title">Agreement #1091 needs review — missing compensation structure</div><div class="feed-desc">Social media agreement submitted without cash/product split · WR</div></div>
+          <div class="feed-time">4h ago</div>
+        </div>
+        <div class="feed-item">
+          <div class="feed-icon agree">📄</div>
+          <div class="feed-body"><div class="feed-title">3 new agreements submitted via upload portal</div><div class="feed-desc">AI extraction complete · Pending institutional review</div></div>
+          <div class="feed-time">Yesterday</div>
+        </div>
+        <div class="feed-item">
+          <div class="feed-icon export">⬇</div>
+          <div class="feed-body"><div class="feed-title">Benchmark report exported — Football 2025–26</div><div class="feed-desc">Downloaded by M. Johnson (Assoc AD, Finance)</div></div>
+          <div class="feed-time">2 days ago</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+document.querySelectorAll('.snap-bar').forEach((b,i)=>{
+  const w=b.style.width;b.style.width='0';b.style.transition='width 0.5s cubic-bezier(.34,1.2,.64,1)';
+  setTimeout(()=>b.style.width=w,100+i*30);
+});
+document.querySelectorAll('.kpi-card').forEach((c,i)=>{
+  c.style.opacity='0';c.style.transform='translateY(8px)';c.style.transition='opacity .35s ease,transform .35s ease';
+  setTimeout(()=>{c.style.opacity='1';c.style.transform='translateY(0)'},80+i*70);
+});
+document.querySelectorAll('.sport-bar-fill').forEach((b,i)=>{
+  const w=b.style.width;b.style.width='0';b.style.transition='width 0.5s cubic-bezier(.34,1.2,.64,1)';
+  setTimeout(()=>b.style.width=w,300+i*80);
+});
+</script>
+</body>
+</html>

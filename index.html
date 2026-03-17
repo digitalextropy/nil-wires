@@ -1,27 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>NIL Benchmark – Wireframes</title>
-  <style>
-    body { font-family: sans-serif; max-width: 600px; margin: 60px auto; padding: 0 20px; }
-    h1 { font-size: 22px; margin-bottom: 8px; }
-    p { color: #666; margin-bottom: 28px; }
-    ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-    a { display: block; padding: 14px 18px; background: #f0f6ff; border: 1.5px solid #3b82c4;
-        border-radius: 8px; color: #1e3d6e; font-weight: 600; text-decoration: none; }
-    a:hover { background: #dbeafe; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIL Benchmark – Wireframes v3</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f1f38;--gold:#e8a020;--sky:#3b82c4;--sky-light:#dbeafe;--border:#dce4ed;--text-2:#4a6480;--text-3:#8fa3b8;--white:#fff;--off-white:#f7f9fc;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--off-white);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
+.wrapper{max-width:560px;width:100%}
+.logo{font-family:'DM Serif Display',serif;font-size:22px;color:var(--navy);margin-bottom:4px}
+.logo span{color:var(--gold)}
+.version{font-size:12px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:28px}
+ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+a.page-link{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--white);border:1.5px solid var(--border);border-radius:10px;color:var(--navy);font-weight:600;font-size:14px;text-decoration:none;transition:all .15s}
+a.page-link:hover{border-color:var(--sky);background:var(--sky-light);color:var(--sky)}
+a.page-link .arrow{color:var(--text-3);font-size:16px}
+a.page-link:hover .arrow{color:var(--sky)}
+.page-desc{font-size:12px;font-weight:400;color:var(--text-3);margin-top:2px}
+.footer{margin-top:24px;font-size:12px;color:var(--text-3);text-align:center}
+</style>
 </head>
 <body>
-  <h1>NIL Benchmark Wireframes</h1>
-  <p>Click any screen to view it.</p>
+<div class="wrapper">
+  <div class="logo">NIL <span>Benchmark</span></div>
+  <div class="version">Wireframes v3</div>
   <ul>
-    <li><a href="nil-dashboard.html">Dashboard</a></li>
-    <li><a href="nil-deals-v2.html">Deals</a></li>
-    <li><a href="nil-benchmarks-v2.html">Benchmarks</a></li>
-    <li><a href="nil-compliance.html">Compliance</a></li>
-    <li><a href="nil-admin.html">Admin</a></li>
+    <li><a class="page-link" href="nil-dashboard-v3.html">
+      <div><div>Dashboard</div><div class="page-desc">KPI tiles, benchmark snapshot, spend by sport, expiring soon</div></div>
+      <span class="arrow">→</span>
+    </a></li>
+    <li><a class="page-link" href="nil-agreements-v3.html">
+      <div><div>NIL Agreements</div><div class="page-desc">Agreement list, filters, submission wizard with AI extraction</div></div>
+      <span class="arrow">→</span>
+    </a></li>
+    <li><a class="page-link" href="nil-benchmarks-v3.html">
+      <div><div>Benchmarks</div><div class="page-desc">Conference + peer group views, percentile ranges, position chart</div></div>
+      <span class="arrow">→</span>
+    </a></li>
+    <li><a class="page-link" href="nil-reporting-v3.html">
+      <div><div>Reporting</div><div class="page-desc">Verification queue, policy checks, audit log</div></div>
+      <span class="arrow">→</span>
+    </a></li>
+    <li><a class="page-link" href="nil-admin-v3.html">
+      <div><div>Admin</div><div class="page-desc">Users, role assignment, reporting period management</div></div>
+      <span class="arrow">→</span>
+    </a></li>
   </ul>
+  <div class="footer">NIL Benchmark · Wireframes v3 · All terminology updated per Matthew Loney review</div>
+</div>
 </body>
-</html> 
+</html>

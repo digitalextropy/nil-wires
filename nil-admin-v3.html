@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIL Benchmark – Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f1f38;--navy-mid:#162d50;--navy-light:#1e3d6e;
+  --gold:#e8a020;--gold-pale:#fdf3df;
+  --sky:#3b82c4;--sky-mid:#2563a8;--sky-light:#dbeafe;
+  --white:#fff;--off-white:#f7f9fc;--border:#dce4ed;--border-mid:#c8d4e0;
+  --text-1:#0f1f38;--text-2:#4a6480;--text-3:#8fa3b8;
+  --green:#22c55e;--green-pale:#dcfce7;--green-dark:#16a34a;
+  --red:#ef4444;--red-pale:#fee2e2;--red-dark:#dc2626;
+  --amber:#f59e0b;--amber-pale:#fef3c7;--amber-dark:#d97706;
+  --radius:10px;--radius-sm:6px;
+  --shadow-md:0 2px 12px rgba(15,31,56,.08);--shadow-lg:0 8px 28px rgba(15,31,56,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--off-white);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height:56px;border-bottom:2.5px solid var(--gold);position:sticky;top:0;z-index:200}
+.nav-logo{font-family:'DM Serif Display',serif;color:var(--white);font-size:17px;letter-spacing:.02em;margin-right:36px;white-space:nowrap}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2px;flex:1}
+.nav-link{color:rgba(255,255,255,.55);font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:.06em;text-transform:uppercase}
+.nav-link.active{color:var(--gold);background:rgba(232,160,32,.13)}
+.nav-user{display:flex;align-items:center;gap:10px;margin-left:auto}
+.nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center}
+.nav-school{color:var(--white);font-weight:600;font-size:12px;display:block;text-align:right}
+.nav-role{color:rgba(255,255,255,.5);font-size:11px;text-align:right;display:block}
+
+.page-header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 28px 14px;display:flex;align-items:flex-end;justify-content:space-between}
+.page-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy)}
+.page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--radius-sm);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;white-space:nowrap;transition:all .15s}
+.btn-navy{background:var(--navy);color:var(--white)}
+.btn-sky{background:var(--sky);color:var(--white)}
+.btn-outline{background:var(--white);color:var(--text-1);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--sky);color:var(--sky)}
+.btn-sm{padding:6px 12px;font-size:12px}
+
+.admin-body{padding:24px 28px;display:flex;flex-direction:column;gap:24px}
+
+/* ROLE REFERENCE CARDS */
+.role-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:4px}
+.role-card{border-radius:var(--radius-sm);padding:12px 14px;border:1.5px solid var(--border)}
+.role-card-name{font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.role-card-access{font-size:11.5px;color:var(--text-2);line-height:1.4}
+.role-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px}
+
+/* SECTION CARD */
+.section-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md)}
+.card-head{padding:15px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:'DM Serif Display',serif;font-size:16px;color:var(--navy)}
+.card-sub{font-size:12px;color:var(--text-3);margin-top:2px}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-green{background:var(--green-pale);color:var(--green-dark)}
+.b-amber{background:var(--amber-pale);color:var(--amber-dark)}
+.b-sky{background:var(--sky-light);color:var(--sky-mid)}
+.b-gray{background:var(--off-white);color:var(--text-3);border:1px solid var(--border)}
+.b-gold{background:var(--gold-pale);color:#7a5a10}
+
+/* ROLE SELECT — color coded by role */
+.role-select{background:var(--off-white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:5px 10px;font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--text-1)}
+.role-select:focus{outline:none;border-color:var(--sky)}
+.rs-sysadmin{border-color:var(--gold);background:var(--gold-pale);color:#7a5a10}
+.rs-manager{border-color:rgba(59,130,196,.4);background:var(--sky-light);color:var(--sky-mid)}
+.rs-reviewer{border-color:rgba(34,197,94,.3);background:var(--green-pale);color:var(--green-dark)}
+.rs-analytics{border-color:rgba(124,58,237,.3);background:#ede9fe;color:#7c3aed}
+.rs-readonly{border-color:var(--border);background:var(--off-white);color:var(--text-3)}
+
+/* USER TABLE */
+table.ut{width:100%;border-collapse:collapse}
+table.ut thead tr{background:var(--off-white);border-bottom:1.5px solid var(--border)}
+table.ut th{padding:9px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);text-align:left}
+table.ut tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+table.ut tbody tr:last-child{border-bottom:none}
+table.ut tbody tr:hover{background:#f0f6ff}
+table.ut td{padding:11px 16px;font-size:13px}
+.user-cell{display:flex;align-items:center;gap:10px}
+.ua{width:30px;height:30px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--white)}
+.un{font-weight:600;font-size:13px}
+.ue{font-size:11.5px;color:var(--text-3);margin-top:1px}
+
+/* PERIOD TABLE */
+table.pt{width:100%;border-collapse:collapse}
+table.pt thead tr{background:var(--off-white);border-bottom:1.5px solid var(--border)}
+table.pt th{padding:9px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);text-align:left}
+table.pt tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+table.pt tbody tr:last-child{border-bottom:none}
+table.pt tbody tr:hover{background:#f0f6ff}
+table.pt td{padding:11px 16px;font-size:13px}
+table.pt td.mono{font-family:'DM Mono',monospace;font-size:12.5px;font-weight:500}
+table.pt td.muted{color:var(--text-3);font-size:12px}
+
+.progress-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:4px;width:80px}
+.progress-fill{height:100%;border-radius:3px}
+
+.toggle-track{width:34px;height:19px;border-radius:100px;background:var(--border);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;display:inline-block}
+.toggle-track.on{background:var(--green)}
+.toggle-thumb{width:13px;height:13px;border-radius:50%;background:var(--white);position:absolute;top:3px;left:3px;transition:left .18s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle-track.on .toggle-thumb{left:18px}
+.toggle-wrap{display:flex;align-items:center;gap:7px}
+.toggle-lbl{font-size:12.5px;font-weight:600}
+.tl-on{color:var(--green-dark)}
+.tl-off{color:var(--text-3)}
+
+/* NEW PERIOD FORM */
+.period-form{padding:14px 18px;background:var(--off-white);border-top:1px solid var(--border)}
+.pf-grid{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:10px;align-items:end}
+.pf-group{display:flex;flex-direction:column;gap:4px}
+.pf-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3)}
+.pf-input,.pf-select{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-1)}
+.pf-input:focus,.pf-select:focus{outline:none;border-color:var(--sky)}
+
+/* SEARCH */
+.search-box{display:flex;align-items:center;gap:8px;background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 11px;width:220px}
+.search-box input{border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-1);outline:none;width:100%}
+.search-box input::placeholder{color:var(--text-3)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,20,40,.5);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,.2);width:500px;max-width:95vw}
+.modal-header{padding:22px 24px 0;position:relative}
+.modal-title{font-family:'DM Serif Display',serif;font-size:18px;color:var(--navy)}
+.modal-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+.modal-close{position:absolute;top:0;right:0;width:28px;height:28px;border-radius:50%;border:none;background:var(--off-white);color:var(--text-3);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-body{padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+.modal-footer{padding:13px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+.inv-field{display:flex;flex-direction:column;gap:5px}
+.inv-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3)}
+.inv-input{background:var(--off-white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;font-family:'Outfit',sans-serif;font-size:13.5px;color:var(--text-1)}
+.inv-input:focus{outline:none;border-color:var(--sky)}
+
+/* Role option grid for invite */
+.role-opts{display:flex;flex-direction:column;gap:7px}
+.role-opt{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:10px 13px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px}
+.role-opt:hover{border-color:var(--sky);background:var(--sky-light)}
+.role-opt.sel{border-color:var(--sky);background:var(--sky-light)}
+.role-opt-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.role-opt-info{}
+.role-opt-name{font-size:13px;font-weight:700;color:var(--navy)}
+.role-opt-desc{font-size:11.5px;color:var(--text-3);margin-top:1px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">NIL <span>Benchmark</span></div>
+  <div class="nav-links">
+    <div class="nav-link">Dashboard</div>
+    <div class="nav-link">Agreements</div>
+    <div class="nav-link">Benchmarks</div>
+    <div class="nav-link">Reporting</div>
+    <div class="nav-link active">Admin</div>
+  </div>
+  <div class="nav-user">
+    <div><span class="nav-school">Your University</span><span class="nav-role">System Administrator</span></div>
+    <div class="nav-avatar">SA</div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div>
+    <div class="page-title">Admin</div>
+    <div class="page-sub">User management, role assignment, and reporting period configuration · Your University</div>
+  </div>
+</div>
+
+<div class="admin-body">
+
+  <!-- Role Reference -->
+  <div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);margin-bottom:10px">Role Reference</div>
+    <div class="role-cards">
+      <div class="role-card" style="border-color:var(--gold);background:var(--gold-pale)">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+          <span class="role-dot" style="background:var(--gold)"></span>
+          <div class="role-card-name">System Administrator</div>
+        </div>
+        <div class="role-card-access">Full platform access. Manages users, roles, and reporting periods.</div>
+      </div>
+      <div class="role-card" style="border-color:rgba(59,130,196,.35);background:var(--sky-light)">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+          <span class="role-dot" style="background:var(--sky)"></span>
+          <div class="role-card-name">Agreement Manager</div>
+        </div>
+        <div class="role-card-access">Submit and manage NIL agreements. Can edit and resubmit.</div>
+      </div>
+      <div class="role-card" style="border-color:rgba(34,197,94,.3);background:var(--green-pale)">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+          <span class="role-dot" style="background:var(--green)"></span>
+          <div class="role-card-name">Agreement Reviewer</div>
+        </div>
+        <div class="role-card-access">Review and verify/certify agreements. Access to Reporting page.</div>
+      </div>
+      <div class="role-card" style="border-color:rgba(124,58,237,.3);background:#ede9fe">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+          <span class="role-dot" style="background:#7c3aed"></span>
+          <div class="role-card-name">Analytics User</div>
+        </div>
+        <div class="role-card-access">Dashboards and benchmarking. Export reports. No agreement access.</div>
+      </div>
+      <div class="role-card" style="border-color:var(--border);background:var(--off-white)">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+          <span class="role-dot" style="background:var(--text-3)"></span>
+          <div class="role-card-name">Read-Only</div>
+        </div>
+        <div class="role-card-access">Limited benchmark visibility only. No agreements or reporting.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USER MANAGEMENT -->
+  <div class="section-card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Users & Roles</div>
+        <div class="card-sub">6 users · Your University</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="search-box">
+          <span style="color:var(--text-3);font-size:13px">🔍</span>
+          <input type="text" placeholder="Search users…">
+        </div>
+        <button class="btn btn-sky btn-sm" onclick="openInvite()">+ Invite User</button>
+      </div>
+    </div>
+
+    <table class="ut">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Role</th>
+          <th>Access Summary</th>
+          <th>Last Active</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="user-cell"><div class="ua" style="background:var(--gold);color:var(--navy)">JW</div><div><div class="un">James Williams</div><div class="ue">j.williams@youruniversity.edu</div></div></div></td>
+          <td><select class="role-select rs-sysadmin"><option>System Administrator</option><option>Agreement Manager</option><option>Agreement Reviewer</option><option>Analytics User</option><option>Read-Only</option></select></td>
+          <td><span class="badge b-gold">Full Access</span></td>
+          <td style="color:var(--text-3);font-size:12px">Today, 9:41 AM</td>
+          <td><span class="badge b-green">● Active</span></td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Edit</button></td>
+        </tr>
+        <tr>
+          <td><div class="user-cell"><div class="ua" style="background:var(--navy-light)">MJ</div><div><div class="un">Monica Johnson</div><div class="ue">m.johnson@youruniversity.edu</div></div></div></td>
+          <td><select class="role-select rs-analytics"><option>Analytics User</option><option>System Administrator</option><option>Agreement Manager</option><option>Agreement Reviewer</option><option>Read-Only</option></select></td>
+          <td><span class="badge b-sky">Dashboards + Export</span></td>
+          <td style="color:var(--text-3);font-size:12px">Yesterday</td>
+          <td><span class="badge b-green">● Active</span></td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Edit</button></td>
+        </tr>
+        <tr>
+          <td><div class="user-cell"><div class="ua" style="background:#0d9488">TR</div><div><div class="un">Tom Roberts</div><div class="ue">t.roberts@youruniversity.edu</div></div></div></td>
+          <td><select class="role-select rs-reviewer"><option>Agreement Reviewer</option><option>System Administrator</option><option>Agreement Manager</option><option>Analytics User</option><option>Read-Only</option></select></td>
+          <td><span class="badge b-green">Review + Verify</span></td>
+          <td style="color:var(--text-3);font-size:12px">2 days ago</td>
+          <td><span class="badge b-green">● Active</span></td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Edit</button></td>
+        </tr>
+        <tr>
+          <td><div class="user-cell"><div class="ua" style="background:var(--sky)">SK</div><div><div class="un">Sara Kim</div><div class="ue">s.kim@youruniversity.edu</div></div></div></td>
+          <td><select class="role-select rs-manager"><option>Agreement Manager</option><option>System Administrator</option><option>Agreement Reviewer</option><option>Analytics User</option><option>Read-Only</option></select></td>
+          <td><span class="badge b-sky">Submit + Manage</span></td>
+          <td style="color:var(--text-3);font-size:12px">3 days ago</td>
+          <td><span class="badge b-green">● Active</span></td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Edit</button></td>
+        </tr>
+        <tr>
+          <td><div class="user-cell"><div class="ua" style="background:#7c3aed">RC</div><div><div class="un">Rick Carlson</div><div class="ue">r.carlson@youruniversity.edu</div></div></div></td>
+          <td><select class="role-select rs-readonly"><option>Read-Only</option><option>System Administrator</option><option>Agreement Manager</option><option>Agreement Reviewer</option><option>Analytics User</option></select></td>
+          <td><span class="badge b-gray">Benchmarks (View)</span></td>
+          <td style="color:var(--text-3);font-size:12px">1 week ago</td>
+          <td><span class="badge b-green">● Active</span></td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Edit</button></td>
+        </tr>
+        <tr style="opacity:.65">
+          <td><div class="user-cell"><div class="ua" style="background:var(--text-3)">DL</div><div><div class="un">Dana Lee</div><div class="ue">d.lee@youruniversity.edu</div></div></div></td>
+          <td><select class="role-select rs-readonly"><option>Read-Only</option><option>System Administrator</option><option>Agreement Manager</option><option>Agreement Reviewer</option><option>Analytics User</option></select></td>
+          <td><span class="badge b-gray">Benchmarks (View)</span></td>
+          <td style="color:var(--text-3);font-size:12px">Invited · Not joined</td>
+          <td><span class="badge b-amber">⏳ Pending</span></td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Resend</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- REPORTING PERIODS -->
+  <div class="section-card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Reporting Periods</div>
+        <div class="card-sub">Academic year periods — open periods accept agreement submissions; closed periods are locked for benchmarking</div>
+      </div>
+    </div>
+
+    <table class="pt">
+      <thead>
+        <tr>
+          <th>Academic Year</th>
+          <th>Period Label</th>
+          <th>Opens</th>
+          <th>Submit By</th>
+          <th>Agreements</th>
+          <th>Verified</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:700">2025–26</td>
+          <td><span class="badge b-sky">2025–26 Academic Year</span></td>
+          <td style="color:var(--text-3);font-size:12px">Aug 1, 2025</td>
+          <td style="color:var(--amber-dark);font-weight:600;font-size:13px">May 31, 2026</td>
+          <td>
+            <span style="font-family:'DM Mono',monospace;font-weight:600">94</span>
+            <div class="progress-bar"><div class="progress-fill" style="width:88%;background:var(--sky)"></div></div>
+          </td>
+          <td style="font-family:'DM Mono',monospace;font-weight:600;color:var(--green-dark)">89 / 94</td>
+          <td>
+            <div class="toggle-wrap">
+              <div class="toggle-track on" onclick="togglePeriod(this)"><div class="toggle-thumb"></div></div>
+              <span class="toggle-lbl tl-on">Open</span>
+            </div>
+          </td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">Edit</button></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">2024–25</td>
+          <td><span class="badge b-gray">2024–25 Academic Year</span></td>
+          <td style="color:var(--text-3);font-size:12px">Aug 1, 2024</td>
+          <td style="color:var(--text-3);font-size:12px">May 31, 2025</td>
+          <td>
+            <span style="font-family:'DM Mono',monospace;font-weight:600">218</span>
+            <div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--green)"></div></div>
+          </td>
+          <td style="font-family:'DM Mono',monospace;font-weight:600;color:var(--green-dark)">218 / 218</td>
+          <td>
+            <div class="toggle-wrap">
+              <div class="toggle-track" onclick="togglePeriod(this)"><div class="toggle-thumb"></div></div>
+              <span class="toggle-lbl tl-off">Closed</span>
+            </div>
+          </td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">View</button></td>
+        </tr>
+        <tr>
+          <td style="font-weight:700">2023–24</td>
+          <td><span class="badge b-gray">2023–24 Academic Year</span></td>
+          <td style="color:var(--text-3);font-size:12px">Aug 1, 2023</td>
+          <td style="color:var(--text-3);font-size:12px">May 31, 2024</td>
+          <td><span style="font-family:'DM Mono',monospace;font-weight:600">187</span></td>
+          <td style="font-family:'DM Mono',monospace;font-weight:600;color:var(--green-dark)">187 / 187</td>
+          <td>
+            <div class="toggle-wrap">
+              <div class="toggle-track" onclick="togglePeriod(this)"><div class="toggle-thumb"></div></div>
+              <span class="toggle-lbl tl-off">Closed</span>
+            </div>
+          </td>
+          <td style="text-align:right"><button class="btn btn-outline btn-sm">View</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="period-form">
+      <div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);margin-bottom:10px">Create New Reporting Period</div>
+      <div class="pf-grid">
+        <div class="pf-group">
+          <span class="pf-label">Academic Year</span>
+          <select class="pf-select"><option>2026–27</option><option>2025–26</option></select>
+        </div>
+        <div class="pf-group">
+          <span class="pf-label">Period Label</span>
+          <input class="pf-input" type="text" placeholder="e.g. 2026–27 Academic Year">
+        </div>
+        <div class="pf-group">
+          <span class="pf-label">Submit By Date</span>
+          <input class="pf-input" type="text" placeholder="e.g. May 31, 2027">
+        </div>
+        <button class="btn btn-navy btn-sm" style="align-self:flex-end">+ Create</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- INVITE MODAL -->
+<div class="modal-overlay" id="inviteModal">
+  <div class="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeInvite()">✕</button>
+      <div class="modal-title">Invite New User</div>
+      <div class="modal-sub">They'll receive an email to set up their account</div>
+    </div>
+    <div class="modal-body">
+      <div class="inv-field">
+        <span class="inv-label">Email Address</span>
+        <input class="inv-input" type="email" placeholder="colleague@youruniversity.edu">
+      </div>
+      <div class="inv-field">
+        <span class="inv-label">Full Name <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-3)">(optional)</span></span>
+        <input class="inv-input" type="text" placeholder="First Last">
+      </div>
+      <div class="inv-field">
+        <span class="inv-label">Assign Role</span>
+        <div class="role-opts">
+          <div class="role-opt" onclick="selRole(this)">
+            <div class="role-opt-dot" style="background:var(--sky)"></div>
+            <div class="role-opt-info"><div class="role-opt-name">Agreement Manager</div><div class="role-opt-desc">Submit and manage NIL agreements</div></div>
+          </div>
+          <div class="role-opt sel" onclick="selRole(this)">
+            <div class="role-opt-dot" style="background:var(--green)"></div>
+            <div class="role-opt-info"><div class="role-opt-name">Agreement Reviewer</div><div class="role-opt-desc">Review and verify agreements. Access to Reporting.</div></div>
+          </div>
+          <div class="role-opt" onclick="selRole(this)">
+            <div class="role-opt-dot" style="background:#7c3aed"></div>
+            <div class="role-opt-info"><div class="role-opt-name">Analytics User</div><div class="role-opt-desc">Dashboards and benchmarking only</div></div>
+          </div>
+          <div class="role-opt" onclick="selRole(this)">
+            <div class="role-opt-dot" style="background:var(--text-3)"></div>
+            <div class="role-opt-info"><div class="role-opt-name">Read-Only</div><div class="role-opt-desc">Limited benchmark visibility only</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline btn-sm" onclick="closeInvite()">Cancel</button>
+      <button class="btn btn-sky btn-sm">Send Invite →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openInvite(){document.getElementById('inviteModal').classList.add('open')}
+function closeInvite(){document.getElementById('inviteModal').classList.remove('open')}
+document.getElementById('inviteModal').addEventListener('click',function(e){if(e.target===this)closeInvite()})
+function selRole(el){document.querySelectorAll('.role-opt').forEach(r=>r.classList.remove('sel'));el.classList.add('sel')}
+function togglePeriod(t){const on=t.classList.toggle('on');const l=t.nextElementSibling;l.textContent=on?'Open':'Closed';l.className='toggle-lbl '+(on?'tl-on':'tl-off')}
+document.querySelectorAll('tbody tr').forEach((r,i)=>{r.style.opacity='0';r.style.transform='translateY(4px)';r.style.transition='opacity .3s ease,transform .3s ease';setTimeout(()=>{r.style.opacity='1';r.style.transform='translateY(0)'},50+i*55)})
+</script>
+</body>
+</html>

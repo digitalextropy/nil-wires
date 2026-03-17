@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIL Benchmark – Benchmarks</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f1f38;--navy-mid:#162d50;--navy-light:#1e3d6e;
+  --gold:#e8a020;--gold-pale:#fdf3df;
+  --sky:#3b82c4;--sky-mid:#2563a8;--sky-light:#dbeafe;
+  --conf-bar:#c8d8e8;--peer-bar:#bbf7d0;
+  --white:#fff;--off-white:#f7f9fc;--border:#dce4ed;--border-mid:#c8d4e0;
+  --text-1:#0f1f38;--text-2:#4a6480;--text-3:#8fa3b8;
+  --green:#22c55e;--green-pale:#dcfce7;--green-dark:#16a34a;
+  --red:#ef4444;--red-pale:#fee2e2;--red-dark:#dc2626;
+  --amber:#f59e0b;--amber-pale:#fef3c7;--amber-dark:#d97706;
+  --radius:10px;--radius-sm:6px;
+  --shadow-md:0 2px 12px rgba(15,31,56,.08);--shadow-lg:0 8px 28px rgba(15,31,56,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--off-white);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height:56px;border-bottom:2.5px solid var(--gold);position:sticky;top:0;z-index:200}
+.nav-logo{font-family:'DM Serif Display',serif;color:var(--white);font-size:17px;letter-spacing:.02em;margin-right:36px;white-space:nowrap}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2px;flex:1}
+.nav-link{color:rgba(255,255,255,.55);font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:.06em;text-transform:uppercase}
+.nav-link.active{color:var(--gold);background:rgba(232,160,32,.13)}
+.nav-user{display:flex;align-items:center;gap:10px;margin-left:auto}
+.nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center}
+.nav-school{color:var(--white);font-weight:600;font-size:12px;display:block;text-align:right}
+.nav-role{color:rgba(255,255,255,.5);font-size:11px;text-align:right;display:block}
+
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:9px 28px;display:flex;align-items:center;gap:7px}
+.bc{color:var(--text-3);font-size:12.5px;cursor:pointer}.bc:hover{color:var(--sky)}
+.bcs{color:var(--border-mid)}
+.bcc{color:var(--text-1);font-size:12.5px;font-weight:600}
+
+.page-layout{display:grid;grid-template-columns:264px 1fr;min-height:calc(100vh - 56px - 37px)}
+
+/* SIDEBAR */
+.sidebar{background:var(--white);border-right:1px solid var(--border);padding:20px 18px;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--text-3);margin-bottom:14px}
+.filter-group{margin-bottom:14px}
+.filter-label{font-size:10.5px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px;display:block}
+.fixed-label{background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 11px;font-size:13px;font-weight:600;color:var(--text-2);display:flex;align-items:center;justify-content:space-between}
+.fixed-label .lock{font-size:10px;color:var(--text-3)}
+.filter-select{width:100%;background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 11px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-1);font-weight:500;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' fill='none'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%238fa3b8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center}
+.radio-group{display:flex;flex-direction:column;gap:6px}
+.radio-option{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-1);cursor:pointer}
+.radio-dot{width:15px;height:15px;border-radius:50%;border:2px solid var(--border-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.radio-dot.on{border-color:var(--sky)}
+.radio-dot.on::after{content:'';width:7px;height:7px;border-radius:50%;background:var(--sky)}
+.chip-row{display:flex;flex-wrap:wrap;gap:5px}
+.chip{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--text-2)}
+.chip.on{background:var(--sky-light);border-color:var(--sky);color:var(--sky)}
+.chip-ck{width:11px;height:11px;border-radius:2px;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:7px}
+.divider{height:1px;background:var(--border);margin:12px 0}
+.apply-btn{width:100%;background:var(--navy);color:var(--white);border:none;border-radius:var(--radius-sm);padding:11px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.05em;margin-top:8px;text-transform:uppercase}
+.filter-note{background:var(--gold-pale);border:1px solid rgba(232,160,32,.3);border-radius:var(--radius-sm);padding:8px 10px;font-size:11px;color:#7a5a10;line-height:1.5;margin-top:4px}
+
+/* Peer group builder */
+.peer-builder{background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;margin-top:6px}
+.peer-builder-title{font-size:11px;font-weight:700;color:var(--text-2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.07em}
+.peer-conf-chip{display:flex;align-items:center;justify-content:space-between;padding:5px 8px;background:var(--white);border:1px solid var(--border);border-radius:5px;font-size:12px;font-weight:500;color:var(--text-1);margin-bottom:5px}
+.peer-conf-chip .rm{color:var(--text-3);cursor:pointer;font-size:11px}.peer-conf-chip .rm:hover{color:var(--red)}
+.add-peer-btn{font-size:12px;color:var(--sky);font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px}
+
+/* MAIN */
+.main{padding:22px 24px;display:flex;flex-direction:column;gap:20px}
+
+/* VIEW TOGGLE */
+.view-toggle{display:flex;gap:0;border:1.5px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;align-self:flex-start}
+.vt-btn{padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;color:var(--text-2);background:var(--white);border-right:1px solid var(--border);transition:all .12s}
+.vt-btn:last-child{border-right:none}
+.vt-btn.active{background:var(--navy);color:var(--white)}
+
+/* SUMMARY CARDS */
+.sum-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.sum-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);padding:15px 18px;position:relative;overflow:hidden;transition:box-shadow .2s}
+.sum-card:hover{box-shadow:var(--shadow-lg)}
+.sum-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.sum-card.sky::before{background:var(--sky)}
+.sum-card.gold::before{background:var(--gold)}
+.sum-card.green::before{background:var(--green)}
+.sum-card.teal::before{background:#0d9488}
+.sum-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-3);margin-bottom:8px}
+.sum-row{display:flex;align-items:flex-end;gap:10px}
+.sum-metric{flex:1}
+.sum-src{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.sum-src.yours{color:var(--sky)}
+.sum-src.comp{color:var(--text-3)}
+.sum-val{font-family:'DM Mono',monospace;font-size:19px;font-weight:500;color:var(--navy);line-height:1}
+.sum-val.comp{color:var(--text-3);font-size:15px}
+.sum-divider{width:1px;height:28px;background:var(--border);flex-shrink:0}
+.delta-up{display:inline-flex;align-items:center;gap:3px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace;margin-left:auto;align-self:center}
+.delta-dn{display:inline-flex;align-items:center;gap:3px;background:var(--red-pale);color:var(--red-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace;margin-left:auto;align-self:center}
+
+/* BENCHMARK TABLE */
+.bench-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);overflow:hidden}
+.bench-head{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.bench-title{font-family:'DM Serif Display',serif;font-size:15px;color:var(--navy)}
+.bench-sub{font-size:12px;color:var(--text-3);margin-top:1px}
+
+/* Column group headers */
+.cg{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:6px 12px;text-align:center}
+.cg-yours{background:var(--sky-mid);color:var(--white)}
+.cg-conf{background:#3d5a7a;color:rgba(255,255,255,.8)}
+.cg-peer{background:#065f46;color:rgba(255,255,255,.8)}
+.cg-dim{background:var(--off-white);color:var(--text-3);text-align:left}
+
+table.bt{width:100%;border-collapse:collapse}
+table.bt thead tr.sub th{padding:8px 12px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-3);background:var(--off-white);border-bottom:1.5px solid var(--border);text-align:right;white-space:nowrap}
+table.bt thead tr.sub th:first-child{text-align:left}
+table.bt tbody tr{border-bottom:1px solid var(--border);transition:background .1s}
+table.bt tbody tr:last-child{border-bottom:none}
+table.bt tbody tr:hover{background:#f0f6ff}
+table.bt td{padding:11px 12px;font-size:13px}
+table.bt td.dim{font-weight:500;color:var(--text-1)}
+table.bt td.yv{font-family:'DM Mono',monospace;font-size:12.5px;font-weight:600;color:var(--navy);text-align:right}
+table.bt td.cv{font-family:'DM Mono',monospace;font-size:12.5px;font-weight:500;color:var(--text-2);text-align:right}
+table.bt td.pv{font-family:'DM Mono',monospace;font-size:12.5px;font-weight:500;color:var(--green-dark);text-align:right}
+table.bt td.pct{font-family:'DM Mono',monospace;font-size:11.5px;color:var(--text-3);text-align:right}
+table.bt td.gsep{border-left:2px solid var(--border)}
+
+/* PERCENTILE RANGE VISUALIZATION */
+.pct-range{display:flex;align-items:center;gap:6px;justify-content:flex-end}
+.pct-bar{position:relative;height:8px;background:var(--border);border-radius:4px;width:80px;flex-shrink:0}
+.pct-fill{position:absolute;top:0;height:100%;border-radius:4px;background:var(--sky);opacity:.35}
+.pct-median{position:absolute;top:-2px;width:3px;height:12px;background:var(--sky);border-radius:2px}
+.pct-you{position:absolute;top:-3px;width:4px;height:14px;background:var(--navy);border-radius:2px}
+
+/* CHART */
+.chart-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);padding:18px 20px}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.chart-title{font-family:'DM Serif Display',serif;font-size:15px;color:var(--navy)}
+.chart-sub{font-size:12px;color:var(--text-3);margin-top:1px}
+.chart-area{display:flex;align-items:flex-end;height:190px;padding-bottom:32px;position:relative;border-bottom:2px solid var(--border);border-left:2px solid var(--border);margin-left:48px}
+.y-axis{position:absolute;left:-48px;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding-bottom:32px}
+.y-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3);text-align:right;width:42px}
+.bar-group{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 6px;position:relative}
+.bars{display:flex;gap:2px;align-items:flex-end;width:100%;max-width:52px}
+.bar{flex:1;border-radius:3px 3px 0 0;min-width:10px;cursor:pointer;transition:opacity .2s}
+.bar:hover{opacity:.75}
+.bar.school{background:var(--sky)}
+.bar.conf{background:var(--conf-bar)}
+.bar.peer{background:#86efac}
+.bar-pos{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--text-2);white-space:nowrap}
+.tip{position:absolute;background:var(--navy);color:var(--white);padding:8px 12px;border-radius:7px;font-size:11.5px;line-height:1.6;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.2);top:6px;left:50%;transform:translateX(-50%);z-index:10;opacity:0;transition:opacity .15s}
+.tip.vis{opacity:1}
+.tip::after{content:'';position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);width:10px;height:5px;background:var(--navy);clip-path:polygon(0 0,100% 0,50% 100%)}
+
+/* CHART TOGGLE */
+.chart-toggle{display:flex;gap:0;border:1.5px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.ct-btn{padding:5px 11px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-2);background:var(--white);border-right:1px solid var(--border);transition:all .12s}
+.ct-btn:last-child{border-right:none}
+.ct-btn.active{background:var(--navy);color:var(--white)}
+
+.legend-row{display:flex;gap:14px;align-items:center}
+.leg{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--text-2)}
+.leg-sw{width:11px;height:11px;border-radius:2px}
+
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--radius-sm);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-navy{background:var(--navy);color:var(--white)}
+.btn-outline{background:var(--white);color:var(--text-1);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--sky);color:var(--sky)}
+.btn-ghost{background:transparent;color:var(--text-3);border:1.5px dashed var(--border)}
+.btn-sm{padding:6px 12px;font-size:12px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">NIL <span>Benchmark</span></div>
+  <div class="nav-links">
+    <div class="nav-link">Dashboard</div>
+    <div class="nav-link">Agreements</div>
+    <div class="nav-link active">Benchmarks</div>
+    <div class="nav-link">Reporting</div>
+    <div class="nav-link">Admin</div>
+  </div>
+  <div class="nav-user">
+    <div><span class="nav-school">Your University</span><span class="nav-role">Athletic Director</span></div>
+    <div class="nav-avatar">AD</div>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <span class="bc">Home</span><span class="bcs">›</span><span class="bcc">Benchmarks</span>
+</div>
+
+<div class="page-layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Filters</div>
+
+    <div class="filter-group">
+      <span class="filter-label">View</span>
+      <div class="radio-group">
+        <label class="radio-option"><div class="radio-dot on"></div>vs Conference</label>
+        <label class="radio-option"><div class="radio-dot"></div>vs Peer Group</label>
+        <label class="radio-option"><div class="radio-dot"></div>My School Only</label>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Division <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-3);font-size:10px">(fixed)</span></span>
+      <div class="fixed-label">FBS <span class="lock">🔒</span></div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Conference <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-3);font-size:10px">(fixed)</span></span>
+      <div class="fixed-label">SEC <span class="lock">🔒</span></div>
+    </div>
+
+    <div class="filter-group">
+      <span class="filter-label">Reporting Period</span>
+      <select class="filter-select"><option>2025–26 Academic Year</option><option>2024–25 Academic Year</option></select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Sport</span>
+      <select class="filter-select"><option>Football</option><option>Basketball (M)</option><option>Baseball</option></select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Position</span>
+      <select class="filter-select"><option>All Positions</option><option>QB</option><option>RB</option><option>WR</option><option>OL</option></select>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Class Year</span>
+      <div class="chip-row">
+        <div class="chip on"><div class="chip-ck">✓</div>All</div>
+        <div class="chip">FR</div><div class="chip">SO</div>
+        <div class="chip">JR</div><div class="chip">SR</div><div class="chip">Grad</div>
+      </div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Comp Type</span>
+      <div class="chip-row">
+        <div class="chip on"><div class="chip-ck">✓</div>All</div>
+        <div class="chip">Cash</div><div class="chip">Mixed</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Peer Group builder — shown when "vs Peer Group" selected -->
+    <div class="filter-group">
+      <span class="filter-label">Peer Group</span>
+      <div class="peer-builder">
+        <div class="peer-builder-title">Custom Comp Set</div>
+        <div class="peer-conf-chip">ACC <span class="rm">✕</span></div>
+        <div class="peer-conf-chip">Big Ten <span class="rm">✕</span></div>
+        <div class="peer-conf-chip">Big 12 <span class="rm">✕</span></div>
+        <div class="add-peer-btn">+ Add Conference / School</div>
+      </div>
+    </div>
+
+    <div class="filter-note">ⓘ Peer averages only shown where ≥ 2 schools have reported eligible data. Class year filter applies to your school only — does not affect conference or peer averages.</div>
+    <button class="apply-btn">Apply Filters</button>
+  </aside>
+
+  <main class="main">
+
+    <!-- View toggle -->
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-family:'DM Serif Display',serif;font-size:19px;color:var(--navy)">Benchmarks</div>
+        <div style="font-size:12.5px;color:var(--text-3);margin-top:2px">Football · SEC · 2025–26 Academic Year</div>
+      </div>
+      <div class="view-toggle">
+        <div class="vt-btn active">vs Conference</div>
+        <div class="vt-btn">vs Peer Group</div>
+        <div class="vt-btn">My School Only</div>
+      </div>
+    </div>
+
+    <!-- Summary cards — 4 tiles, Total NIL added per Matthew -->
+    <div class="sum-cards">
+      <div class="sum-card sky">
+        <div class="sum-label">Avg NIL / Athlete</div>
+        <div class="sum-row">
+          <div class="sum-metric"><div class="sum-src yours">Yours</div><div class="sum-val">$45K</div></div>
+          <div class="sum-divider"></div>
+          <div class="sum-metric"><div class="sum-src comp">SEC Avg</div><div class="sum-val comp">$42K</div></div>
+          <div class="delta-up">▲ +7%</div>
+        </div>
+      </div>
+      <div class="sum-card gold">
+        <div class="sum-label">Avg Agreement Value</div>
+        <div class="sum-row">
+          <div class="sum-metric"><div class="sum-src yours">Yours</div><div class="sum-val">$26K</div></div>
+          <div class="sum-divider"></div>
+          <div class="sum-metric"><div class="sum-src comp">SEC Avg</div><div class="sum-val comp">$22K</div></div>
+          <div class="delta-up">▲ +18%</div>
+        </div>
+      </div>
+      <div class="sum-card green">
+        <div class="sum-label">% Athletes with Agreement</div>
+        <div class="sum-row">
+          <div class="sum-metric"><div class="sum-src yours">Yours</div><div class="sum-val">68%</div></div>
+          <div class="sum-divider"></div>
+          <div class="sum-metric"><div class="sum-src comp">SEC Avg</div><div class="sum-val comp">61%</div></div>
+          <div class="delta-up">▲ +7 pts</div>
+        </div>
+      </div>
+      <!-- Total NIL added per Matthew -->
+      <div class="sum-card teal">
+        <div class="sum-label">Total NIL Value</div>
+        <div class="sum-row">
+          <div class="sum-metric"><div class="sum-src yours">Yours</div><div class="sum-val">$4.8M</div></div>
+          <div class="sum-divider"></div>
+          <div class="sum-metric"><div class="sum-src comp">SEC Avg</div><div class="sum-val comp">$4.2M</div></div>
+          <div class="delta-up">▲ +14%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Benchmark Grid — peer group replaces national avg, percentile ranges added -->
+    <div class="bench-card">
+      <div class="bench-head">
+        <div>
+          <div class="bench-title">Benchmark Grid</div>
+          <div class="bench-sub">Football · 2025–26 · Your School vs SEC Conference vs Peer Group (ACC, Big Ten, Big 12)</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="leg"><div class="leg-sw" style="background:var(--sky)"></div>Yours</div>
+          <div class="leg"><div class="leg-sw" style="background:var(--conf-bar)"></div>SEC</div>
+          <div class="leg"><div class="leg-sw" style="background:#86efac"></div>Peer Grp</div>
+        </div>
+      </div>
+
+      <table class="bt">
+        <colgroup>
+          <col style="width:17%">
+          <!-- Yours: 3 -->
+          <col style="width:7%"><col style="width:7%"><col style="width:7%">
+          <!-- Conf: 3 + percentile range -->
+          <col style="width:7%"><col style="width:7%"><col style="width:7%"><col style="width:10%">
+          <!-- Peer: 3 + range -->
+          <col style="width:7%"><col style="width:7%"><col style="width:7%"><col style="width:10%">
+          <!-- Delta -->
+          <col style="width:6%"><col style="width:6%">
+        </colgroup>
+        <thead>
+          <tr>
+            <td class="cg cg-dim">Metric</td>
+            <td class="cg cg-yours" colspan="3">Your School</td>
+            <td class="cg cg-conf" colspan="4" style="border-left:2px solid rgba(255,255,255,.1)">SEC Conference</td>
+            <td class="cg cg-peer" colspan="4" style="border-left:2px solid rgba(255,255,255,.1)">Peer Group</td>
+            <td class="cg cg-dim" colspan="2">Δ</td>
+          </tr>
+          <tr class="sub">
+            <th style="text-align:left">Dimension</th>
+            <th>Avg</th><th>Guar.</th><th>Perf.</th>
+            <th class="gsep">Avg</th><th>Guar.</th><th>Perf.</th><th>25p / Med / 75p</th>
+            <th class="gsep">Avg</th><th>Guar.</th><th>Perf.</th><th>25p / Med / 75p</th>
+            <th>vs Conf</th><th>vs Peer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="dim">Avg NIL / Athlete</td>
+            <td class="yv">$45K</td><td class="yv" style="color:var(--green-dark)">$38K</td><td class="yv" style="color:var(--text-2)">$7K</td>
+            <td class="cv gsep">$42K</td><td class="cv">$36K</td><td class="cv">$6K</td>
+            <td>
+              <div class="pct-range">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3)">$31K–$58K</span>
+                <div class="pct-bar">
+                  <div class="pct-fill" style="left:0;width:100%"></div>
+                  <div class="pct-median" style="left:55%"></div>
+                  <div class="pct-you" style="left:70%"></div>
+                </div>
+              </div>
+            </td>
+            <td class="pv gsep">$40K</td><td class="pv">$34K</td><td class="pv">$6K</td>
+            <td>
+              <div class="pct-range">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3)">$29K–$55K</span>
+                <div class="pct-bar" style="background:#d1fae5">
+                  <div class="pct-fill" style="left:0;width:100%;background:#86efac;opacity:.5"></div>
+                  <div class="pct-median" style="left:52%;background:#059669"></div>
+                  <div class="pct-you" style="left:72%"></div>
+                </div>
+              </div>
+            </td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+7%</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+13%</span></td>
+          </tr>
+          <tr>
+            <td class="dim">Avg Agreement Value</td>
+            <td class="yv">$26K</td><td class="yv" style="color:var(--green-dark)">$22K</td><td class="yv" style="color:var(--text-2)">$4K</td>
+            <td class="cv gsep">$22K</td><td class="cv">$19K</td><td class="cv">$3K</td>
+            <td>
+              <div class="pct-range">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3)">$14K–$34K</span>
+                <div class="pct-bar"><div class="pct-fill" style="left:0;width:100%"></div><div class="pct-median" style="left:50%"></div><div class="pct-you" style="left:68%"></div></div>
+              </div>
+            </td>
+            <td class="pv gsep">$24K</td><td class="pv">$20K</td><td class="pv">$4K</td>
+            <td>
+              <div class="pct-range">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3)">$15K–$36K</span>
+                <div class="pct-bar" style="background:#d1fae5"><div class="pct-fill" style="left:0;width:100%;background:#86efac;opacity:.5"></div><div class="pct-median" style="left:50%;background:#059669"></div><div class="pct-you" style="left:65%"></div></div>
+              </div>
+            </td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+18%</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+8%</span></td>
+          </tr>
+          <tr>
+            <td class="dim">Sponsorship Share</td>
+            <td class="yv">38%</td><td class="pct">—</td><td class="pct">—</td>
+            <td class="cv gsep">30%</td><td class="pct">—</td><td class="pct">—</td>
+            <td>
+              <div class="pct-range">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3)">18%–44%</span>
+                <div class="pct-bar"><div class="pct-fill" style="left:0;width:100%"></div><div class="pct-median" style="left:48%"></div><div class="pct-you" style="left:80%"></div></div>
+              </div>
+            </td>
+            <td class="pv gsep">33%</td><td class="pct">—</td><td class="pct">—</td>
+            <td>
+              <div class="pct-range">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3)">20%–46%</span>
+                <div class="pct-bar" style="background:#d1fae5"><div class="pct-fill" style="left:0;width:100%;background:#86efac;opacity:.5"></div><div class="pct-median" style="left:50%;background:#059669"></div><div class="pct-you" style="left:77%"></div></div>
+              </div>
+            </td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+8pt</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+5pt</span></td>
+          </tr>
+          <tr>
+            <td class="dim">Total NIL Value</td>
+            <td class="yv">$4.8M</td><td class="yv" style="color:var(--green-dark)">$4.0M</td><td class="yv" style="color:var(--text-2)">$0.8M</td>
+            <td class="cv gsep">$4.2M</td><td class="cv">$3.5M</td><td class="cv">$0.7M</td>
+            <td style="color:var(--text-3);font-size:11.5px;font-style:italic;text-align:center">varies by roster size</td>
+            <td class="pv gsep">$4.5M</td><td class="pv">$3.8M</td><td class="pv">$0.7M</td>
+            <td style="color:var(--text-3);font-size:11.5px;font-style:italic;text-align:center">varies by roster size</td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+14%</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+7%</span></td>
+          </tr>
+          <tr>
+            <td class="dim">% Athletes w/ Agreement</td>
+            <td class="yv">68%</td><td class="pct">—</td><td class="pct">—</td>
+            <td class="cv gsep">61%</td><td class="pct">—</td><td class="pct">—</td>
+            <td>
+              <div class="pct-range">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3)">48%–74%</span>
+                <div class="pct-bar"><div class="pct-fill" style="left:0;width:100%"></div><div class="pct-median" style="left:52%"></div><div class="pct-you" style="left:77%"></div></div>
+              </div>
+            </td>
+            <td class="pv gsep">64%</td><td class="pct">—</td><td class="pct">—</td>
+            <td>
+              <div class="pct-range">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3)">50%–76%</span>
+                <div class="pct-bar" style="background:#d1fae5"><div class="pct-fill" style="left:0;width:100%;background:#86efac;opacity:.5"></div><div class="pct-median" style="left:53%;background:#059669"></div><div class="pct-you" style="left:75%"></div></div>
+              </div>
+            </td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+7pt</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+4pt</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="background:var(--off-white);padding:8px 16px;border-top:1px solid var(--border);font-size:11.5px;color:var(--text-3)">
+        ⓘ <strong style="color:var(--text-2)">Percentile bars</strong>: range shows 25th–75th percentile · <span style="display:inline-block;width:8px;height:8px;background:var(--navy);border-radius:1px;vertical-align:middle;margin:0 3px"></span> = your school · <span style="display:inline-block;width:6px;height:8px;background:var(--sky);border-radius:1px;vertical-align:middle;margin:0 3px"></span> = median · Class year filter applies to your school only.
+      </div>
+    </div>
+
+    <!-- Chart — now shows 3 bars per position (yours, conf, peer) -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title">Avg NIL / Athlete by Position</div>
+          <div class="chart-sub">Football · 2025–26 · Hover for detail</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="chart-toggle">
+            <div class="ct-btn active">Total</div>
+            <div class="ct-btn">Guaranteed</div>
+            <div class="ct-btn">Perf.</div>
+          </div>
+          <div class="legend-row">
+            <div class="leg"><div class="leg-sw" style="background:var(--sky)"></div>Yours</div>
+            <div class="leg"><div class="leg-sw" style="background:var(--conf-bar)"></div>SEC</div>
+            <div class="leg"><div class="leg-sw" style="background:#86efac"></div>Peer</div>
+          </div>
+        </div>
+      </div>
+      <div style="position:relative;padding-left:52px">
+        <div class="y-axis">
+          <div class="y-label">$400K</div>
+          <div class="y-label">$300K</div>
+          <div class="y-label">$200K</div>
+          <div class="y-label">$100K</div>
+          <div class="y-label">$0</div>
+        </div>
+        <div class="chart-area">
+          <div class="bar-group" onmouseenter="showTip(this,'QB — Yours $350K | SEC $312K | Peer $328K | n=4')" onmouseleave="hideTip(this)">
+            <div class="tip">QB — Yours $350K | SEC $312K | Peer $328K | n=4</div>
+            <div class="bars"><div class="bar school" style="height:175px"></div><div class="bar conf" style="height:156px"></div><div class="bar peer" style="height:164px"></div></div>
+            <span class="bar-pos">QB</span>
+          </div>
+          <div class="bar-group" onmouseenter="showTip(this,'WR — Yours $180K | SEC $162K | Peer $170K | n=12')" onmouseleave="hideTip(this)">
+            <div class="tip">WR — Yours $180K | SEC $162K | Peer $170K</div>
+            <div class="bars"><div class="bar school" style="height:90px"></div><div class="bar conf" style="height:81px"></div><div class="bar peer" style="height:85px"></div></div>
+            <span class="bar-pos">WR</span>
+          </div>
+          <div class="bar-group" onmouseenter="showTip(this,'RB — Yours $120K | SEC $98K | Peer $108K | n=7')" onmouseleave="hideTip(this)">
+            <div class="tip">RB — Yours $120K | SEC $98K | Peer $108K</div>
+            <div class="bars"><div class="bar school" style="height:60px"></div><div class="bar conf" style="height:49px"></div><div class="bar peer" style="height:54px"></div></div>
+            <span class="bar-pos">RB</span>
+          </div>
+          <div class="bar-group" onmouseenter="showTip(this,'DB — Yours $110K | SEC $96K | Peer $102K | n=10')" onmouseleave="hideTip(this)">
+            <div class="tip">DB — Yours $110K | SEC $96K | Peer $102K</div>
+            <div class="bars"><div class="bar school" style="height:55px"></div><div class="bar conf" style="height:48px"></div><div class="bar peer" style="height:51px"></div></div>
+            <span class="bar-pos">DB</span>
+          </div>
+          <div class="bar-group" onmouseenter="showTip(this,'OL — Yours $88K | SEC $72K | Peer $79K | n=16')" onmouseleave="hideTip(this)">
+            <div class="tip">OL — Yours $88K | SEC $72K | Peer $79K</div>
+            <div class="bars"><div class="bar school" style="height:44px"></div><div class="bar conf" style="height:36px"></div><div class="bar peer" style="height:40px"></div></div>
+            <span class="bar-pos">OL</span>
+          </div>
+          <div class="bar-group" onmouseenter="showTip(this,'TE — Yours $95K | SEC $84K | Peer $88K | n=5')" onmouseleave="hideTip(this)">
+            <div class="tip">TE — Yours $95K | SEC $84K | Peer $88K</div>
+            <div class="bars"><div class="bar school" style="height:48px"></div><div class="bar conf" style="height:42px"></div><div class="bar peer" style="height:44px"></div></div>
+            <span class="bar-pos">TE</span>
+          </div>
+          <div class="bar-group" onmouseenter="showTip(this,'LB — Yours $72K | SEC $65K | Peer $68K | n=9')" onmouseleave="hideTip(this)">
+            <div class="tip">LB — Yours $72K | SEC $65K | Peer $68K</div>
+            <div class="bars"><div class="bar school" style="height:36px"></div><div class="bar conf" style="height:33px"></div><div class="bar peer" style="height:34px"></div></div>
+            <span class="bar-pos">LB</span>
+          </div>
+          <div class="bar-group" onmouseenter="showTip(this,'K/P — Yours $28K | SEC $24K | Peer $26K | n=3')" onmouseleave="hideTip(this)">
+            <div class="tip">K/P — Yours $28K | SEC $24K | Peer $26K</div>
+            <div class="bars"><div class="bar school" style="height:14px"></div><div class="bar conf" style="height:12px"></div><div class="bar peer" style="height:13px"></div></div>
+            <span class="bar-pos">K/P</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="display:flex;gap:10px;padding-bottom:8px">
+      <button class="btn btn-navy btn-sm">⬇ Export Benchmarks (CSV)</button>
+      <button class="btn btn-outline btn-sm">← Back to Dashboard</button>
+      <button class="btn btn-ghost btn-sm">🔖 Save View <span style="font-size:10px;opacity:.6;margin-left:3px">(coming soon)</span></button>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function showTip(el,t){const tip=el.querySelector('.tip');if(tip){tip.textContent=t;tip.classList.add('vis')}}
+function hideTip(el){const tip=el.querySelector('.tip');if(tip)tip.classList.remove('vis')}
+document.querySelectorAll('.bar').forEach((b,i)=>{const h=b.style.height;b.style.height='0';b.style.transition='height 0.5s cubic-bezier(.34,1.4,.64,1)';setTimeout(()=>b.style.height=h,100+i*30)});
+document.querySelectorAll('.sum-card').forEach((c,i)=>{c.style.opacity='0';c.style.transform='translateY(8px)';c.style.transition='opacity .4s ease,transform .4s ease';setTimeout(()=>{c.style.opacity='1';c.style.transform='translateY(0)'},80+i*80)});
+document.querySelectorAll('.ct-btn').forEach(b=>{b.addEventListener('click',function(){document.querySelectorAll('.ct-btn').forEach(x=>x.classList.remove('active'));this.classList.add('active')})});
+document.querySelectorAll('.vt-btn').forEach(b=>{b.addEventListener('click',function(){document.querySelectorAll('.vt-btn').forEach(x=>x.classList.remove('active'));this.classList.add('active')})});
+</script>
+</body>
+</html>
