@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIL Benchmark – Reporting</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f1f38;--navy-mid:#162d50;--navy-light:#1e3d6e;
+  --gold:#e8a020;--gold-pale:#fdf3df;
+  --sky:#3b82c4;--sky-mid:#2563a8;--sky-light:#dbeafe;
+  --white:#fff;--off-white:#f7f9fc;--border:#dce4ed;--border-mid:#c8d4e0;
+  --text-1:#0f1f38;--text-2:#4a6480;--text-3:#8fa3b8;
+  --green:#22c55e;--green-pale:#dcfce7;--green-dark:#16a34a;
+  --red:#ef4444;--red-pale:#fee2e2;--red-dark:#dc2626;
+  --amber:#f59e0b;--amber-pale:#fef3c7;--amber-dark:#d97706;
+  --radius:10px;--radius-sm:6px;
+  --shadow-md:0 2px 12px rgba(15,31,56,.08);--shadow-lg:0 8px 28px rgba(15,31,56,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--off-white);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height:56px;border-bottom:2.5px solid var(--gold);position:sticky;top:0;z-index:200}
+.nav-logo{font-family:'DM Serif Display',serif;color:var(--white);font-size:17px;letter-spacing:.02em;margin-right:36px;white-space:nowrap}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2px;flex:1}
+.nav-link{color:rgba(255,255,255,.55);font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .15s}
+.nav-link:hover{color:var(--white);background:rgba(255,255,255,.07)}
+.nav-link.active{color:var(--gold);background:rgba(232,160,32,.13)}
+.nav-user{display:flex;align-items:center;gap:10px;margin-left:auto}
+.nav-avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center}
+.nav-school{color:var(--white);font-weight:600;font-size:12px;display:block;text-align:right}
+.nav-role{color:rgba(255,255,255,.5);font-size:11px;text-align:right;display:block}
+
+/* PAGE HEADER */
+.page-header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 28px 14px;display:flex;align-items:flex-end;justify-content:space-between}
+.page-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy)}
+.page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+
+/* ALERT BANNER — 7-day rule */
+.alert-banner{background:var(--amber-pale);border-bottom:2px solid var(--amber);padding:11px 28px;display:flex;align-items:center;gap:12px}
+.alert-icon{font-size:17px;flex-shrink:0}
+.alert-text{font-size:13px;color:var(--amber-dark);flex:1;line-height:1.4}
+.alert-text strong{font-weight:700}
+.alert-action{font-size:13px;font-weight:700;color:var(--amber-dark);cursor:pointer;text-decoration:underline;white-space:nowrap}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);background:var(--white);border-bottom:1px solid var(--border)}
+.stat-cell{padding:13px 18px;border-right:1px solid var(--border);text-align:center}
+.stat-cell:last-child{border-right:none}
+.stat-val{font-family:'DM Mono',monospace;font-size:24px;font-weight:500;color:var(--navy)}
+.stat-val.ok{color:var(--green-dark)}
+.stat-val.warn{color:var(--amber-dark)}
+.stat-val.bad{color:var(--red-dark)}
+.stat-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin-top:3px}
+.stat-bar{height:4px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
+.stat-bar-fill{height:100%;border-radius:2px}
+
+/* MAIN LAYOUT */
+.page-layout{display:grid;grid-template-columns:1fr 360px;gap:20px;padding:20px 28px;align-items:start}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--radius-sm);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;white-space:nowrap;transition:all .15s}
+.btn-navy{background:var(--navy);color:var(--white)}
+.btn-outline{background:var(--white);color:var(--text-1);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--sky);color:var(--sky)}
+.btn-sm{padding:6px 12px;font-size:12px}
+
+/* CARD */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md)}
+.card-head{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:'DM Serif Display',serif;font-size:15px;color:var(--navy)}
+.card-sub{font-size:12px;color:var(--text-3);margin-top:1px}
+.card-link{font-size:12px;color:var(--sky);font-weight:600;cursor:pointer;white-space:nowrap}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-green{background:var(--green-pale);color:var(--green-dark)}
+.b-amber{background:var(--amber-pale);color:var(--amber-dark)}
+.b-red{background:var(--red-pale);color:var(--red-dark)}
+.b-sky{background:var(--sky-light);color:var(--sky-mid)}
+.b-gray{background:var(--off-white);color:var(--text-3);border:1px solid var(--border)}
+
+/* TABS */
+.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--border)}
+.tab{padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer;color:var(--text-3);border-bottom:2.5px solid transparent;margin-bottom:-2px;transition:all .15s;display:flex;align-items:center;gap:6px}
+.tab.active{color:var(--navy);border-bottom-color:var(--sky)}
+.tab-ct{display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;border-radius:100px;font-size:10px;font-weight:700;padding:0 4px}
+.tc-bad{background:var(--red-pale);color:var(--red-dark)}
+.tc-warn{background:var(--amber-pale);color:var(--amber-dark)}
+.tc-ok{background:var(--green-pale);color:var(--green-dark)}
+
+/* SEARCH */
+.search-box{display:flex;align-items:center;gap:8px;background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 11px;width:220px}
+.search-box input{border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text-1);outline:none;width:100%}
+.search-box input::placeholder{color:var(--text-3)}
+
+/* QUEUE ITEMS */
+.queue-item{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);transition:background .1s;cursor:pointer}
+.queue-item:last-child{border-bottom:none}
+.queue-item:hover{background:#f0f6ff}
+.queue-item.nr{background:#fffbf0}
+.queue-item.nr:hover{background:#fef3c7}
+.queue-item.overdue{background:#fff5f5}
+.queue-item.overdue:hover{background:#fee2e2}
+
+.q-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;margin-top:1px}
+.q-icon.pending{background:var(--sky-light);color:var(--sky)}
+.q-icon.nr{background:var(--amber-pale);color:var(--amber-dark)}
+.q-icon.overdue{background:var(--red-pale);color:var(--red-dark)}
+.q-icon.verified{background:var(--green-pale);color:var(--green-dark)}
+
+.q-body{flex:1;min-width:0}
+.q-title{font-size:13.5px;font-weight:600;color:var(--text-1);margin-bottom:3px}
+.q-meta{font-size:12px;color:var(--text-3);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* Source pill */
+.source-pill{display:inline-flex;align-items:center;gap:4px;background:var(--off-white);border:1px solid var(--border);border-radius:100px;padding:2px 8px;font-size:11px;font-weight:600;color:var(--text-2)}
+.source-pill.upload{background:var(--sky-light);border-color:rgba(59,130,196,.25);color:var(--sky-mid)}
+.source-pill.manual{background:#ede9fe;border-color:rgba(124,58,237,.2);color:#7c3aed}
+
+.q-flag{display:inline-flex;align-items:center;gap:5px;border-radius:5px;padding:4px 9px;font-size:11.5px;font-weight:600;margin-top:6px}
+.q-flag.red{background:var(--red-pale);color:var(--red-dark)}
+.q-flag.amber{background:var(--amber-pale);color:var(--amber-dark)}
+.q-flag.overdue-flag{background:var(--red-pale);color:var(--red-dark);border:1px solid rgba(239,68,68,.2)}
+
+/* Overdue counter */
+.overdue-days{font-size:11px;font-weight:700;background:var(--red-pale);color:var(--red-dark);border-radius:100px;padding:2px 7px;font-family:'DM Mono',monospace}
+
+.q-actions{display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0}
+.q-val{font-family:'DM Mono',monospace;font-size:13.5px;font-weight:600;color:var(--navy)}
+.q-date{font-size:11px;color:var(--text-3);text-align:right}
+
+/* POLICY CHECKS */
+.policy-item{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px}
+.policy-item:last-child{border-bottom:none}
+.policy-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+.policy-title{font-size:12.5px;font-weight:700;color:var(--text-1);margin-bottom:2px}
+.policy-desc{font-size:11.5px;color:var(--text-3);line-height:1.4}
+.policy-count{font-family:'DM Mono',monospace;font-size:11.5px;font-weight:700}
+
+/* EXPIRING SOON (right col) */
+.expiry-item{display:flex;align-items:center;gap:11px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+.expiry-item:last-child{border-bottom:none}
+.expiry-item:hover{background:#f0f6ff}
+.expiry-avatar{width:28px;height:28px;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--white);flex-shrink:0}
+.expiry-info{flex:1}
+.expiry-name{font-size:13px;font-weight:600;color:var(--text-1)}
+.expiry-meta{font-size:11.5px;color:var(--text-3);margin-top:1px}
+.expiry-days{text-align:right;flex-shrink:0}
+.expiry-days-num{font-family:'DM Mono',monospace;font-size:12.5px;font-weight:600}
+.expiry-days-lbl{font-size:10px;color:var(--text-3)}
+
+/* AUDIT LOG */
+.audit-list{padding:0 16px}
+.audit-item{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);position:relative}
+.audit-item:last-child{border-bottom:none}
+.audit-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.audit-dot.green{background:var(--green)}
+.audit-dot.amber{background:var(--amber)}
+.audit-dot.red{background:var(--red)}
+.audit-dot.sky{background:var(--sky)}
+.audit-dot.navy{background:var(--navy)}
+.audit-dot.gray{background:var(--text-3)}
+.audit-body{flex:1}
+.audit-title{font-size:12.5px;font-weight:600;color:var(--text-1);line-height:1.3}
+.audit-detail{font-size:11.5px;color:var(--text-3);margin-top:2px;line-height:1.4}
+.audit-time{font-size:11px;color:var(--text-3);white-space:nowrap;text-align:right;flex-shrink:0}
+
+/* AUDIT FILTERS */
+.audit-filters{display:flex;gap:6px;padding:10px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.af-chip{padding:4px 10px;border-radius:100px;font-size:11.5px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--text-2);transition:all .12s}
+.af-chip.on{background:var(--sky-light);border-color:var(--sky);color:var(--sky)}
+
+/* GAUGE */
+.gauge-wrap{display:flex;align-items:center;gap:14px;padding:14px 16px}
+.gauge-ring{position:relative;width:68px;height:68px;flex-shrink:0}
+.gauge-ring svg{transform:rotate(-90deg)}
+.gauge-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:14px;font-weight:600;color:var(--green-dark)}
+.gauge-info{}
+.gauge-label{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.gauge-sub{font-size:12px;color:var(--text-3);line-height:1.4}
+
+/* 7-DAY RULE CALLOUT */
+.rule-callout{background:var(--navy);border-radius:var(--radius-sm);padding:12px 14px;margin:0 16px 14px;display:flex;gap:10px;align-items:flex-start}
+.rule-callout-icon{font-size:16px;flex-shrink:0}
+.rule-callout-text{font-size:12px;color:rgba(255,255,255,.7);line-height:1.5}
+.rule-callout-text strong{color:var(--gold)}
+
+/* LEFT COL */
+.left-col{display:flex;flex-direction:column;gap:16px}
+.right-col{display:flex;flex-direction:column;gap:16px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">NIL <span>Benchmark</span></div>
+  <div class="nav-links">
+    <div class="nav-link">Dashboard</div>
+    <div class="nav-link">Agreements</div>
+    <div class="nav-link">Benchmarks</div>
+    <div class="nav-link active">Reporting</div>
+    <div class="nav-link">Admin</div>
+  </div>
+  <div class="nav-user">
+    <div>
+      <span class="nav-school">Your University</span>
+      <span class="nav-role">Agreement Reviewer</span>
+    </div>
+    <div class="nav-avatar">AR</div>
+  </div>
+</nav>
+
+<!-- Alert banner: overdue items flagged > 7 days -->
+<div class="alert-banner">
+  <div class="alert-icon">⚠</div>
+  <div class="alert-text">
+    <strong>2 agreements need review and are overdue</strong> — agreements must be submitted and verified within 7 days of execution. These are currently excluded from benchmarking data.
+  </div>
+  <div class="alert-action">Review Now →</div>
+</div>
+
+<div class="page-header">
+  <div>
+    <div class="page-title">Reporting</div>
+    <div class="page-sub">Agreement verification status, policy checks, and submission audit log · 2025–26 Academic Year</div>
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-outline btn-sm">⬇ Export Report</button>
+  </div>
+</div>
+
+<!-- Stats row -->
+<div class="stats-row">
+  <div class="stat-cell">
+    <div class="stat-val ok">89</div>
+    <div class="stat-lbl">Verified</div>
+    <div class="stat-bar"><div class="stat-bar-fill" style="width:84%;background:var(--green)"></div></div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val warn">3</div>
+    <div class="stat-lbl">Pending Review</div>
+    <div class="stat-bar"><div class="stat-bar-fill" style="width:3%;background:var(--amber)"></div></div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val bad">2</div>
+    <div class="stat-lbl">Needs Review</div>
+    <div class="stat-bar"><div class="stat-bar-fill" style="width:2%;background:var(--red)"></div></div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val bad">2</div>
+    <div class="stat-lbl">Overdue (&gt;7 days)</div>
+    <div class="stat-bar"><div class="stat-bar-fill" style="width:2%;background:var(--red)"></div></div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-val" style="font-size:20px">94.7%</div>
+    <div class="stat-lbl">Verification Rate</div>
+    <div class="stat-bar"><div class="stat-bar-fill" style="width:94.7%;background:var(--sky)"></div></div>
+  </div>
+</div>
+
+<!-- Main layout -->
+<div class="page-layout">
+
+  <!-- LEFT COL -->
+  <div class="left-col">
+
+    <!-- Verification Queue -->
+    <div class="card">
+      <div style="padding:0 18px;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:0">
+          <div>
+            <div style="font-family:'DM Serif Display',serif;font-size:15px;color:var(--navy)">Verification Queue</div>
+            <div style="font-size:12px;color:var(--text-3);margin-top:1px">Agreements requiring action · sorted by urgency</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;padding-bottom:12px">
+            <div class="search-box" style="width:190px">
+              <span style="color:var(--text-3);font-size:13px">🔍</span>
+              <input type="text" placeholder="Search agreements…">
+            </div>
+            <select style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:7px 10px;font-family:'Outfit',sans-serif;font-size:12.5px;color:var(--text-2);cursor:pointer">
+              <option>All Sports</option>
+              <option>Football</option>
+              <option>Basketball</option>
+            </select>
+          </div>
+        </div>
+        <div class="tab-bar">
+          <div class="tab active">Needs Action <span class="tab-ct tc-bad">5</span></div>
+          <div class="tab">All <span class="tab-ct" style="background:var(--off-white);color:var(--text-3);border:1px solid var(--border)">94</span></div>
+          <div class="tab">Verified <span class="tab-ct tc-ok">89</span></div>
+        </div>
+      </div>
+
+      <!-- OVERDUE items first -->
+      <div class="queue-item overdue">
+        <div class="q-icon overdue">⛔</div>
+        <div class="q-body">
+          <div class="q-title">Agreement #1091 — Under Armour · WR Endorsement</div>
+          <div class="q-meta">
+            <span>Football · WR #83</span>
+            <span class="source-pill upload">📄 Upload + AI</span>
+            <span>Submitted by T. Roberts</span>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+            <div class="q-flag red">⛔ Missing: Compensation type not specified</div>
+            <span class="overdue-days">9 days overdue</span>
+          </div>
+        </div>
+        <div class="q-actions">
+          <div class="q-val">$95,000</div>
+          <div class="q-date">Executed Oct 19</div>
+          <button class="btn btn-sm" style="background:var(--red-pale);color:var(--red-dark);border:1.5px solid rgba(239,68,68,.25);margin-top:4px">Resolve →</button>
+        </div>
+      </div>
+
+      <div class="queue-item overdue">
+        <div class="q-icon overdue">⛔</div>
+        <div class="q-body">
+          <div class="q-title">Agreement #1090 — Local Dealership · DL Endorsement</div>
+          <div class="q-meta">
+            <span>Football · DL #91</span>
+            <span class="source-pill upload">📄 Upload + AI</span>
+            <span>Submitted by T. Roberts</span>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+            <div class="q-flag red">⛔ Missing: Contract end / expiration date</div>
+            <div class="q-flag amber" style="margin-top:0">⚠ Guaranteed value not extracted</div>
+            <span class="overdue-days">11 days overdue</span>
+          </div>
+        </div>
+        <div class="q-actions">
+          <div class="q-val">$48,000</div>
+          <div class="q-date">Executed Oct 17</div>
+          <button class="btn btn-sm" style="background:var(--red-pale);color:var(--red-dark);border:1.5px solid rgba(239,68,68,.25);margin-top:4px">Resolve →</button>
+        </div>
+      </div>
+
+      <!-- PENDING items — ready to verify -->
+      <div class="queue-item">
+        <div class="q-icon pending">⏳</div>
+        <div class="q-body">
+          <div class="q-title">Agreement #1088 — State Farm · LB Appearance</div>
+          <div class="q-meta">
+            <span>Football · LB #55</span>
+            <span class="source-pill upload">📄 Upload + AI</span>
+            <span>Submitted by T. Roberts</span>
+            <span>Executed Oct 28</span>
+          </div>
+          <div style="margin-top:6px;display:inline-flex;align-items:center;gap:5px;background:var(--sky-light);border-radius:5px;padding:4px 9px;font-size:11.5px;color:var(--sky-mid);font-weight:600">
+            ✦ Ready to verify — all fields extracted at high confidence
+          </div>
+        </div>
+        <div class="q-actions">
+          <div class="q-val">$72,000</div>
+          <div class="q-date">3 days since execution</div>
+          <button class="btn btn-sm" style="background:var(--sky-light);color:var(--sky-mid);border:1.5px solid rgba(59,130,196,.3);margin-top:4px">Review & Verify →</button>
+        </div>
+      </div>
+
+      <div class="queue-item">
+        <div class="q-icon pending">⏳</div>
+        <div class="q-body">
+          <div class="q-title">Agreement #1092 — Celsius · QB Social Media</div>
+          <div class="q-meta">
+            <span>Football · QB #7</span>
+            <span class="source-pill manual">✏ Manual Entry</span>
+            <span>Submitted by S. Kim</span>
+            <span>Executed Oct 30</span>
+          </div>
+          <div style="margin-top:6px;display:inline-flex;align-items:center;gap:5px;background:var(--sky-light);border-radius:5px;padding:4px 9px;font-size:11.5px;color:var(--sky-mid);font-weight:600">
+            ✦ Ready to verify — manually entered by S. Kim
+          </div>
+        </div>
+        <div class="q-actions">
+          <div class="q-val">$35,000</div>
+          <div class="q-date">1 day since execution</div>
+          <button class="btn btn-sm" style="background:var(--sky-light);color:var(--sky-mid);border:1.5px solid rgba(59,130,196,.3);margin-top:4px">Review & Verify →</button>
+        </div>
+      </div>
+
+      <div class="queue-item">
+        <div class="q-icon pending">⏳</div>
+        <div class="q-body">
+          <div class="q-title">Agreement #1093 — New Balance · TE Endorsement</div>
+          <div class="q-meta">
+            <span>Football · TE #34</span>
+            <span class="source-pill upload">📄 Upload + AI</span>
+            <span>Submitted by S. Kim</span>
+            <span>Executed Oct 31</span>
+          </div>
+          <div style="margin-top:6px;display:inline-flex;align-items:center;gap:5px;background:var(--sky-light);border-radius:5px;padding:4px 9px;font-size:11.5px;color:var(--sky-mid);font-weight:600">
+            ✦ Ready to verify — all fields extracted at high confidence
+          </div>
+        </div>
+        <div class="q-actions">
+          <div class="q-val">$41,000</div>
+          <div class="q-date">Today</div>
+          <button class="btn btn-sm" style="background:var(--sky-light);color:var(--sky-mid);border:1.5px solid rgba(59,130,196,.3);margin-top:4px">Review & Verify →</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Policy Checks -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Policy Checks</div>
+          <div class="card-sub">Required fields and submission rules across all active agreements</div>
+        </div>
+        <span class="badge b-red">2 Issues</span>
+      </div>
+      <div class="policy-item">
+        <div class="policy-icon">⛔</div>
+        <div>
+          <div class="policy-title">Missing: Compensation Type</div>
+          <div class="policy-desc">All agreements must specify compensation type (cash, product, mixed, equity, revenue share). <span class="policy-count" style="color:var(--red-dark)">1 agreement affected</span></div>
+        </div>
+      </div>
+      <div class="policy-item">
+        <div class="policy-icon">⛔</div>
+        <div>
+          <div class="policy-title">Missing: Contract End / Expiration Date</div>
+          <div class="policy-desc">A valid expiration date is required for all agreements to support renewal tracking. <span class="policy-count" style="color:var(--red-dark)">1 agreement affected</span></div>
+        </div>
+      </div>
+      <div class="policy-item">
+        <div class="policy-icon">⚠</div>
+        <div>
+          <div class="policy-title">Overdue Submissions (&gt; 7 days from execution)</div>
+          <div class="policy-desc">Agreements should be submitted and verified within 7 days of execution. Overdue agreements are excluded from benchmarking data until verified. <span class="policy-count" style="color:var(--amber-dark)">2 agreements affected</span></div>
+        </div>
+      </div>
+      <div class="policy-item">
+        <div class="policy-icon">✅</div>
+        <div>
+          <div class="policy-title">Total Agreement Value Present</div>
+          <div class="policy-desc">All submitted agreements include a total value. <span class="policy-count" style="color:var(--green-dark)">94 / 94</span></div>
+        </div>
+      </div>
+      <div class="policy-item">
+        <div class="policy-icon">✅</div>
+        <div>
+          <div class="policy-title">Athlete Record Linked</div>
+          <div class="policy-desc">All agreements are linked to a verified athlete record. <span class="policy-count" style="color:var(--green-dark)">94 / 94</span></div>
+        </div>
+      </div>
+      <div class="policy-item">
+        <div class="policy-icon">✅</div>
+        <div>
+          <div class="policy-title">Agreement Type Specified</div>
+          <div class="policy-desc">All submitted agreements include a valid agreement type. <span class="policy-count" style="color:var(--green-dark)">94 / 94</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /left-col -->
+
+  <!-- RIGHT COL -->
+  <div class="right-col">
+
+    <!-- Verification progress gauge -->
+    <div class="card">
+      <div class="card-head"><div class="card-title">Reporting Status</div><span class="badge b-sky">2025–26 AY</span></div>
+      <div class="gauge-wrap">
+        <div class="gauge-ring">
+          <svg width="68" height="68" viewBox="0 0 68 68">
+            <circle cx="34" cy="34" r="26" fill="none" stroke="#dce4ed" stroke-width="7"/>
+            <circle cx="34" cy="34" r="26" fill="none" stroke="#22c55e" stroke-width="7"
+              stroke-dasharray="163.4" stroke-dashoffset="8.5" stroke-linecap="round" id="gaugeCircle"/>
+          </svg>
+          <div class="gauge-center">95%</div>
+        </div>
+        <div class="gauge-info">
+          <div class="gauge-label">94.7% Verified</div>
+          <div class="gauge-sub">89 of 94 agreements verified · 5 need action</div>
+        </div>
+      </div>
+      <div style="padding:0 16px 14px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:var(--green);display:inline-block"></span>Verified</span>
+          <span style="font-family:'DM Mono',monospace;font-weight:600">89</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:var(--sky);display:inline-block"></span>Pending Review</span>
+          <span style="font-family:'DM Mono',monospace;font-weight:600">3</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:var(--amber);display:inline-block"></span>Needs Review</span>
+          <span style="font-family:'DM Mono',monospace;font-weight:600">2</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:50%;background:var(--red);display:inline-block"></span>Overdue (&gt;7 days)</span>
+          <span style="font-family:'DM Mono',monospace;font-weight:600;color:var(--red-dark)">2</span>
+        </div>
+      </div>
+      <!-- 7-day rule callout -->
+      <div class="rule-callout">
+        <div class="rule-callout-icon">📋</div>
+        <div class="rule-callout-text"><strong>7-Day Rule:</strong> All agreements must be submitted and verified within 7 days of execution. Unverified agreements are excluded from benchmarking data until resolved.</div>
+      </div>
+    </div>
+
+    <!-- Expiring Soon (per Matthew's request to add here) -->
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Agreements Expiring Soon</div>
+          <div class="card-sub">Next 60 days</div>
+        </div>
+        <a class="card-link">View All →</a>
+      </div>
+      <div>
+        <div class="expiry-item">
+          <div class="expiry-avatar" style="background:var(--red-dark)">JW</div>
+          <div class="expiry-info">
+            <div class="expiry-name">Athlete #44 · QB · Football</div>
+            <div class="expiry-meta">Nike Endorsement · $350K</div>
+          </div>
+          <div class="expiry-days">
+            <div class="expiry-days-num" style="color:var(--red-dark)">5 days</div>
+            <div class="expiry-days-lbl">remaining</div>
+          </div>
+        </div>
+        <div class="expiry-item">
+          <div class="expiry-avatar" style="background:var(--red-dark)">TR</div>
+          <div class="expiry-info">
+            <div class="expiry-name">Athlete #17 · WR · Football</div>
+            <div class="expiry-meta">Gatorade Social Media · $180K</div>
+          </div>
+          <div class="expiry-days">
+            <div class="expiry-days-num" style="color:var(--red-dark)">7 days</div>
+            <div class="expiry-days-lbl">remaining</div>
+          </div>
+        </div>
+        <div class="expiry-item">
+          <div class="expiry-avatar" style="background:var(--amber-dark)">DC</div>
+          <div class="expiry-info">
+            <div class="expiry-name">Athlete #55 · LB · Football</div>
+            <div class="expiry-meta">State Farm Appearance · $72K</div>
+          </div>
+          <div class="expiry-days">
+            <div class="expiry-days-num" style="color:var(--amber-dark)">18 days</div>
+            <div class="expiry-days-lbl">remaining</div>
+          </div>
+        </div>
+        <div class="expiry-item">
+          <div class="expiry-avatar" style="background:var(--amber-dark)">AB</div>
+          <div class="expiry-info">
+            <div class="expiry-name">Athlete #22 · RB · Football</div>
+            <div class="expiry-meta">Adidas Licensing · $120K</div>
+          </div>
+          <div class="expiry-days">
+            <div class="expiry-days-num" style="color:var(--amber-dark)">24 days</div>
+            <div class="expiry-days-lbl">remaining</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audit Log — full, filterable -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Audit Log</div>
+        <button class="btn btn-outline btn-sm">⬇ Export Log</button>
+      </div>
+      <!-- Filter chips -->
+      <div class="audit-filters">
+        <div class="af-chip on">All</div>
+        <div class="af-chip">Verified</div>
+        <div class="af-chip">Needs Review</div>
+        <div class="af-chip">Submissions</div>
+        <div class="af-chip">Edits</div>
+        <div class="af-chip">Exports</div>
+      </div>
+      <div class="audit-list">
+        <div class="audit-item">
+          <div class="audit-dot green"></div>
+          <div class="audit-body">
+            <div class="audit-title">Agreement #1087 verified</div>
+            <div class="audit-detail">QB #44 · Nike · $350K · Verified by J. Williams · Source: Upload + AI</div>
+          </div>
+          <div class="audit-time">Today 9:41 AM</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot sky"></div>
+          <div class="audit-body">
+            <div class="audit-title">Agreement #1093 submitted</div>
+            <div class="audit-detail">TE #34 · New Balance · $41K · Submitted by S. Kim · Source: Upload + AI · Awaiting review</div>
+          </div>
+          <div class="audit-time">Today 8:12 AM</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot red"></div>
+          <div class="audit-body">
+            <div class="audit-title">Agreement #1091 flagged — needs review</div>
+            <div class="audit-detail">WR #83 · Under Armour · Missing: compensation type · Now 9 days overdue</div>
+          </div>
+          <div class="audit-time">Yesterday 4:30 PM</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot sky"></div>
+          <div class="audit-body">
+            <div class="audit-title">Agreement #1092 submitted</div>
+            <div class="audit-detail">QB #7 · Celsius · $35K · Submitted by S. Kim · Source: Manual Entry · Awaiting review</div>
+          </div>
+          <div class="audit-time">Yesterday 2:15 PM</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot green"></div>
+          <div class="audit-body">
+            <div class="audit-title">Agreement #1086 verified</div>
+            <div class="audit-detail">RB #22 · Adidas · $120K · Verified by T. Roberts · Source: Upload + AI</div>
+          </div>
+          <div class="audit-time">2 days ago</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot amber"></div>
+          <div class="audit-body">
+            <div class="audit-title">Agreement #1080 edited post-verification</div>
+            <div class="audit-detail">Guaranteed value corrected $80K → $100K · Edited by J. Williams · Re-verification required</div>
+          </div>
+          <div class="audit-time">3 days ago</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot sky"></div>
+          <div class="audit-body">
+            <div class="audit-title">Agreement #1088 submitted</div>
+            <div class="audit-detail">LB #55 · State Farm · $72K · Submitted by T. Roberts · Source: Upload + AI · Awaiting review</div>
+          </div>
+          <div class="audit-time">3 days ago</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot gray"></div>
+          <div class="audit-body">
+            <div class="audit-title">Benchmark report exported — Football 2025–26</div>
+            <div class="audit-detail">Downloaded by M. Johnson · Analytics User · CSV format</div>
+          </div>
+          <div class="audit-time">4 days ago</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot green"></div>
+          <div class="audit-body">
+            <div class="audit-title">Agreement #1083 verified</div>
+            <div class="audit-detail">WR #17 · Gatorade · $180K · Verified by J. Williams · Source: Upload + AI</div>
+          </div>
+          <div class="audit-time">5 days ago</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-dot navy"></div>
+          <div class="audit-body">
+            <div class="audit-title">User invited — Dana Lee</div>
+            <div class="audit-detail">Role: Read-Only · Invited by J. Williams · Invitation pending acceptance</div>
+          </div>
+          <div class="audit-time">6 days ago</div>
+        </div>
+      </div>
+      <div style="padding:10px 16px;border-top:1px solid var(--border);text-align:center">
+        <a style="font-size:12.5px;color:var(--sky);font-weight:600;cursor:pointer">Load more entries ↓</a>
+      </div>
+    </div>
+
+  </div><!-- /right-col -->
+
+</div><!-- /page-layout -->
+
+<script>
+// Animate stat bars
+document.querySelectorAll('.stat-bar-fill').forEach((b,i)=>{
+  const w=b.style.width;b.style.width='0';
+  b.style.transition='width 0.55s cubic-bezier(.34,1.2,.64,1)';
+  setTimeout(()=>b.style.width=w,100+i*80);
+});
+// Animate gauge
+const gc=document.getElementById('gaugeCircle');
+if(gc){
+  gc.style.strokeDashoffset='163.4';
+  gc.style.transition='stroke-dashoffset 1s cubic-bezier(.34,1.2,.64,1)';
+  setTimeout(()=>gc.style.strokeDashoffset='8.5',200);
+}
+// Animate queue items
+document.querySelectorAll('.queue-item').forEach((r,i)=>{
+  r.style.opacity='0';r.style.transform='translateY(4px)';
+  r.style.transition='opacity .3s ease,transform .3s ease';
+  setTimeout(()=>{r.style.opacity='1';r.style.transform='translateY(0)'},60+i*55);
+});
+// Audit filter chips
+document.querySelectorAll('.af-chip').forEach(c=>{
+  c.addEventListener('click',function(){
+    document.querySelectorAll('.af-chip').forEach(x=>x.classList.remove('on'));
+    this.classList.add('on');
+  });
+});
+</script>
+</body>
+</html>
