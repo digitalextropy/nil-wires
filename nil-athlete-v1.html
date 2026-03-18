@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIL Benchmark – Athlete Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f1f38;
+  --navy-mid: #1a3558;
+  --navy-light: #e8edf5;
+  --gold: #e8a020;
+  --gold-light: #fef3dc;
+  --gold-dark: #a06c0e;
+  --sky: #3b82c4;
+  --sky-light: #dbeafe;
+  --border: #dce4ed;
+  --text-1: #0f1f38;
+  --text-2: #4a6480;
+  --text-3: #8fa3b8;
+  --white: #fff;
+  --off-white: #f7f9fc;
+  --surface-2: #f0f4f9;
+  --green: #1a9e5a;
+  --green-light: #e6f7ef;
+  --amber: #d48a0a;
+  --amber-light: #fef3dc;
+  --red: #c0392b;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Outfit', sans-serif; background: var(--off-white); color: var(--text-1); }
+.topnav {
+  background: var(--navy);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; height: 54px; position: sticky; top: 0; z-index: 100;
+}
+.topnav-logo { font-family: 'DM Serif Display', serif; font-size: 18px; color: #fff; text-decoration: none; }
+.topnav-logo span { color: var(--gold); }
+.topnav-links { display: flex; gap: 2px; }
+.topnav-links a {
+  font-size: 12px; color: rgba(255,255,255,0.6);
+  padding: 6px 13px; border-radius: 6px; text-decoration: none;
+  font-weight: 500; letter-spacing: .03em; transition: background .15s, color .15s;
+}
+.topnav-links a:hover { background: rgba(255,255,255,.1); color: #fff; }
+.topnav-links a.active { background: rgba(232,160,32,.15); color: var(--gold); }
+.topnav-back { font-size: 12px; color: rgba(255,255,255,.5); text-decoration: none; display: flex; align-items: center; gap: 5px; margin-right: 16px; }
+.topnav-back:hover { color: rgba(255,255,255,.85); }
+.athlete-header { background: var(--navy); border-bottom: 3px solid var(--gold); padding: 24px 28px 22px; }
+.athlete-header-inner { display: flex; align-items: flex-end; gap: 18px; }
+.avatar {
+  width: 60px; height: 60px; border-radius: 50%; flex-shrink: 0;
+  background: var(--navy-mid); border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--gold);
+}
+.athlete-name { font-family: 'DM Serif Display', serif; font-size: 26px; color: #fff; line-height: 1.1; }
+.athlete-meta { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 7px; }
+.meta-item { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,.55); letter-spacing: .06em; text-transform: uppercase; }
+.meta-item strong { color: var(--gold); font-weight: 500; }
+.header-right { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; padding-bottom: 2px; }
+.status-pill { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; padding: 3px 11px; border-radius: 99px; }
+.pill-active { background: rgba(26,158,90,.2); color: #3ecf82; border: 1px solid rgba(62,207,130,.35); }
+.athlete-id { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(255,255,255,.35); }
+.staff-badge { font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; background: rgba(59,130,196,.25); color: #7eb8f0; border: 1px solid rgba(59,130,196,.4); }
+.page-body { max-width: 1200px; margin: 0 auto; padding: 22px 28px 48px; display: flex; flex-direction: column; gap: 18px; }
+.kpi-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.kpi-card { background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+.kpi-label { font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 8px; }
+.kpi-value { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--text-1); line-height: 1; }
+.kpi-value.gold { color: var(--gold-dark); }
+.kpi-value.green { color: var(--green); }
+.kpi-sub { font-size: 12px; color: var(--text-3); margin-top: 5px; }
+.kpi-delta { font-family: 'DM Mono', monospace; font-size: 11px; margin-top: 5px; }
+.kpi-delta.up { color: var(--green); }
+.card { background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; padding: 18px 20px; overflow: hidden; }
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.card-title { font-size: 11px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: .08em; }
+.card-badge { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 9px; border-radius: 99px; background: var(--gold-light); color: var(--gold-dark); border: 1px solid rgba(232,160,32,.35); }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.col-stack { display: flex; flex-direction: column; gap: 18px; }
+.bench-row { margin-bottom: 15px; }
+.bench-row:last-child { margin-bottom: 0; }
+.bench-top { display: flex; justify-content: space-between; margin-bottom: 5px; }
+.bench-label { font-size: 13px; color: var(--text-1); font-weight: 500; }
+.bench-vals { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-3); }
+.bench-vals strong { color: var(--text-2); }
+.track { height: 8px; background: var(--surface-2); border-radius: 99px; position: relative; overflow: visible; border: 1px solid var(--border); }
+.track-fill { height: 100%; border-radius: 99px; background: var(--navy-light); }
+.athlete-marker { position: absolute; top: -5px; width: 3px; height: 18px; background: var(--navy); border-radius: 2px; transform: translateX(-50%); box-shadow: 0 0 0 2px var(--gold); }
+.bench-legend { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-3); font-family: 'DM Mono', monospace; }
+.leg-swatch { width: 10px; height: 10px; border-radius: 2px; background: var(--navy-light); }
+.leg-marker { width: 3px; height: 14px; border-radius: 2px; background: var(--navy); border: 1.5px solid var(--gold); }
+.donut-wrap { display: flex; align-items: center; gap: 20px; }
+.donut-legend { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.dl-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.dl-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.dl-label { flex: 1; color: var(--text-1); }
+.dl-pct { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3); }
+.elig-row { display: flex; gap: 5px; margin-top: 10px; }
+.elig-pip { flex: 1; height: 7px; border-radius: 99px; }
+.elig-used { background: var(--navy); }
+.elig-remaining { background: var(--gold); }
+.deal-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.deal-table th { font-size: 10px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: .07em; text-align: left; padding: 0 10px 10px; border-bottom: 1.5px solid var(--border); }
+.deal-table td { padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-1); vertical-align: middle; }
+.deal-table tr:last-child td { border-bottom: none; }
+.deal-table tbody tr:hover td { background: var(--off-white); }
+.type-pill { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .05em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; display: inline-block; border: 1px solid; }
+.t-endorse { background: #e8edf5; color: #0f1f38; border-color: #9eb8d4; }
+.t-social { background: var(--gold-light); color: var(--gold-dark); border-color: var(--gold); }
+.t-appear { background: #e6f7ef; color: #0e6637; border-color: #5abf87; }
+.t-camp { background: #fef3dc; color: #8a5200; border-color: #e8a020; }
+.deal-status { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .05em; text-transform: uppercase; }
+.s-active { color: var(--green); }
+.s-complete { color: var(--text-3); }
+.s-pending { color: var(--amber); }
+.conf-wrap { display: flex; align-items: center; gap: 6px; }
+.conf-bar { flex: 1; height: 4px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.conf-fill { height: 100%; border-radius: 99px; }
+.conf-high { background: var(--green); }
+.conf-mid { background: var(--gold); }
+.conf-pct { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-3); white-space: nowrap; }
+.expand-btn { width: 100%; padding: 10px; border: none; cursor: pointer; background: none; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; border-top: 1px solid var(--border); transition: background .15s, color .15s; }
+.expand-btn:hover { background: var(--off-white); color: var(--text-2); }
+.comp-list { display: flex; flex-direction: column; gap: 11px; }
+.comp-item { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.comp-icon { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+.ci-ok { background: var(--green-light); color: var(--green); }
+.ci-warn { background: var(--amber-light); color: var(--amber); }
+.comp-lbl { flex: 1; color: var(--text-1); }
+.comp-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-3); }
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <div style="display:flex;align-items:center;">
+    <a href="index.html" class="topnav-back">← Back</a>
+    <a href="index.html" class="topnav-logo">NIL <span>Benchmark</span></a>
+  </div>
+  <div class="topnav-links">
+    <a href="nil-dashboard-v3.html">Dashboard</a>
+    <a href="nil-agreements-v3.html">Agreements</a>
+    <a href="nil-benchmarks-v3.html">Benchmarks</a>
+    <a href="nil-athlete-v1.html" class="active">Athletes</a>
+    <a href="nil-reporting-v3.html">Reporting</a>
+    <a href="nil-admin-v3.html">Admin</a>
+  </div>
+</nav>
+<div class="athlete-header">
+  <div class="athlete-header-inner">
+    <div class="avatar">MJ</div>
+    <div style="flex:1;">
+      <div class="athlete-name">Marcus Johnson</div>
+      <div class="athlete-meta">
+        <div class="meta-item">Sport: <strong>Football</strong></div>
+        <div class="meta-item">Position: <strong>WR</strong></div>
+        <div class="meta-item">Eligibility year: <strong>3 of 5</strong></div>
+        <div class="meta-item">Reporting period: <strong>2024–25</strong></div>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="staff-badge">Staff view only</span>
+      <span class="status-pill pill-active">Active</span>
+      <span class="athlete-id">ATH-00441</span>
+    </div>
+  </div>
+</div>
+<div class="page-body">
+  <div class="kpi-row">
+    <div class="kpi-card"><div class="kpi-label">Total NIL value</div><div class="kpi-value gold">$84,500</div><div class="kpi-sub">Current period</div></div>
+    <div class="kpi-card"><div class="kpi-label">Active deals</div><div class="kpi-value">4</div><div class="kpi-delta up">↑ +2 vs. prior period</div></div>
+    <div class="kpi-card"><div class="kpi-label">vs. School avg (WR)</div><div class="kpi-value green">+34%</div><div class="kpi-delta up">Above peer median</div></div>
+    <div class="kpi-card"><div class="kpi-label">Compliance status</div><div class="kpi-value green" style="font-size:20px;padding-top:3px;">Certified</div><div class="kpi-sub">Last cert. Jan 14, 2025</div></div>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header"><span class="card-title">NIL benchmarks — WR position</span><span class="card-badge">2024–25</span></div>
+      <div class="bench-row"><div class="bench-top"><span class="bench-label">This school</span><span class="bench-vals"><strong>$84,500</strong> vs. $63,100 avg</span></div><div class="track"><div class="track-fill" style="width:67%;"></div><div class="athlete-marker" style="left:67%;"></div></div></div>
+      <div class="bench-row"><div class="bench-top"><span class="bench-label">Conference</span><span class="bench-vals"><strong>$84,500</strong> vs. $71,400 avg</span></div><div class="track"><div class="track-fill" style="width:55%;"></div><div class="athlete-marker" style="left:55%;"></div></div></div>
+      <div class="bench-row"><div class="bench-top"><span class="bench-label">Division</span><span class="bench-vals"><strong>$84,500</strong> vs. $58,200 avg</span></div><div class="track"><div class="track-fill" style="width:72%;"></div><div class="athlete-marker" style="left:72%;"></div></div></div>
+      <div class="bench-row"><div class="bench-top"><span class="bench-label">Sport (all positions)</span><span class="bench-vals"><strong>$84,500</strong> vs. $47,900 avg</span></div><div class="track"><div class="track-fill" style="width:88%;"></div><div class="athlete-marker" style="left:88%;"></div></div></div>
+      <div class="bench-legend"><div class="legend-item"><div class="leg-swatch"></div> Group average</div><div class="legend-item"><div class="leg-marker"></div> This athlete</div></div>
+    </div>
+    <div class="col-stack">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Deal type mix</span></div>
+        <div class="donut-wrap">
+          <svg width="88" height="88" viewBox="0 0 88 88" style="flex-shrink:0;">
+            <circle cx="44" cy="44" r="32" fill="none" stroke="#e8edf5" stroke-width="16"/>
+            <circle cx="44" cy="44" r="32" fill="none" stroke="#0f1f38" stroke-width="16" stroke-dasharray="84.5 201.1" stroke-dashoffset="0" transform="rotate(-90 44 44)"/>
+            <circle cx="44" cy="44" r="32" fill="none" stroke="#e8a020" stroke-width="16" stroke-dasharray="56.3 201.1" stroke-dashoffset="-84.5" transform="rotate(-90 44 44)"/>
+            <circle cx="44" cy="44" r="32" fill="none" stroke="#5abf87" stroke-width="16" stroke-dasharray="36.2 201.1" stroke-dashoffset="-140.8" transform="rotate(-90 44 44)"/>
+            <circle cx="44" cy="44" r="32" fill="none" stroke="#f0a62c" stroke-width="16" stroke-dasharray="24.1 201.1" stroke-dashoffset="-177" transform="rotate(-90 44 44)"/>
+            <text x="44" y="41" text-anchor="middle" font-size="14" font-weight="700" fill="#0f1f38" font-family="serif">4</text>
+            <text x="44" y="54" text-anchor="middle" font-size="9" fill="#8fa3b8" font-family="monospace">deals</text>
+          </svg>
+          <div class="donut-legend">
+            <div class="dl-row"><div class="dl-swatch" style="background:#0f1f38;"></div><span class="dl-label">Endorsement</span><span class="dl-pct">42%</span></div>
+            <div class="dl-row"><div class="dl-swatch" style="background:#e8a020;"></div><span class="dl-label">Social media</span><span class="dl-pct">28%</span></div>
+            <div class="dl-row"><div class="dl-swatch" style="background:#5abf87;"></div><span class="dl-label">Appearance</span><span class="dl-pct">18%</span></div>
+            <div class="dl-row"><div class="dl-swatch" style="background:#f0a62c;"></div><span class="dl-label">Camp / clinic</span><span class="dl-pct">12%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Eligibility remaining</span><span class="card-badge">Year 3 of 5</span></div>
+        <div style="display:flex;align-items:baseline;gap:10px;"><span style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--text-1);">2 years left</span></div>
+        <div class="elig-row"><div class="elig-pip elig-used"></div><div class="elig-pip elig-used"></div><div class="elig-pip elig-used"></div><div class="elig-pip elig-remaining"></div><div class="elig-pip elig-remaining"></div></div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:8px;font-family:'DM Mono',monospace;"><span style="color:var(--navy);">■</span> Used &nbsp;<span style="color:var(--gold);">■</span> Remaining</div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="padding:0;">
+    <div style="padding:18px 20px 14px;"><div class="card-header" style="margin-bottom:0;"><span class="card-title">Deal history</span><div style="display:flex;align-items:center;gap:10px;"><span class="card-badge">2024–25</span><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);">4 deals · $84,500 total</span></div></div></div>
+    <table class="deal-table">
+      <thead><tr><th>Brand / sponsor</th><th>Type</th><th>Guaranteed</th><th>Performance</th><th>Total value</th><th>Period</th><th>Status</th><th>AI confidence</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:600;">Nike Athlete Program</td><td><span class="type-pill t-endorse">Endorsement</span></td><td style="font-family:'DM Mono',monospace;font-size:12px;">$30,000</td><td style="font-family:'DM Mono',monospace;font-size:12px;">$5,000</td><td style="font-family:'DM Mono',monospace;font-size:13px;font-weight:600;">$35,000</td><td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);">Aug 24 – Jul 25</td><td><span class="deal-status s-active">Active</span></td><td><div class="conf-wrap"><div class="conf-bar"><div class="conf-fill conf-high" style="width:94%;"></div></div><span class="conf-pct">94%</span></div></td></tr>
+        <tr><td style="font-weight:600;">Regional Auto Group</td><td><span class="type-pill t-social">Social media</span></td><td style="font-family:'DM Mono',monospace;font-size:12px;">$18,000</td><td style="font-family:'DM Mono',monospace;font-size:12px;">$6,500</td><td style="font-family:'DM Mono',monospace;font-size:13px;font-weight:600;">$24,500</td><td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);">Sep – Dec 2024</td><td><span class="deal-status s-complete">Complete</span></td><td><div class="conf-wrap"><div class="conf-bar"><div class="conf-fill conf-high" style="width:87%;"></div></div><span class="conf-pct">87%</span></div></td></tr>
+        <tr><td style="font-weight:600;">Alumni Booster Event</td><td><span class="type-pill t-appear">Appearance</span></td><td style="font-family:'DM Mono',monospace;font-size:12px;">$15,000</td><td style="font-family:'DM Mono',monospace;font-size:12px;">$0</td><td style="font-family:'DM Mono',monospace;font-size:13px;font-weight:600;">$15,000</td><td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);">Mar 2025</td><td><span class="deal-status s-active">Active</span></td><td><div class="conf-wrap"><div class="conf-bar"><div class="conf-fill conf-high" style="width:98%;"></div></div><span class="conf-pct">98%</span></div></td></tr>
+        <tr><td style="font-weight:600;">Regional Sports Clinic</td><td><span class="type-pill t-camp">Camp / clinic</span></td><td style="font-family:'DM Mono',monospace;font-size:12px;">$10,000</td><td style="font-family:'DM Mono',monospace;font-size:12px;">$0</td><td style="font-family:'DM Mono',monospace;font-size:13px;font-weight:600;">$10,000</td><td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);">Jun 2025</td><td><span class="deal-status s-pending">Pending</span></td><td><div class="conf-wrap"><div class="conf-bar"><div class="conf-fill conf-mid" style="width:61%;"></div></div><span class="conf-pct">61%</span></div></td></tr>
+      </tbody>
+    </table>
+    <button class="expand-btn" onclick="this.textContent=this.textContent.includes('Show')?'Hide prior periods ↑':'Show prior periods ↓'">Show prior periods ↓</button>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Compliance &amp; certification</span></div>
+      <div class="comp-list">
+        <div class="comp-item"><div class="comp-icon ci-ok">✓</div><span class="comp-lbl">NIL certification signed</span><span class="comp-date">Jan 14, 2025</span></div>
+        <div class="comp-item"><div class="comp-icon ci-ok">✓</div><span class="comp-lbl">Deal disclosures submitted</span><span class="comp-date">4 of 4</span></div>
+        <div class="comp-item"><div class="comp-icon ci-ok">✓</div><span class="comp-lbl">Academic eligibility confirmed</span><span class="comp-date">Fall 2024</span></div>
+        <div class="comp-item"><div class="comp-icon ci-warn">!</div><span class="comp-lbl">Spring certification pending</span><span class="comp-date">Due Mar 31</span></div>
+        <div class="comp-item"><div class="comp-icon ci-ok">✓</div><span class="comp-lbl">Agent registration on file</span><span class="comp-date">Aug 2024</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Period-over-period trend</span><span class="card-badge">WR — this athlete vs. school avg</span></div>
+      <svg viewBox="0 0 420 160" width="100%" style="display:block;">
+        <line x1="48" y1="12" x2="48" y2="118" stroke="#dce4ed" stroke-width="1"/>
+        <line x1="48" y1="118" x2="412" y2="118" stroke="#dce4ed" stroke-width="1"/>
+        <line x1="48" y1="18" x2="412" y2="18" stroke="#dce4ed" stroke-width="0.5" stroke-dasharray="3,4"/>
+        <line x1="48" y1="48" x2="412" y2="48" stroke="#dce4ed" stroke-width="0.5" stroke-dasharray="3,4"/>
+        <line x1="48" y1="78" x2="412" y2="78" stroke="#dce4ed" stroke-width="0.5" stroke-dasharray="3,4"/>
+        <line x1="48" y1="108" x2="412" y2="108" stroke="#dce4ed" stroke-width="0.5" stroke-dasharray="3,4"/>
+        <text x="42" y="21" text-anchor="end" font-size="9" fill="#8fa3b8" font-family="monospace">$90k</text>
+        <text x="42" y="51" text-anchor="end" font-size="9" fill="#8fa3b8" font-family="monospace">$60k</text>
+        <text x="42" y="81" text-anchor="end" font-size="9" fill="#8fa3b8" font-family="monospace">$30k</text>
+        <text x="42" y="111" text-anchor="end" font-size="9" fill="#8fa3b8" font-family="monospace">$0</text>
+        <text x="114" y="134" text-anchor="middle" font-size="9" fill="#8fa3b8" font-family="monospace">2022–23</text>
+        <text x="230" y="134" text-anchor="middle" font-size="9" fill="#8fa3b8" font-family="monospace">2023–24</text>
+        <text x="346" y="134" text-anchor="middle" font-size="9" fill="#8fa3b8" font-family="monospace">2024–25</text>
+        <rect x="72" y="83" width="36" height="35" fill="#c5d3e8" rx="3"/>
+        <rect x="110" y="72" width="36" height="46" fill="#e2eaf5" rx="3"/>
+        <rect x="188" y="53" width="36" height="65" fill="#7a9dc5" rx="3"/>
+        <rect x="226" y="58" width="36" height="60" fill="#e2eaf5" rx="3"/>
+        <rect x="304" y="15" width="36" height="103" fill="#0f1f38" rx="3"/>
+        <rect x="342" y="40" width="36" height="78" fill="#e2eaf5" rx="3"/>
+        <text x="90" y="80" text-anchor="middle" font-size="9" fill="#4a6480" font-family="monospace">$31k</text>
+        <text x="206" y="50" text-anchor="middle" font-size="9" fill="#4a6480" font-family="monospace">$52k</text>
+        <text x="322" y="12" text-anchor="middle" font-size="9" fill="#0f1f38" font-family="monospace" font-weight="500">$85k</text>
+        <rect x="55" y="146" width="10" height="10" fill="#0f1f38" rx="2"/>
+        <text x="69" y="155" font-size="9" fill="#8fa3b8" font-family="monospace">This athlete</text>
+        <rect x="155" y="146" width="10" height="10" fill="#e2eaf5" rx="2" stroke="#dce4ed" stroke-width="1"/>
+        <text x="169" y="155" font-size="9" fill="#8fa3b8" font-family="monospace">School avg (WR)</text>
+      </svg>
+    </div>
+  </div>
+</div>
+</body>
+</html>
