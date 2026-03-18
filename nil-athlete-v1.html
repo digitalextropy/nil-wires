@@ -80,29 +80,39 @@ body { font-family: 'Outfit', sans-serif; background: var(--off-white); color: v
 .card-badge { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 9px; border-radius: 99px; background: var(--gold-light); color: var(--gold-dark); border: 1px solid rgba(232,160,32,.35); }
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .col-stack { display: flex; flex-direction: column; gap: 18px; }
-.bench-row { margin-bottom: 15px; }
-.bench-row:last-child { margin-bottom: 0; }
-.bench-top { display: flex; justify-content: space-between; margin-bottom: 5px; }
+
+/* ── Option A benchmark: paired bars ── */
+.bench-row { margin-bottom: 14px; }
+.bench-row:last-of-type { margin-bottom: 0; }
+.bench-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
 .bench-label { font-size: 13px; color: var(--text-1); font-weight: 500; }
 .bench-vals { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-3); }
 .bench-vals strong { color: var(--text-2); }
-.track { height: 8px; background: var(--surface-2); border-radius: 99px; position: relative; overflow: visible; border: 1px solid var(--border); }
-.track-fill { height: 100%; border-radius: 99px; background: var(--navy-light); }
-.athlete-marker { position: absolute; top: -5px; width: 3px; height: 18px; background: var(--navy); border-radius: 2px; transform: translateX(-50%); box-shadow: 0 0 0 2px var(--gold); }
-.bench-legend { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
-.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-3); font-family: 'DM Mono', monospace; }
-.leg-swatch { width: 10px; height: 10px; border-radius: 2px; background: var(--navy-light); }
-.leg-marker { width: 3px; height: 14px; border-radius: 2px; background: var(--navy); border: 1.5px solid var(--gold); }
+.bench-pair { display: flex; flex-direction: column; gap: 3px; }
+.bench-bar-row { display: flex; align-items: center; gap: 7px; }
+.bench-bar-lbl { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-3); width: 46px; text-align: right; flex-shrink: 0; }
+.bench-track { flex: 1; height: 7px; background: var(--surface-2); border-radius: 99px; overflow: hidden; border: 1px solid var(--border); }
+.bench-fill-ath { height: 100%; border-radius: 99px; background: var(--navy); }
+.bench-fill-avg { height: 100%; border-radius: 99px; background: #9eb8d4; }
+.bench-legend { display: flex; gap: 16px; margin-top: 13px; padding-top: 12px; border-top: 1px solid var(--border); }
+.bench-leg-item { display: flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-3); }
+.bench-leg-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── Donut ── */
 .donut-wrap { display: flex; align-items: center; gap: 20px; }
 .donut-legend { flex: 1; display: flex; flex-direction: column; gap: 8px; }
 .dl-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
 .dl-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
 .dl-label { flex: 1; color: var(--text-1); }
 .dl-pct { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-3); }
+
+/* ── Eligibility ── */
 .elig-row { display: flex; gap: 5px; margin-top: 10px; }
 .elig-pip { flex: 1; height: 7px; border-radius: 99px; }
 .elig-used { background: var(--navy); }
 .elig-remaining { background: var(--gold); }
+
+/* ── Deal table ── */
 .deal-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .deal-table th { font-size: 10px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: .07em; text-align: left; padding: 0 10px 10px; border-bottom: 1.5px solid var(--border); }
 .deal-table td { padding: 10px; border-bottom: 1px solid var(--border); color: var(--text-1); vertical-align: middle; }
@@ -125,6 +135,8 @@ body { font-family: 'Outfit', sans-serif; background: var(--off-white); color: v
 .conf-pct { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-3); white-space: nowrap; }
 .expand-btn { width: 100%; padding: 10px; border: none; cursor: pointer; background: none; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; border-top: 1px solid var(--border); transition: background .15s, color .15s; }
 .expand-btn:hover { background: var(--off-white); color: var(--text-2); }
+
+/* ── Compliance ── */
 .comp-list { display: flex; flex-direction: column; gap: 11px; }
 .comp-item { display: flex; align-items: center; gap: 10px; font-size: 13px; }
 .comp-icon { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
@@ -135,6 +147,7 @@ body { font-family: 'Outfit', sans-serif; background: var(--off-white); color: v
 </style>
 </head>
 <body>
+
 <nav class="topnav">
   <div style="display:flex;align-items:center;">
     <a href="index.html" class="topnav-back">← Back</a>
@@ -149,6 +162,7 @@ body { font-family: 'Outfit', sans-serif; background: var(--off-white); color: v
     <a href="nil-admin-v3.html">Admin</a>
   </div>
 </nav>
+
 <div class="athlete-header">
   <div class="athlete-header-inner">
     <div class="avatar">MJ</div>
@@ -168,23 +182,76 @@ body { font-family: 'Outfit', sans-serif; background: var(--off-white); color: v
     </div>
   </div>
 </div>
+
 <div class="page-body">
+
   <div class="kpi-row">
     <div class="kpi-card"><div class="kpi-label">Total NIL value</div><div class="kpi-value gold">$84,500</div><div class="kpi-sub">Current period</div></div>
     <div class="kpi-card"><div class="kpi-label">Active deals</div><div class="kpi-value">4</div><div class="kpi-delta up">↑ +2 vs. prior period</div></div>
     <div class="kpi-card"><div class="kpi-label">vs. School avg (WR)</div><div class="kpi-value green">+34%</div><div class="kpi-delta up">Above peer median</div></div>
     <div class="kpi-card"><div class="kpi-label">Compliance status</div><div class="kpi-value green" style="font-size:20px;padding-top:3px;">Certified</div><div class="kpi-sub">Last cert. Jan 14, 2025</div></div>
   </div>
+
   <div class="two-col">
+
     <div class="card">
-      <div class="card-header"><span class="card-title">NIL benchmarks — WR position</span><span class="card-badge">2024–25</span></div>
-      <div class="bench-row"><div class="bench-top"><span class="bench-label">This school</span><span class="bench-vals"><strong>$84,500</strong> vs. $63,100 avg</span></div><div class="track"><div class="track-fill" style="width:67%;"></div><div class="athlete-marker" style="left:67%;"></div></div></div>
-      <div class="bench-row"><div class="bench-top"><span class="bench-label">Conference</span><span class="bench-vals"><strong>$84,500</strong> vs. $71,400 avg</span></div><div class="track"><div class="track-fill" style="width:55%;"></div><div class="athlete-marker" style="left:55%;"></div></div></div>
-      <div class="bench-row"><div class="bench-top"><span class="bench-label">Division</span><span class="bench-vals"><strong>$84,500</strong> vs. $58,200 avg</span></div><div class="track"><div class="track-fill" style="width:72%;"></div><div class="athlete-marker" style="left:72%;"></div></div></div>
-      <div class="bench-row"><div class="bench-top"><span class="bench-label">Sport (all positions)</span><span class="bench-vals"><strong>$84,500</strong> vs. $47,900 avg</span></div><div class="track"><div class="track-fill" style="width:88%;"></div><div class="athlete-marker" style="left:88%;"></div></div></div>
-      <div class="bench-legend"><div class="legend-item"><div class="leg-swatch"></div> Group average</div><div class="legend-item"><div class="leg-marker"></div> This athlete</div></div>
+      <div class="card-header">
+        <span class="card-title">NIL benchmarks — WR position</span>
+        <span class="card-badge">2024–25</span>
+      </div>
+
+      <div class="bench-row">
+        <div class="bench-top">
+          <span class="bench-label">This school</span>
+          <span class="bench-vals"><strong>$84,500</strong> vs. $63,100 avg</span>
+        </div>
+        <div class="bench-pair">
+          <div class="bench-bar-row"><span class="bench-bar-lbl">Athlete</span><div class="bench-track"><div class="bench-fill-ath" style="width:94%;"></div></div></div>
+          <div class="bench-bar-row"><span class="bench-bar-lbl">Avg</span><div class="bench-track"><div class="bench-fill-avg" style="width:70%;"></div></div></div>
+        </div>
+      </div>
+
+      <div class="bench-row">
+        <div class="bench-top">
+          <span class="bench-label">Conference</span>
+          <span class="bench-vals"><strong>$84,500</strong> vs. $71,400 avg</span>
+        </div>
+        <div class="bench-pair">
+          <div class="bench-bar-row"><span class="bench-bar-lbl">Athlete</span><div class="bench-track"><div class="bench-fill-ath" style="width:94%;"></div></div></div>
+          <div class="bench-bar-row"><span class="bench-bar-lbl">Avg</span><div class="bench-track"><div class="bench-fill-avg" style="width:79%;"></div></div></div>
+        </div>
+      </div>
+
+      <div class="bench-row">
+        <div class="bench-top">
+          <span class="bench-label">Division</span>
+          <span class="bench-vals"><strong>$84,500</strong> vs. $58,200 avg</span>
+        </div>
+        <div class="bench-pair">
+          <div class="bench-bar-row"><span class="bench-bar-lbl">Athlete</span><div class="bench-track"><div class="bench-fill-ath" style="width:94%;"></div></div></div>
+          <div class="bench-bar-row"><span class="bench-bar-lbl">Avg</span><div class="bench-track"><div class="bench-fill-avg" style="width:65%;"></div></div></div>
+        </div>
+      </div>
+
+      <div class="bench-row">
+        <div class="bench-top">
+          <span class="bench-label">Sport (all positions)</span>
+          <span class="bench-vals"><strong>$84,500</strong> vs. $47,900 avg</span>
+        </div>
+        <div class="bench-pair">
+          <div class="bench-bar-row"><span class="bench-bar-lbl">Athlete</span><div class="bench-track"><div class="bench-fill-ath" style="width:94%;"></div></div></div>
+          <div class="bench-bar-row"><span class="bench-bar-lbl">Avg</span><div class="bench-track"><div class="bench-fill-avg" style="width:53%;"></div></div></div>
+        </div>
+      </div>
+
+      <div class="bench-legend">
+        <div class="bench-leg-item"><div class="bench-leg-swatch" style="background:var(--navy);"></div> This athlete</div>
+        <div class="bench-leg-item"><div class="bench-leg-swatch" style="background:#9eb8d4;"></div> Group average</div>
+      </div>
     </div>
+
     <div class="col-stack">
+
       <div class="card">
         <div class="card-header"><span class="card-title">Deal type mix</span></div>
         <div class="donut-wrap">
@@ -205,14 +272,17 @@ body { font-family: 'Outfit', sans-serif; background: var(--off-white); color: v
           </div>
         </div>
       </div>
+
       <div class="card">
         <div class="card-header"><span class="card-title">Eligibility remaining</span><span class="card-badge">Year 3 of 5</span></div>
         <div style="display:flex;align-items:baseline;gap:10px;"><span style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--text-1);">2 years left</span></div>
         <div class="elig-row"><div class="elig-pip elig-used"></div><div class="elig-pip elig-used"></div><div class="elig-pip elig-used"></div><div class="elig-pip elig-remaining"></div><div class="elig-pip elig-remaining"></div></div>
         <div style="font-size:11px;color:var(--text-3);margin-top:8px;font-family:'DM Mono',monospace;"><span style="color:var(--navy);">■</span> Used &nbsp;<span style="color:var(--gold);">■</span> Remaining</div>
       </div>
+
     </div>
   </div>
+
   <div class="card" style="padding:0;">
     <div style="padding:18px 20px 14px;"><div class="card-header" style="margin-bottom:0;"><span class="card-title">Deal history</span><div style="display:flex;align-items:center;gap:10px;"><span class="card-badge">2024–25</span><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);">4 deals · $84,500 total</span></div></div></div>
     <table class="deal-table">
@@ -226,6 +296,7 @@ body { font-family: 'Outfit', sans-serif; background: var(--off-white); color: v
     </table>
     <button class="expand-btn" onclick="this.textContent=this.textContent.includes('Show')?'Hide prior periods ↑':'Show prior periods ↓'">Show prior periods ↓</button>
   </div>
+
   <div class="two-col">
     <div class="card">
       <div class="card-header"><span class="card-title">Compliance &amp; certification</span></div>
@@ -269,6 +340,7 @@ body { font-family: 'Outfit', sans-serif; background: var(--off-white); color: v
       </svg>
     </div>
   </div>
+
 </div>
 </body>
 </html>
