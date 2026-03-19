@@ -218,24 +218,38 @@ col.c-act{width:5%}
 .cert-cb{width:15px;height:15px;border-radius:3px;background:var(--sky);display:flex;align-items:center;justify-content:center;color:white;font-size:9px;flex-shrink:0;margin-top:2px}
 
 .modal-footer{padding:13px 28px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--white);position:sticky;bottom:0}
-</style>
+
+  .nav-tier-pill { font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:99px;flex-shrink:0; }
+  .nav-tier-pill.premium { background:rgba(232,160,32,.2);color:var(--gold);border:1px solid rgba(232,160,32,.4); }
+  .nav-tier-pill.basic { background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2); }
+  a.nav-logo { text-decoration:none; } a.nav-logo:hover { opacity:.85; }
+  .nav-left { display:flex;align-items:center;gap:10px;flex-shrink:0; }
+  .nav-links a.nav-link { text-decoration:none; }
+  .nav-link.locked { color:rgba(255,255,255,.22)!important;pointer-events:none;display:flex;align-items:center;gap:5px; }
+  .nav-premium-tag { font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.07);color:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.1);padding:1px 5px;border-radius:3px; }
+  .nav-avatar.basic { background:rgba(255,255,255,.15);color:rgba(255,255,255,.7); }
+
+  </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-logo">NIL <span>Benchmark</span></div>
-  <div class="nav-links">
-    <div class="nav-link">Dashboard</div>
-    <div class="nav-link active">Agreements</div>
-    <div class="nav-link">Benchmarks</div>
-    <div class="nav-link">Reporting</div>
-    <div class="nav-link">Admin</div>
-  </div>
-  <div class="nav-user">
-    <div><span class="nav-school">Your University</span><span class="nav-role">Athletic Director</span></div>
-    <div class="nav-avatar">AD</div>
-  </div>
-</nav>
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo">NIL <span>Benchmark</span></a>
+      <span class="nav-tier-pill premium">Premium</span>
+    </div>
+    <div class="nav-links">
+      <a href="nil-athletes-v1.html" class="nav-link active">Athletes</a>
+      <a href="nil-benchmarks-v3.html" class="nav-link">Benchmarks</a>
+      <a href="nil-budget-v1.html" class="nav-link">Budget</a>
+      <a href="nil-reporting-v3.html" class="nav-link">Reporting</a>
+      <a href="nil-admin-v4.html" class="nav-link">Admin</a>
+    </div>
+    <div class="nav-user">
+      <div><span class="nav-school">Your University</span><span class="nav-role">Athletic Director</span></div>
+      <div class="nav-avatar">AD</div>
+    </div>
+  </nav>
 
 <div class="page-header">
   <div>
