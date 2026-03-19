@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NIL Benchmark – Athletes (Premium)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:'Outfit',sans-serif;background:#f7f9fc;color:#0f1f38;min-height:100vh;-webkit-font-smoothing:antialiased}nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;position:sticky;top:0;z-index:200;border-bottom:2px solid #e8a020;}.nav-left{display:flex;align-items:center;gap:10px;}.nav-logo{font-family:Georgia,serif;font-size:17px;color:#fff;text-decoration:none;flex-shrink:0;}.nav-logo span{color:#e8a020;}.nav-logo:hover{opacity:.85;}.pill-premium{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(232,160,32,.2);color:#e8a020;border:1px solid rgba(232,160,32,.4);padding:2px 8px;border-radius:99px;}.nav-links{display:flex;gap:2px;}.nav-links a{font-size:12px;color:rgba(255,255,255,.55);padding:5px 11px;border-radius:5px;font-weight:500;white-space:nowrap;text-decoration:none;letter-spacing:.04em;text-transform:uppercase;}.nav-links a:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);}.nav-links a.active{background:rgba(232,160,32,.15);color:#e8a020;}.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}.nav-school{font-size:11px;color:rgba(255,255,255,.45);font-family:monospace;text-align:right;line-height:1.3;}.nav-av{width:28px;height:28px;border-radius:50%;background:#e8a020;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#0f1f38;flex-shrink:0;}:root{--navy:#0f1f38;--gold:#e8a020;--sky:#3b82c4;--green-dk:#16a34a;--red:#ef4444;--red-dk:#dc2626;--amber-dk:#d97706;--border:#dce4ed;--text2:#4a6480;--text3:#8fa3b8;--off:#f7f9fc;}.body{max-width:1340px;margin:0 auto;padding:18px 28px 48px;}.pg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}.pg-title{font-family:'DM Serif Display',Georgia,serif;font-size:22px;color:var(--navy);}.period-badge{font-size:11px;font-family:monospace;background:#fef3dc;color:#a06c0e;border:1px solid rgba(232,160,32,.35);padding:3px 10px;border-radius:99px;}.conf-badge{font-size:11px;font-family:monospace;background:#e8edf5;color:#1a3558;border:1px solid #9eb8d4;padding:3px 10px;border-radius:99px;}.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px;}.kpi{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;}.kpi-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}.kpi-val{font-family:'DM Serif Display',Georgia,serif;font-size:22px;line-height:1;color:var(--navy);}.kpi-meta{font-size:11px;color:var(--text3);margin-top:5px;font-family:monospace;}.kpi-meta.up{color:var(--green-dk);}.kpi-meta.gold{color:#a06c0e;}.tab-strip{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:14px;}.tab{font-size:13px;font-weight:500;padding:10px 20px;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;margin-bottom:-2px;}.tab.active{color:var(--navy);border-bottom-color:var(--navy);font-weight:600;}.tab-badge{font-family:monospace;font-size:10px;background:#f0f4f9;color:var(--text3);padding:1px 6px;border-radius:99px;margin-left:5px;}.status-tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}.stab{font-size:11px;font-family:monospace;padding:4px 12px;border-radius:99px;border:1.5px solid var(--border);background:#fff;color:var(--text2);cursor:pointer;}.stab.on{background:var(--navy);border-color:var(--navy);color:#fff;}.filter-row{display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap;}.search{padding:6px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:12px;font-family:inherit;color:var(--text2);background:#fff;width:160px;}.fsel{padding:6px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:12px;color:var(--text2);background:#fff;font-family:inherit;}.prem-filter{padding:6px 10px;border:1.5px solid rgba(232,160,32,.4);border-radius:7px;font-size:12px;color:#a06c0e;background:#fffbf0;font-family:inherit;}.roster{border:1.5px solid var(--border);border-radius:10px;overflow:hidden;background:#fff;}.roster-head{display:grid;grid-template-columns:2.5fr 1.1fr 1fr 1fr 1fr 1fr 28px;gap:10px;padding:8px 16px;background:#f0f4f9;border-bottom:1.5px solid var(--border);}.rh{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;}.rh.sorted{color:var(--navy);}.ath-row{border-bottom:1px solid var(--border);}.ath-row:last-child{border-bottom:none;}.ath-summary{display:grid;grid-template-columns:2.5fr 1.1fr 1fr 1fr 1fr 1fr 28px;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;transition:background .12s;}.ath-summary:hover{background:#f7f9fc;}.ath-summary.open{background:#f0f4f9;}.ath-cell{display:flex;align-items:center;gap:10px;}.ath-av{width:34px;height:34px;border-radius:50%;background:#e8edf5;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text2);flex-shrink:0;border:1.5px solid var(--border);}.ath-name{font-weight:600;font-size:14px;color:var(--sky);text-decoration:underline;cursor:pointer;}.ath-meta{font-family:monospace;font-size:10px;color:var(--text3);margin-top:1px;}.pill{font-family:monospace;font-size:10px;padding:2px 8px;border-radius:99px;border:1px solid;display:inline-block;}.p-active{background:#e6f7ef;color:#0e6637;border-color:#5abf87;}.p-expiring{background:#fff0ee;color:#7a1f1f;border-color:#e8a0a0;}.p-pending{background:#fef3dc;color:#a06c0e;border-color:#e8a020;}.chev{font-size:12px;color:var(--text3);transition:transform .2s;text-align:center;}.chev.open{transform:rotate(180deg);}.above-avg{font-family:monospace;font-size:11px;color:#a06c0e;background:#fef3dc;border:1px solid rgba(232,160,32,.35);padding:1px 7px;border-radius:99px;}.delta-up{display:inline-flex;align-items:center;gap:3px;background:#dcfce7;color:var(--green-dk);border-radius:99px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:monospace;}.ath-detail{display:none;background:#f7f9fc;border-top:1px solid var(--border);padding:16px 16px 16px 60px;}.ath-detail.open{display:block;}.detail-grid{display:grid;grid-template-columns:1fr 1fr 1fr 400px;gap:14px;}.dc{background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:12px 14px;}.dc-title{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}.deal-mini{width:100%;border-collapse:collapse;font-size:12px;}.deal-mini td{padding:5px 0;border-bottom:1px solid #f0f4f9;vertical-align:middle;}.deal-mini tr:last-child td{border-bottom:none;}.deal-brand{font-weight:500;color:var(--navy);}.deal-type{font-family:monospace;font-size:10px;color:var(--text3);}.deal-val{font-family:monospace;font-size:12px;color:var(--text2);text-align:right;}.ci-ok{width:18px;height:18px;border-radius:50%;background:#e6f7ef;color:#0e6637;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}.ci-warn{width:18px;height:18px;border-radius:50%;background:#fef3dc;color:#a06c0e;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}.bench-panel{background:#0f1f38;border-radius:8px;padding:14px 16px;}.bp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}.bp-title{font-family:'DM Serif Display',Georgia,serif;font-size:14px;color:#fff;}.bp-sub{font-size:11px;color:rgba(255,255,255,.5);font-family:monospace;margin-top:1px;}.bp-prem{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(232,160,32,.2);color:#e8a020;border:1px solid rgba(232,160,32,.4);padding:1px 6px;border-radius:3px;}.bp-rows{display:flex;flex-direction:column;gap:0;}.bp-row{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07);}.bp-row:last-child{border-bottom:none;}.bp-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;}.bp-bars{display:flex;flex-direction:column;gap:3px;margin-bottom:3px;}.bp-bar{height:7px;border-radius:3px;}.bp-bar.athlete{background:#e8a020;}.bp-bar.avg{background:rgba(255,255,255,.2);}.bp-vals{display:flex;justify-content:space-between;font-family:monospace;font-size:11px;}.bp-val-ath{color:#e8a020;font-weight:600;}.bp-val-avg{color:rgba(255,255,255,.4);}.bp-delta-up{background:rgba(232,160,32,.2);color:#e8a020;border-radius:99px;padding:1px 6px;font-size:10px;font-family:monospace;font-weight:700;}.bp-footer{margin-top:10px;display:flex;justify-content:flex-end;}.bp-link{font-family:monospace;font-size:11px;color:#e8a020;text-decoration:underline;cursor:pointer;}
+  /* ── Tier pill ── */
+  .nav-tier-pill {
+    font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 2px 9px; border-radius: 99px; flex-shrink: 0;
+  }
+  .nav-tier-pill.premium {
+    background: rgba(232,160,32,.2); color: var(--gold);
+    border: 1px solid rgba(232,160,32,.4);
+  }
+  .nav-tier-pill.basic {
+    background: rgba(255,255,255,.12); color: rgba(255,255,255,.7);
+    border: 1px solid rgba(255,255,255,.2);
+  }
+  /* ── Logo as link ── */
+  a.nav-logo { text-decoration: none; }
+  a.nav-logo:hover { opacity: .85; }
+  /* ── Nav left group ── */
+  .nav-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  /* ── Nav links as <a> ── */
+  .nav-links a.nav-link { text-decoration: none; }
+  .nav-link.locked { color: rgba(255,255,255,.22) !important; pointer-events: none; display: flex; align-items: center; gap: 5px; }
+  .nav-premium-tag {
+    font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    background: rgba(255,255,255,.07); color: rgba(255,255,255,.28);
+    border: 1px solid rgba(255,255,255,.1); padding: 1px 5px; border-radius: 3px;
+  }
+  /* ── Basic avatar ── */
+  .nav-avatar.basic { background: rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
+
+  </style>
+</head>
+<body>
+<nav>
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo">NIL <span>Benchmark</span></a>
+      <span class="nav-tier-pill premium">Premium</span>
+    </div>
+    <div class="nav-links">
+      <a href="nil-athletes-v1.html" class="nav-link active">Athletes</a>
+      <a href="nil-benchmarks-v3.html" class="nav-link">Benchmarks</a>
+      <a href="nil-budget-v1.html" class="nav-link">Budget</a>
+      <a href="nil-reporting-v3.html" class="nav-link">Reporting</a>
+      <a href="nil-admin-v4.html" class="nav-link">Admin</a>
+    </div>
+    <div class="nav-user">
+      <div>
+        <span class="nav-school">Your University</span>
+        <span class="nav-role">Athletic Director</span>
+      </div>
+      <div class="nav-avatar">AD</div>
+    </div>
+  </nav>
+<div class="body">
+  <div class="pg-header">
+    <div><div class="pg-title">Athletes</div><div style="font-size:12px;color:#8fa3b8;margin-top:2px;font-family:monospace;">Your University · 2025–26 · 312 on roster</div></div>
+    <div style="display:flex;gap:8px;align-items:center;"><span class="period-badge">2025–26</span><span class="conf-badge">SEC</span></div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-lbl">Total roster</div><div class="kpi-val">312</div><div class="kpi-meta">8 sports</div></div>
+    <div class="kpi"><div class="kpi-lbl">Active deals</div><div class="kpi-val" style="color:#16a34a;">107</div><div class="kpi-meta up">▲ +11% vs SEC avg</div></div>
+    <div class="kpi"><div class="kpi-lbl">Avg deal value</div><div class="kpi-val">$45K</div><div class="kpi-meta gold">68% above SEC avg</div></div>
+    <div class="kpi"><div class="kpi-lbl">Expiring ≤30 days</div><div class="kpi-val" style="color:#dc2626;">5</div><div class="kpi-meta">Action needed</div></div>
+    <div class="kpi"><div class="kpi-lbl">Compliance issues</div><div class="kpi-val" style="color:#d97706;">4</div><div class="kpi-meta">Missing disclosures</div></div>
+  </div>
+  <div class="tab-strip">
+    <div class="tab active">Roster <span class="tab-badge">312</span></div>
+    <div class="tab">NIL Agreements <span class="tab-badge">107</span></div>
+  </div>
+  <div class="status-tabs">
+    <div class="stab on">All <span style="opacity:.6;">312</span></div>
+    <div class="stab">Active deal <span style="opacity:.6;">107</span></div>
+    <div class="stab">Offer out <span style="opacity:.6;">18</span></div>
+    <div class="stab">Expiring soon <span style="opacity:.6;">5</span></div>
+    <div class="stab" style="border-color:rgba(232,160,32,.4);color:#a06c0e;background:#fffbf0;">Above SEC avg</div>
+    <div class="stab" style="border-color:rgba(232,160,32,.4);color:#a06c0e;background:#fffbf0;">Below SEC avg</div>
+  </div>
+  <div class="filter-row">
+    <input class="search" placeholder="Search athlete" />
+    <select class="fsel"><option>All sports</option><option>Football</option><option>Basketball (M)</option><option>Baseball</option></select>
+    <select class="fsel"><option>All positions</option><option>QB</option><option>WR</option><option>PG</option></select>
+    <select class="prem-filter"><option>vs Conf: All</option><option>Above SEC avg</option><option>Below SEC avg</option></select>
+    <span style="font-size:12px;font-family:monospace;color:#8fa3b8;margin-left:auto;">107 athletes</span>
+  </div>
+  <div class="roster">
+    <div class="roster-head">
+      <div class="rh sorted">Athlete ↑↓</div><div class="rh">Sport / Pos.</div><div class="rh">Status</div><div class="rh">Deal value</div><div class="rh">vs SEC avg</div><div class="rh">Expires</div><div></div>
+    </div>
+    <div class="ath-row">
+      <div class="ath-summary open" onclick="toggle(this)">
+        <div class="ath-cell"><div class="ath-av">MJ</div><div><div class="ath-name">Marcus Johnson</div><div class="ath-meta">ATH-00441 · Football · WR</div></div></div>
+        <div><span class="pill p-active" style="font-size:10px;">Football</span><div style="font-family:monospace;font-size:11px;color:#8fa3b8;margin-top:2px;">WR</div></div>
+        <div><span class="pill p-active">Active</span></div>
+        <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:600;">$350,000</div>
+        <div><span class="above-avg">+18% vs SEC</span></div>
+        <div style="font-family:monospace;font-size:12px;color:#8fa3b8;">Jul 2026</div>
+        <div class="chev open">▼</div>
+      </div>
+      <div class="ath-detail open">
+        <div class="detail-grid">
+          <div class="dc"><div class="dc-title">Deal history</div><table class="deal-mini"><tr><td><div class="deal-brand">Nike Athlete Program</div><div class="deal-type">Endorsement</div></td><td class="deal-val">$280,000</td></tr><tr><td><div class="deal-brand">Regional Auto Group</div><div class="deal-type">Social media</div></td><td class="deal-val">$70,000</td></tr></table></div>
+          <div class="dc"><div class="dc-title">Compliance</div><div style="display:flex;flex-direction:column;gap:6px;"><div style="display:flex;align-items:center;gap:8px;font-size:12px;"><div class="ci-ok">✓</div>NIL certification signed</div><div style="display:flex;align-items:center;gap:8px;font-size:12px;"><div class="ci-ok">✓</div>Disclosures submitted</div><div style="display:flex;align-items:center;gap:8px;font-size:12px;"><div class="ci-warn">!</div>Spring cert. pending</div></div></div>
+          <div class="dc"><div class="dc-title">Documents</div><div style="font-size:12px;display:flex;flex-direction:column;gap:6px;padding:4px 0;"><div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f0f4f9;"><div style="width:22px;height:22px;border-radius:4px;background:#e8edf5;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;">📄</div><span style="color:#3b82c4;cursor:pointer;">Nike contract.pdf</span></div><div style="display:flex;align-items:center;gap:8px;padding:5px 0;"><div style="width:22px;height:22px;border-radius:4px;background:#e8edf5;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;">📄</div><span style="color:#3b82c4;cursor:pointer;">NIL certification.pdf</span></div></div></div>
+          <div class="bench-panel">
+            <div class="bp-head"><div><div class="bp-title">Marcus Johnson — benchmarks</div><div class="bp-sub">WR · vs your school, conference &amp; division</div></div><span class="bp-prem">Premium</span></div>
+            <div class="bp-rows">
+              <div class="bp-row"><div class="bp-label">vs Your school avg (WR)</div><div class="bp-bars"><div class="bp-bar athlete" style="width:90%;"></div><div class="bp-bar avg" style="width:62%;"></div></div><div class="bp-vals"><span class="bp-val-ath">$350K</span><span class="bp-val-avg">avg $218K</span><span class="bp-delta-up">+60%</span></div></div>
+              <div class="bp-row"><div class="bp-label">vs SEC avg (WR)</div><div class="bp-bars"><div class="bp-bar athlete" style="width:90%;"></div><div class="bp-bar avg" style="width:76%;"></div></div><div class="bp-vals"><span class="bp-val-ath">$350K</span><span class="bp-val-avg">avg $296K</span><span class="bp-delta-up">+18%</span></div></div>
+              <div class="bp-row"><div class="bp-label">vs FBS avg (WR)</div><div class="bp-bars"><div class="bp-bar athlete" style="width:90%;"></div><div class="bp-bar avg" style="width:60%;"></div></div><div class="bp-vals"><span class="bp-val-ath">$350K</span><span class="bp-val-avg">avg $234K</span><span class="bp-delta-up">+49%</span></div></div>
+              <div class="bp-row"><div class="bp-label">vs All positions SEC avg</div><div class="bp-bars"><div class="bp-bar athlete" style="width:90%;"></div><div class="bp-bar avg" style="width:52%;"></div></div><div class="bp-vals"><span class="bp-val-ath">$350K</span><span class="bp-val-avg">avg $198K</span><span class="bp-delta-up">+76%</span></div></div>
+            </div>
+            <div class="bp-footer"><a class="bp-link">Full athlete profile →</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ath-row">
+      <div class="ath-summary" onclick="toggle(this)">
+        <div class="ath-cell"><div class="ath-av">CE</div><div><div class="ath-name">Cameron Ellis</div><div class="ath-meta">ATH-00209 · Basketball M · SG</div></div></div>
+        <div><span class="pill p-active" style="font-size:10px;">Bball M</span><div style="font-family:monospace;font-size:11px;color:#8fa3b8;margin-top:2px;">SG</div></div>
+        <div><span class="pill p-expiring">Expiring</span></div>
+        <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:600;">$200,000</div>
+        <div><span class="above-avg">+42% vs SEC</span></div>
+        <div style="font-family:monospace;font-size:12px;color:#c0392b;font-weight:600;">Apr 8 ⚠</div>
+        <div class="chev">▼</div>
+      </div>
+      <div class="ath-detail">
+        <div class="detail-grid">
+          <div class="dc"><div class="dc-title">Deal history</div><table class="deal-mini"><tr><td><div class="deal-brand">Foot Locker Campus</div><div class="deal-type">Endorsement</div></td><td class="deal-val">$200,000</td></tr></table></div>
+          <div class="dc"><div class="dc-title">Compliance</div><div style="display:flex;flex-direction:column;gap:6px;"><div style="display:flex;align-items:center;gap:8px;font-size:12px;"><div class="ci-ok">✓</div>NIL certification signed</div><div style="display:flex;align-items:center;gap:8px;font-size:12px;"><div class="ci-ok">✓</div>Disclosures submitted</div></div></div>
+          <div class="dc"><div class="dc-title">Documents</div><div style="font-size:12px;color:#8fa3b8;padding:6px 0;">1 document on file.</div></div>
+          <div class="bench-panel">
+            <div class="bp-head"><div><div class="bp-title">Cameron Ellis — benchmarks</div><div class="bp-sub">SG · vs your school &amp; conference</div></div><span class="bp-prem">Premium</span></div>
+            <div class="bp-rows">
+              <div class="bp-row"><div class="bp-label">vs Your school avg (SG)</div><div class="bp-bars"><div class="bp-bar athlete" style="width:85%;"></div><div class="bp-bar avg" style="width:45%;"></div></div><div class="bp-vals"><span class="bp-val-ath">$200K</span><span class="bp-val-avg">avg $106K</span><span class="bp-delta-up">+88%</span></div></div>
+              <div class="bp-row"><div class="bp-label">vs SEC avg (SG)</div><div class="bp-bars"><div class="bp-bar athlete" style="width:85%;"></div><div class="bp-bar avg" style="width:60%;"></div></div><div class="bp-vals"><span class="bp-val-ath">$200K</span><span class="bp-val-avg">avg $141K</span><span class="bp-delta-up">+42%</span></div></div>
+            </div>
+            <div class="bp-footer"><a class="bp-link">Full athlete profile →</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>function toggle(el){var isOpen=el.classList.contains('open');var detail=el.nextElementSibling;var chev=el.querySelector('.chev');if(isOpen){el.classList.remove('open');detail.classList.remove('open');chev.classList.remove('open');}else{el.classList.add('open');detail.classList.add('open');chev.classList.add('open');}}</script>
+</body>
+</html>

@@ -11,3 +11,270 @@ body{font-family:'Outfit',sans-serif;background:#f7f9fc;color:#0f1f38;min-height
 nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;position:sticky;top:0;z-index:200;}.nav-left{display:flex;align-items:center;gap:10px;}.nav-logo{font-family:Georgia,serif;font-size:17px;color:#fff;text-decoration:none;flex-shrink:0;}.nav-logo span{color:#e8a020;}.nav-logo:hover{opacity:.85;}.pill-basic{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2);padding:2px 8px;border-radius:99px;}.pill-premium{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(232,160,32,.2);color:#e8a020;border:1px solid rgba(232,160,32,.4);padding:2px 8px;border-radius:99px;}.nav-links{display:flex;gap:2px;}.nav-links a{font-size:12px;color:rgba(255,255,255,.55);padding:5px 11px;border-radius:5px;font-weight:500;white-space:nowrap;text-decoration:none;cursor:pointer;}.nav-links a:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);}.nav-links a.active{background:rgba(232,160,32,.15);color:#e8a020;}.nav-links a.locked{color:rgba(255,255,255,.22);pointer-events:none;display:flex;align-items:center;gap:5px;cursor:default;}.prem-tag{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.07);color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.1);padding:1px 5px;border-radius:3px;}.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}.nav-school{font-size:11px;color:rgba(255,255,255,.45);font-family:monospace;text-align:right;line-height:1.3;}.nav-av{width:28px;height:28px;border-radius:50%;background:#e8a020;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#0f1f38;flex-shrink:0;}.nav-av.basic{background:rgba(255,255,255,.15);color:rgba(255,255,255,.7);}
 
 .body{max-width:1160px;margin:0 auto;padding:20px 24px 40px;}
+.pg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.pg-title{font-family:Georgia,serif;font-size:22px;}
+.period-badge{font-size:11px;font-family:monospace;background:#fef3dc;color:#a06c0e;border:1px solid rgba(232,160,32,.35);padding:3px 10px;border-radius:99px;}
+.card{background:#fff;border:1.5px solid #dce4ed;border-radius:10px;overflow:hidden;margin-bottom:14px;}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1.5px solid #dce4ed;background:#f7f9fc;}
+.card-title{font-size:11px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.08em;}
+.card-link{font-family:monospace;font-size:11px;color:#3b82c4;cursor:pointer;text-decoration:underline;}
+.card-badge{font-size:10px;font-family:monospace;background:#fef3dc;color:#a06c0e;border:1px solid rgba(232,160,32,.35);padding:2px 8px;border-radius:99px;}
+.alert-strip{background:#fff8ec;border:1.5px solid #f5d78a;border-radius:8px;padding:9px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.alert-icon{width:20px;height:20px;border-radius:50%;background:#f5d78a;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#7a4f00;flex-shrink:0;}
+.alert-text{font-size:13px;color:#7a4f00;flex:1;}
+.alert-cta{font-size:11px;font-family:monospace;color:#a06c0e;text-decoration:underline;cursor:pointer;white-space:nowrap;}
+.kpi-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px;}
+.kpi{background:#fff;border:1.5px solid #dce4ed;border-radius:10px;padding:12px 16px;}
+.kpi-lbl{font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;}
+.kpi-val{font-family:Georgia,serif;font-size:22px;line-height:1;}
+.kpi-sub{font-size:11px;color:#8fa3b8;margin-top:4px;font-family:monospace;}
+.ath-link{color:#3b82c4;text-decoration:underline;font-weight:600;cursor:pointer;}
+.mono{font-family:monospace;font-size:12px;color:#4a6480;}
+.sp{font-family:monospace;font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px solid;display:inline-block;white-space:nowrap;}
+.sp-active{background:#e6f7ef;color:#0e6637;border-color:#5abf87;}
+.sp-expiring{background:#fff0ee;color:#7a1f1f;border-color:#e8a0a0;}
+.sp-pending{background:#fef3dc;color:#a06c0e;border-color:#e8a020;}
+.sp-out{background:#e8edf5;color:#1a3558;border-color:#9eb8d4;}
+.sp-ok{background:#e6f7ef;color:#0e6637;border-color:#5abf87;}
+.sp-miss{background:#fff0ee;color:#7a1f1f;border-color:#e8a0a0;}
+.sp-closed{background:#f0f4f9;color:#8fa3b8;border-color:#c0cedc;}
+.table-wrap{overflow-y:auto;max-height:380px;}
+.table-wrap::-webkit-scrollbar{width:4px;}
+.table-wrap::-webkit-scrollbar-thumb{background:#dce4ed;border-radius:99px;}
+.dtable{width:100%;border-collapse:collapse;font-size:13px;}
+.dtable thead{position:sticky;top:0;z-index:1;}
+.dtable th{font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;text-align:left;padding:9px 14px;border-bottom:1.5px solid #dce4ed;background:#f7f9fc;white-space:nowrap;cursor:pointer;}
+.dtable th.sorted{color:#0f1f38;}
+.dtable td{padding:10px 14px;border-bottom:1px solid #dce4ed;vertical-align:middle;}
+.dtable tbody tr:last-child td{border-bottom:none;}
+.dtable tbody tr:hover td{background:#f7f9fc;cursor:pointer;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.btn-primary{padding:7px 14px;background:#0f1f38;border:none;border-radius:7px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;}
+.btn-secondary{padding:7px 14px;background:#fff;border:1.5px solid #dce4ed;border-radius:7px;font-size:12px;font-weight:600;color:#4a6480;cursor:pointer;}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.section-title{font-family:Georgia,serif;font-size:16px;}
+
+.tab-strip{display:flex;gap:0;border-bottom:2px solid #dce4ed;margin-bottom:14px;}
+.tab{font-size:13px;font-weight:500;padding:10px 20px;cursor:pointer;color:#8fa3b8;border-bottom:2px solid transparent;margin-bottom:-2px;}
+.tab:hover{color:#4a6480;}
+.tab.active{color:#0f1f38;border-bottom-color:#0f1f38;font-weight:600;}
+.tab-badge{font-family:monospace;font-size:10px;background:#f0f4f9;color:#8fa3b8;padding:1px 6px;border-radius:99px;margin-left:6px;}
+.tab.active .tab-badge{background:#e8edf5;color:#4a6480;}
+.status-tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+.stab{font-size:11px;font-family:monospace;padding:4px 12px;border-radius:99px;border:1.5px solid #dce4ed;background:#fff;color:#4a6480;cursor:pointer;}
+.stab.on{background:#0f1f38;border-color:#0f1f38;color:#fff;}
+.filter-row{display:flex;gap:8px;margin-bottom:12px;align-items:center;}
+.search{padding:6px 10px;border:1.5px solid #dce4ed;border-radius:7px;font-size:12px;font-family:inherit;color:#4a6480;background:#fff;width:180px;}
+.search::placeholder{color:#8fa3b8;font-size:12px;}
+.fsel{padding:6px 10px;border:1.5px solid #dce4ed;border-radius:7px;font-size:12px;color:#4a6480;background:#fff;font-family:inherit;}
+.roster{border:1.5px solid #dce4ed;border-radius:10px;overflow:hidden;background:#fff;}
+.roster-head{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 32px;gap:12px;padding:8px 16px;background:#f0f4f9;border-bottom:1.5px solid #dce4ed;}
+.rh{font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;}
+.rh.sorted{color:#0f1f38;}
+.ath-row{border-bottom:1px solid #dce4ed;}
+.ath-row:last-child{border-bottom:none;}
+.ath-summary{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 32px;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;transition:background .12s;}
+.ath-summary:hover{background:#f7f9fc;}
+.ath-summary.open{background:#f0f4f9;}
+.ath-cell{display:flex;align-items:center;gap:10px;}
+.ath-av{width:34px;height:34px;border-radius:50%;background:#e8edf5;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#4a6480;flex-shrink:0;border:1.5px solid #dce4ed;}
+.ath-name{font-weight:600;font-size:14px;color:#3b82c4;text-decoration:underline;cursor:pointer;}
+.ath-meta{font-family:monospace;font-size:10px;color:#8fa3b8;margin-top:1px;}
+.pill{font-family:monospace;font-size:10px;letter-spacing:.04em;padding:2px 8px;border-radius:99px;border:1px solid;display:inline-block;}
+.p-active{background:#e6f7ef;color:#0e6637;border-color:#5abf87;}
+.p-pending{background:#fef3dc;color:#a06c0e;border-color:#e8a020;}
+.pips{display:flex;gap:3px;margin-top:3px;}
+.pip{width:9px;height:9px;border-radius:2px;}
+.pip-u{background:#0f1f38;}
+.pip-r{background:#e8a020;}
+.chev{font-size:12px;color:#8fa3b8;transition:transform .2s;text-align:center;}
+.chev.open{transform:rotate(180deg);}
+.ath-detail{display:none;padding:0 16px 16px 60px;background:#f7f9fc;border-top:1px solid #dce4ed;}
+.ath-detail.open{display:block;}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px;}
+.dc{background:#fff;border:1.5px solid #dce4ed;border-radius:8px;padding:12px 14px;}
+.dc-title{font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
+.deal-mini{width:100%;border-collapse:collapse;font-size:12px;}
+.deal-mini td{padding:5px 0;border-bottom:1px solid #f0f4f9;vertical-align:middle;}
+.deal-mini tr:last-child td{border-bottom:none;}
+.deal-brand{font-weight:500;color:#0f1f38;}
+.deal-type{font-family:monospace;font-size:10px;color:#8fa3b8;}
+.deal-val{font-family:monospace;font-size:12px;color:#4a6480;text-align:right;}
+.comp-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f0f4f9;font-size:12px;}
+.comp-item:last-child{border-bottom:none;}
+.ci-ok{width:18px;height:18px;border-radius:50%;background:#e6f7ef;color:#0e6637;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.ci-warn{width:18px;height:18px;border-radius:50%;background:#fef3dc;color:#a06c0e;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.doc-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f0f4f9;font-size:12px;cursor:pointer;}
+.doc-item:last-child{border-bottom:none;}
+.doc-icon{width:24px;height:24px;border-radius:4px;background:#e8edf5;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.doc-name{flex:1;color:#3b82c4;}
+.doc-date{font-family:monospace;font-size:10px;color:#8fa3b8;}
+
+
+  /* ── Tier pill ── */
+  .nav-tier-pill {
+    font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 2px 9px; border-radius: 99px; flex-shrink: 0;
+  }
+  .nav-tier-pill.premium {
+    background: rgba(232,160,32,.2); color: var(--gold);
+    border: 1px solid rgba(232,160,32,.4);
+  }
+  .nav-tier-pill.basic {
+    background: rgba(255,255,255,.12); color: rgba(255,255,255,.7);
+    border: 1px solid rgba(255,255,255,.2);
+  }
+  /* ── Logo as link ── */
+  a.nav-logo { text-decoration: none; }
+  a.nav-logo:hover { opacity: .85; }
+  /* ── Nav left group ── */
+  .nav-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  /* ── Nav links as <a> ── */
+  .nav-links a.nav-link { text-decoration: none; }
+  .nav-link.locked { color: rgba(255,255,255,.22) !important; pointer-events: none; display: flex; align-items: center; gap: 5px; }
+  .nav-premium-tag {
+    font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    background: rgba(255,255,255,.07); color: rgba(255,255,255,.28);
+    border: 1px solid rgba(255,255,255,.1); padding: 1px 5px; border-radius: 3px;
+  }
+  /* ── Basic avatar ── */
+  .nav-avatar.basic { background: rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
+
+  </style>
+</head>
+<body><nav>
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo">NIL <span>Benchmark</span></a>
+      <span class="nav-tier-pill basic">Basic</span>
+    </div>
+    <div class="nav-links">
+      <a href="nil-basic-athletes.html" class="nav-link active">Athletes</a>
+      <a href="nil-basic-agreements.html" class="nav-link">NIL Agreements</a>
+      <a href="nil-basic-budget.html" class="nav-link">Budget</a>
+      <a href="nil-basic-reporting.html" class="nav-link">Reporting</a>
+      <a href="nil-basic-admin.html" class="nav-link">Admin</a>
+      <a class="nav-link locked">Benchmarks <span class="nav-premium-tag">Premium</span></a>
+    </div>
+    <div class="nav-user">
+      <div>
+        <span class="nav-school">State University</span>
+        <span class="nav-role">Athletic Director</span>
+      </div>
+      <div class="nav-avatar basic">AD</div>
+    </div>
+  </nav>
+<div class="body">
+  <div class="pg-header">
+    <div>
+      <div class="pg-title">Athletes</div>
+      <div style="font-size:12px;color:#8fa3b8;margin-top:2px;font-family:monospace;">State University · 2024–25 · 247 on roster</div>
+    </div>
+    <button class="btn-primary">+ Add athlete</button>
+  </div>
+
+  <div class="tab-strip">
+    <div class="tab active">Roster <span class="tab-badge">247</span></div>
+    <div class="tab">NIL Agreements <span class="tab-badge">84</span></div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-lbl">Total roster</div><div class="kpi-val">247</div><div class="kpi-sub">6 sports</div></div>
+    <div class="kpi"><div class="kpi-lbl">Active deals</div><div class="kpi-val" style="color:#1a9e5a;">84</div><div class="kpi-sub">34% of roster</div></div>
+    <div class="kpi"><div class="kpi-lbl">Open offers</div><div class="kpi-val" style="color:#d48a0a;">12</div><div class="kpi-sub">Awaiting response</div></div>
+    <div class="kpi"><div class="kpi-lbl">Expiring ≤60 days</div><div class="kpi-val" style="color:#c0392b;">3</div><div class="kpi-sub">Action needed</div></div>
+    <div class="kpi"><div class="kpi-lbl">Compliance issues</div><div class="kpi-val" style="color:#c0392b;">4</div><div class="kpi-sub">Missing disclosures</div></div>
+  </div>
+
+  <div class="status-tabs">
+    <div class="stab on">All <span style="opacity:.6;">247</span></div>
+    <div class="stab">Active deal <span style="opacity:.6;">84</span></div>
+    <div class="stab">Offer out <span style="opacity:.6;">12</span></div>
+    <div class="stab">Expiring soon <span style="opacity:.6;">3</span></div>
+    <div class="stab">No deal <span style="opacity:.6;">148</span></div>
+  </div>
+
+  <div class="filter-row">
+    <input class="search" placeholder="Search athlete" />
+    <select class="fsel"><option>All sports</option><option>Football</option><option>Basketball (M)</option><option>Basketball (W)</option><option>Baseball</option></select>
+    <select class="fsel"><option>All positions</option><option>QB</option><option>WR</option><option>PG</option></select>
+    <select class="fsel"><option>All eligibility years</option><option>Year 1</option><option>Year 2</option><option>Year 3</option><option>Year 4</option><option>Year 5</option></select>
+  </div>
+
+  <div class="roster">
+    <div class="roster-head">
+      <div class="rh sorted">Athlete ↑↓</div>
+      <div class="rh">Sport / Pos.</div>
+      <div class="rh">Eligibility</div>
+      <div class="rh">Deal status</div>
+      <div class="rh">Expires</div>
+      <div></div>
+    </div>
+
+    <!-- Row 1 — expanded -->
+    <div class="ath-row">
+      <div class="ath-summary open" onclick="toggle(this)">
+        <div class="ath-cell"><div class="ath-av">MJ</div><div><div class="ath-name">Marcus Johnson</div><div class="ath-meta">ATH-00441 · $84,500 total NIL</div></div></div>
+        <div><span class="pill p-active" style="font-size:10px;padding:1px 7px;">Football</span><div style="font-family:monospace;font-size:11px;color:#8fa3b8;margin-top:3px;">WR</div></div>
+        <div><div class="pips"><div class="pip pip-u"></div><div class="pip pip-u"></div><div class="pip pip-u"></div><div class="pip pip-r"></div><div class="pip pip-r"></div></div><div style="font-family:monospace;font-size:10px;color:#8fa3b8;margin-top:3px;">Yr 3 of 5</div></div>
+        <div><span class="sp sp-active">Active</span></div>
+        <div style="font-family:monospace;font-size:12px;color:#8fa3b8;">Jul 2025</div>
+        <div class="chev open">▼</div>
+      </div>
+      <div class="ath-detail open">
+        <div class="detail-grid">
+          <div class="dc"><div class="dc-title">Deal history</div><table class="deal-mini"><tr><td><div class="deal-brand">Nike Athlete Program</div><div class="deal-type">Endorsement</div></td><td class="deal-val">$35,000</td></tr><tr><td><div class="deal-brand">Regional Auto Group</div><div class="deal-type">Social media</div></td><td class="deal-val">$24,500</td></tr><tr><td><div class="deal-brand">Alumni Booster Event</div><div class="deal-type">Appearance</div></td><td class="deal-val">$15,000</td></tr></table></div>
+          <div class="dc"><div class="dc-title">Compliance</div><div class="comp-item"><div class="ci-ok">✓</div><span style="flex:1;">NIL certification signed</span><span style="font-family:monospace;font-size:10px;color:#8fa3b8;">Jan 14</span></div><div class="comp-item"><div class="ci-ok">✓</div><span style="flex:1;">Disclosures submitted</span><span style="font-family:monospace;font-size:10px;color:#8fa3b8;">4 of 4</span></div><div class="comp-item"><div class="ci-ok">✓</div><span style="flex:1;">Academic eligibility</span><span style="font-family:monospace;font-size:10px;color:#8fa3b8;">Fall 24</span></div><div class="comp-item"><div class="ci-warn">!</div><span style="flex:1;">Spring cert. pending</span><span style="font-family:monospace;font-size:10px;color:#8fa3b8;">Due Mar 31</span></div></div>
+          <div class="dc"><div class="dc-title">Documents</div><div class="doc-item"><div class="doc-icon"><svg width="12" height="14" viewBox="0 0 12 14"><rect x="1" y="1" width="10" height="12" rx="1.5" fill="none" stroke="#4a6480" stroke-width="1.2"/><line x1="3" y1="4.5" x2="9" y2="4.5" stroke="#4a6480" stroke-width="1"/><line x1="3" y1="7" x2="9" y2="7" stroke="#4a6480" stroke-width="1"/></svg></div><span class="doc-name">Nike contract.pdf</span><span class="doc-date">Jan 10</span></div><div class="doc-item"><div class="doc-icon"><svg width="12" height="14" viewBox="0 0 12 14"><rect x="1" y="1" width="10" height="12" rx="1.5" fill="none" stroke="#4a6480" stroke-width="1.2"/></svg></div><span class="doc-name">NIL certification.pdf</span><span class="doc-date">Jan 14</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2 — collapsed -->
+    <div class="ath-row">
+      <div class="ath-summary" onclick="toggle(this)">
+        <div class="ath-cell"><div class="ath-av">JR</div><div><div class="ath-name">Jordan Reed</div><div class="ath-meta">ATH-00318 · $36,000 total NIL</div></div></div>
+        <div><span class="pill p-active" style="font-size:10px;padding:1px 7px;">Football</span><div style="font-family:monospace;font-size:11px;color:#8fa3b8;margin-top:3px;">RB</div></div>
+        <div><div class="pips"><div class="pip pip-u"></div><div class="pip pip-u"></div><div class="pip pip-u"></div><div class="pip pip-u"></div><div class="pip pip-r"></div></div><div style="font-family:monospace;font-size:10px;color:#8fa3b8;margin-top:3px;">Yr 4 of 5</div></div>
+        <div><span class="sp sp-expiring">Expiring</span></div>
+        <div style="font-family:monospace;font-size:12px;color:#c0392b;font-weight:600;">Apr 1 ⚠</div>
+        <div class="chev">▼</div>
+      </div>
+      <div class="ath-detail">
+        <div class="detail-grid">
+          <div class="dc"><div class="dc-title">Deal history</div><table class="deal-mini"><tr><td><div class="deal-brand">Jordan Brand</div><div class="deal-type">Endorsement</div></td><td class="deal-val">$22,000</td></tr><tr><td><div class="deal-brand">Local Car Wash</div><div class="deal-type">Social media</div></td><td class="deal-val">$14,000</td></tr></table></div>
+          <div class="dc"><div class="dc-title">Compliance</div><div class="comp-item"><div class="ci-ok">✓</div><span style="flex:1;">NIL certification signed</span></div><div class="comp-item"><div class="ci-warn">!</div><span style="flex:1;">Disclosures — 1 missing</span></div></div>
+          <div class="dc"><div class="dc-title">Documents</div><div class="doc-item"><div class="doc-icon"><svg width="12" height="14" viewBox="0 0 12 14"><rect x="1" y="1" width="10" height="12" rx="1.5" fill="none" stroke="#4a6480" stroke-width="1.2"/></svg></div><span class="doc-name">Jordan Brand contract.pdf</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3 — collapsed -->
+    <div class="ath-row">
+      <div class="ath-summary" onclick="toggle(this)">
+        <div class="ath-cell"><div class="ath-av">JT</div><div><div class="ath-name">Jasmine Torres</div><div class="ath-meta">ATH-00502 · Offer pending</div></div></div>
+        <div><span class="pill p-pending" style="font-size:10px;padding:1px 7px;">Basketball W</span><div style="font-family:monospace;font-size:11px;color:#8fa3b8;margin-top:3px;">PG</div></div>
+        <div><div class="pips"><div class="pip pip-u"></div><div class="pip pip-u"></div><div class="pip pip-r"></div><div class="pip pip-r"></div><div class="pip pip-r"></div></div><div style="font-family:monospace;font-size:10px;color:#8fa3b8;margin-top:3px;">Yr 2 of 5</div></div>
+        <div><span class="sp sp-out">Offer out</span></div>
+        <div style="font-family:monospace;font-size:12px;color:#c0cedc;">—</div>
+        <div class="chev">▼</div>
+      </div>
+      <div class="ath-detail">
+        <div class="detail-grid">
+          <div class="dc"><div class="dc-title">Deal history</div><div style="font-size:12px;color:#8fa3b8;padding:6px 0;">No signed deals yet. Offer of $32,000 currently out.</div></div>
+          <div class="dc"><div class="dc-title">Compliance</div><div class="comp-item"><div class="ci-warn">!</div><span>NIL certification pending</span></div><div class="comp-item"><div class="ci-ok">✓</div><span>Academic eligibility confirmed</span></div></div>
+          <div class="dc"><div class="dc-title">Documents</div><div style="font-size:12px;color:#8fa3b8;padding:6px 0;">No documents uploaded yet.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function toggle(el){
+  const isOpen=el.classList.contains('open');
+  const detail=el.nextElementSibling;
+  const chev=el.querySelector('.chev');
+  if(isOpen){el.classList.remove('open');detail.classList.remove('open');chev.classList.remove('open');}
+  else{el.classList.add('open');detail.classList.add('open');chev.classList.add('open');}
+}
+</script>
+</body></html>

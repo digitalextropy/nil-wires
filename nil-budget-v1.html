@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NIL Benchmark – Budget Tracker (Premium)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}body{font-family:'Outfit',sans-serif;background:#f7f9fc;color:#0f1f38;min-height:100vh;-webkit-font-smoothing:antialiased}nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;position:sticky;top:0;z-index:200;border-bottom:2px solid #e8a020;}.nav-left{display:flex;align-items:center;gap:10px;}.nav-logo{font-family:Georgia,serif;font-size:17px;color:#fff;text-decoration:none;flex-shrink:0;}.nav-logo span{color:#e8a020;}.nav-logo:hover{opacity:.85;}.pill-premium{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(232,160,32,.2);color:#e8a020;border:1px solid rgba(232,160,32,.4);padding:2px 8px;border-radius:99px;}.nav-links{display:flex;gap:2px;}.nav-links a{font-size:12px;color:rgba(255,255,255,.55);padding:5px 11px;border-radius:5px;font-weight:500;white-space:nowrap;text-decoration:none;letter-spacing:.04em;text-transform:uppercase;}.nav-links a:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);}.nav-links a.active{background:rgba(232,160,32,.15);color:#e8a020;}.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}.nav-school{font-size:11px;color:rgba(255,255,255,.45);font-family:monospace;text-align:right;line-height:1.3;}.nav-av{width:28px;height:28px;border-radius:50%;background:#e8a020;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#0f1f38;flex-shrink:0;}:root{--navy:#0f1f38;--gold:#e8a020;--sky:#3b82c4;--green:#22c55e;--green-dk:#16a34a;--red:#ef4444;--red-dk:#dc2626;--amber:#f59e0b;--amber-dk:#d97706;--border:#dce4ed;--text2:#4a6480;--text3:#8fa3b8;--off:#f7f9fc;}.body{max-width:1300px;margin:0 auto;padding:18px 28px 48px;}.pg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}.pg-title{font-family:'DM Serif Display',Georgia,serif;font-size:22px;color:var(--navy);}.period-badge{font-size:11px;font-family:monospace;background:#fef3dc;color:#a06c0e;border:1px solid rgba(232,160,32,.35);padding:3px 10px;border-radius:99px;}.conf-badge{font-size:11px;font-family:monospace;background:#e8edf5;color:#1a3558;border:1px solid #9eb8d4;padding:3px 10px;border-radius:99px;}.alert-strip{background:#fff0ee;border:1.5px solid #f5a0a0;border-radius:8px;padding:9px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;}.alert-icon{width:20px;height:20px;border-radius:50%;background:#f5a0a0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#7a1f1f;flex-shrink:0;}.alert-text{font-size:13px;color:#7a1f1f;flex:1;}.alert-cta{font-size:11px;font-family:monospace;color:#c0392b;text-decoration:underline;cursor:pointer;white-space:nowrap;}.card{background:#fff;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 1px 6px rgba(15,31,56,.05);}.card-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1.5px solid var(--border);background:var(--off);}.card-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;}.card-link{font-family:monospace;font-size:11px;color:var(--sky);cursor:pointer;text-decoration:underline;}.card-sub{font-size:11px;color:var(--text3);}.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px;}.kpi{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;box-shadow:0 1px 6px rgba(15,31,56,.05);}.kpi-lbl{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:7px;}.kpi-val{font-family:'DM Serif Display',Georgia,serif;font-size:24px;line-height:1;color:var(--navy);}.kpi-meta{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap;font-size:11px;color:var(--text3);}.delta-up{display:inline-flex;align-items:center;gap:3px;background:#dcfce7;color:var(--green-dk);border-radius:99px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:monospace;}.delta-dn{display:inline-flex;align-items:center;gap:3px;background:#fee2e2;color:var(--red-dk);border-radius:99px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:monospace;}.delta-warn{display:inline-flex;align-items:center;gap:3px;background:#fef3c7;color:var(--amber-dk);border-radius:99px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:monospace;}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}.ath-link{color:var(--sky);text-decoration:underline;font-weight:600;cursor:pointer;}.mono{font-family:'DM Mono',monospace;font-size:12px;color:var(--text2);}.sp{font-family:monospace;font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px solid;display:inline-block;white-space:nowrap;}.sp-active{background:#e6f7ef;color:#0e6637;border-color:#5abf87;}.sp-expiring{background:#fff0ee;color:#7a1f1f;border-color:#e8a0a0;}.sp-pending{background:#fef3dc;color:#a06c0e;border-color:#e8a020;}.sp-ok{background:#e6f7ef;color:#0e6637;border-color:#5abf87;}.dtable{width:100%;border-collapse:collapse;font-size:13px;}.dtable th{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;text-align:left;padding:9px 14px;border-bottom:1.5px solid var(--border);background:var(--off);white-space:nowrap;}.dtable th.sorted{color:var(--navy);}.dtable td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}.dtable tbody tr:last-child td{border-bottom:none;}.dtable tbody tr:hover td{background:#f0f6ff;}.bud-row{padding:9px 16px;border-bottom:1px solid var(--border);}.bud-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}.bud-sport{font-size:13px;font-weight:500;}.bud-nums{font-family:monospace;font-size:11px;color:var(--text3);}.bud-nums strong{color:var(--text2);}.bud-track{height:7px;background:#f0f4f9;border-radius:99px;overflow:hidden;display:flex;margin-bottom:3px;}.bud-fill{height:100%;border-radius:99px;}.bud-ok{font-family:monospace;font-size:10px;color:#1a9e5a;}.bud-over{font-family:monospace;font-size:10px;color:#c0392b;font-weight:700;}.bud-mute{font-family:monospace;font-size:10px;color:var(--text3);}.prem-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(232,160,32,.15);color:#a06c0e;border:1px solid rgba(232,160,32,.4);padding:1px 6px;border-radius:3px;margin-left:6px;}.btn-primary{padding:7px 14px;background:#0f1f38;border:none;border-radius:7px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;font-family:inherit;}.btn-secondary{padding:7px 14px;background:#fff;border:1.5px solid var(--border);border-radius:7px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;}.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}.section-title{font-family:'DM Serif Display',Georgia,serif;font-size:16px;}
+.bud-legend{display:flex;gap:14px;padding:7px 14px;border-top:1px solid var(--border);background:var(--off);}.bl{display:flex;align-items:center;gap:5px;font-size:11px;font-family:monospace;color:var(--text3);}.bl-dot{width:10px;height:10px;border-radius:2px;}
+.tooltip-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.vs-row{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.vs-row:last-child{border-bottom:none;}
+.vs-sport{font-size:13px;font-weight:500;width:130px;flex-shrink:0;}
+.vs-bars{flex:1;display:flex;flex-direction:column;gap:3px;}
+.vs-bar{height:7px;border-radius:3px;}
+.vs-bar.you{background:#0f1f38;}
+.vs-bar.sec{background:#c8d8e8;}
+.vs-vals{display:grid;grid-template-columns:60px 60px;gap:4px;text-align:right;}
+.vs-val{font-family:monospace;font-size:11px;}
+.vs-val.you{color:#0f1f38;font-weight:600;}
+.vs-val.sec{color:var(--text3);}
+
+  /* ── Tier pill ── */
+  .nav-tier-pill {
+    font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    padding: 2px 9px; border-radius: 99px; flex-shrink: 0;
+  }
+  .nav-tier-pill.premium {
+    background: rgba(232,160,32,.2); color: var(--gold);
+    border: 1px solid rgba(232,160,32,.4);
+  }
+  .nav-tier-pill.basic {
+    background: rgba(255,255,255,.12); color: rgba(255,255,255,.7);
+    border: 1px solid rgba(255,255,255,.2);
+  }
+  /* ── Logo as link ── */
+  a.nav-logo { text-decoration: none; }
+  a.nav-logo:hover { opacity: .85; }
+  /* ── Nav left group ── */
+  .nav-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  /* ── Nav links as <a> ── */
+  .nav-links a.nav-link { text-decoration: none; }
+  .nav-link.locked { color: rgba(255,255,255,.22) !important; pointer-events: none; display: flex; align-items: center; gap: 5px; }
+  .nav-premium-tag {
+    font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    background: rgba(255,255,255,.07); color: rgba(255,255,255,.28);
+    border: 1px solid rgba(255,255,255,.1); padding: 1px 5px; border-radius: 3px;
+  }
+  /* ── Basic avatar ── */
+  .nav-avatar.basic { background: rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
+
+  </style>
+</head>
+<body>
+<nav>
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo">NIL <span>Benchmark</span></a>
+      <span class="nav-tier-pill premium">Premium</span>
+    </div>
+    <div class="nav-links">
+      <a href="nil-athletes-v1.html" class="nav-link">Athletes</a>
+      <a href="nil-benchmarks-v3.html" class="nav-link">Benchmarks</a>
+      <a href="nil-budget-v1.html" class="nav-link active">Budget</a>
+      <a href="nil-reporting-v3.html" class="nav-link">Reporting</a>
+      <a href="nil-admin-v4.html" class="nav-link">Admin</a>
+    </div>
+    <div class="nav-user">
+      <div>
+        <span class="nav-school">Your University</span>
+        <span class="nav-role">Athletic Director</span>
+      </div>
+      <div class="nav-avatar">AD</div>
+    </div>
+  </nav>
+<div class="body">
+  <div class="pg-header">
+    <div><div class="pg-title">Budget Tracker</div><div style="font-size:12px;color:#8fa3b8;margin-top:2px;font-family:monospace;">Your University · 2025–26 Academic Year</div></div>
+    <div style="display:flex;gap:8px;align-items:center;"><span class="period-badge">2025–26</span><span class="conf-badge">SEC</span></div>
+  </div>
+
+  <div class="alert-strip">
+    <div class="alert-icon">!</div>
+    <div class="alert-text"><strong>Basketball (M)</strong> is over its $450K annual cap by $62,000. Review active commitments or adjust the cap in Admin.</div>
+    <span class="alert-cta">View overages →</span>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-lbl">Total annual cap</div><div class="kpi-val">$5.25M</div><div class="kpi-meta">All sports combined</div></div>
+    <div class="kpi"><div class="kpi-lbl">Committed spend</div><div class="kpi-val" style="color:#d97706;">$4.70M</div><div class="kpi-meta">90% of cap</div></div>
+    <div class="kpi"><div class="kpi-lbl">Pending offers</div><div class="kpi-val" style="color:#3b82c4;">$248K</div><div class="kpi-meta">12 open offers</div></div>
+    <div class="kpi"><div class="kpi-lbl">Available (after pending)</div><div class="kpi-val" style="color:#1a9e5a;">$302K</div><div class="kpi-meta">Across all sports</div></div>
+    <div class="kpi"><div class="kpi-lbl">Sports over cap</div><div class="kpi-val" style="color:#dc2626;">1</div><div class="kpi-meta">Basketball M +$62K</div></div>
+  </div>
+
+  <div style="margin-bottom:14px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;"><span style="font-size:13px;font-weight:600;">Total program cap</span><span style="font-family:monospace;font-size:12px;color:#8fa3b8;">$4.70M committed + $248K pending of $5.25M cap</span></div>
+    <div style="height:12px;background:#f0f4f9;border-radius:99px;overflow:hidden;border:1px solid #dce4ed;display:flex;">
+      <div style="width:88%;height:100%;background:#0f1f38;border-radius:99px 0 0 99px;"></div>
+      <div style="width:4%;height:100%;background:#9eb8d4;"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px;font-family:monospace;font-size:11px;color:#8fa3b8;"><span>$0</span><span>$5.25M cap</span></div>
+  </div>
+
+  <div class="three-col">
+    <!-- By sport -->
+    <div class="card">
+      <div class="card-head"><span class="card-title">By sport</span><span style="font-family:monospace;font-size:11px;color:#8fa3b8;">5 sports</span></div>
+      <div class="bud-row" style="background:#fff8f8;"><div class="bud-top"><span class="bud-sport" style="color:#c0392b;">Basketball (M) ⚠</span><span class="bud-nums"><strong style="color:#c0392b;">$512K</strong> of $450K</span></div><div class="bud-track"><div class="bud-fill" style="width:100%;background:#c0392b;"></div></div><div style="display:flex;justify-content:space-between;"><span class="bud-over">Over cap by $62K</span></div></div>
+      <div class="bud-row"><div class="bud-top"><span class="bud-sport">Football</span><span class="bud-nums"><strong>$3.6M</strong> of $4.0M</span></div><div class="bud-track"><div class="bud-fill" style="width:88%;background:#0f1f38;"></div><div class="bud-fill" style="width:5%;background:#9eb8d4;"></div></div><div style="display:flex;justify-content:space-between;"><span class="bud-ok">$200K remaining</span><span class="bud-mute">$200K pending</span></div></div>
+      <div class="bud-row"><div class="bud-top"><span class="bud-sport">Baseball</span><span class="bud-nums"><strong>$380K</strong> of $500K</span></div><div class="bud-track"><div class="bud-fill" style="width:72%;background:#0f1f38;"></div><div class="bud-fill" style="width:10%;background:#9eb8d4;"></div></div><div style="display:flex;justify-content:space-between;"><span class="bud-ok">$70K remaining</span><span class="bud-mute">$50K pending</span></div></div>
+      <div class="bud-row"><div class="bud-top"><span class="bud-sport">Track &amp; Field</span><span class="bud-nums"><strong>$210K</strong> of $300K</span></div><div class="bud-track"><div class="bud-fill" style="width:66%;background:#0f1f38;"></div></div><div style="display:flex;justify-content:space-between;"><span class="bud-ok">$90K remaining</span></div></div>
+      <div class="bud-row" style="border-bottom:none;"><div class="bud-top"><span class="bud-sport">Soccer (W)</span><span class="bud-nums"><strong>$94K</strong> of $200K</span></div><div class="bud-track"><div class="bud-fill" style="width:44%;background:#0f1f38;"></div><div class="bud-fill" style="width:8%;background:#9eb8d4;"></div></div><div style="display:flex;justify-content:space-between;"><span class="bud-ok">$90K remaining</span></div></div>
+      <div class="bud-legend"><div class="bl"><div class="bl-dot" style="background:#0f1f38;"></div>Committed</div><div class="bl"><div class="bl-dot" style="background:#9eb8d4;"></div>Pending</div><div class="bl"><div class="bl-dot" style="background:#c0392b;"></div>Over cap</div></div>
+    </div>
+
+    <!-- By position (scrollable) -->
+    <div class="card">
+      <div class="card-head"><span class="card-title">By position</span></div>
+      <div style="overflow-y:auto;max-height:340px;">
+        <div class="bud-row" style="background:#fff8f8;"><div class="bud-top"><span class="bud-sport" style="font-size:12px;color:#c0392b;">Basketball M · SG ⚠</span><span class="bud-nums"><strong style="color:#c0392b;">$200K</strong> of $150K</span></div><div class="bud-track"><div class="bud-fill" style="width:100%;background:#c0392b;"></div></div><div><span class="bud-over">Over cap by $50K</span></div></div>
+        <div class="bud-row"><div class="bud-top"><span class="bud-sport" style="font-size:12px;">Football · QB</span><span class="bud-nums"><strong>$350K</strong> of $400K</span></div><div class="bud-track"><div class="bud-fill" style="width:86%;background:#0f1f38;"></div></div><div><span class="bud-ok" style="color:#d48a0a;">Near cap — $50K left</span></div></div>
+        <div class="bud-row"><div class="bud-top"><span class="bud-sport" style="font-size:12px;">Football · WR</span><span class="bud-nums"><strong>$680K</strong> of $800K</span></div><div class="bud-track"><div class="bud-fill" style="width:82%;background:#0f1f38;"></div><div class="bud-fill" style="width:10%;background:#9eb8d4;"></div></div><div style="display:flex;justify-content:space-between;"><span class="bud-ok">$40K remaining</span><span class="bud-mute">$80K pending</span></div></div>
+        <div class="bud-row"><div class="bud-top"><span class="bud-sport" style="font-size:12px;">Football · RB</span><span class="bud-nums"><strong>$240K</strong> of $350K</span></div><div class="bud-track"><div class="bud-fill" style="width:66%;background:#0f1f38;"></div></div><div><span class="bud-ok">$110K remaining</span></div></div>
+        <div class="bud-row" style="border-bottom:none;"><div class="bud-top"><span class="bud-sport" style="font-size:12px;">Football · DB</span><span class="bud-nums"><strong>$410K</strong> of $500K</span></div><div class="bud-track"><div class="bud-fill" style="width:80%;background:#0f1f38;"></div></div><div><span class="bud-ok">$90K remaining</span></div></div>
+      </div>
+    </div>
+
+    <!-- vs. SEC avg (Premium) -->
+    <div class="card">
+      <div class="card-head">
+        <div><span class="card-title">vs. SEC avg spend</span><span class="prem-badge">Premium</span></div>
+        <a class="card-link" href="nil-benchmarks-v3.html">Full benchmarks →</a>
+      </div>
+      <div style="padding:10px 0;">
+        <div class="vs-row"><span class="vs-sport">Football</span><div class="vs-bars"><div class="vs-bar you" style="width:90%;"></div><div class="vs-bar sec" style="width:80%;"></div></div><div class="vs-vals"><span class="vs-val you">$3.6M</span><span class="vs-val sec">$3.2M</span></div></div>
+        <div class="vs-row" style="background:#fff8f8;"><span class="vs-sport" style="color:#c0392b;">Bball (M) ⚠</span><div class="vs-bars"><div class="vs-bar" style="width:100%;background:#c0392b;"></div><div class="vs-bar sec" style="width:85%;"></div></div><div class="vs-vals"><span class="vs-val" style="color:#c0392b;">$512K</span><span class="vs-val sec">$480K</span></div></div>
+        <div class="vs-row"><span class="vs-sport">Baseball</span><div class="vs-bars"><div class="vs-bar you" style="width:60%;"></div><div class="vs-bar sec" style="width:56%;"></div></div><div class="vs-vals"><span class="vs-val you">$380K</span><span class="vs-val sec">$354K</span></div></div>
+        <div class="vs-row"><span class="vs-sport">Track &amp; Field</span><div class="vs-bars"><div class="vs-bar you" style="width:40%;"></div><div class="vs-bar sec" style="width:44%;"></div></div><div class="vs-vals"><span class="vs-val you">$210K</span><span class="vs-val sec">$224K</span></div></div>
+        <div class="vs-row" style="border-bottom:none;"><span class="vs-sport">Soccer (W)</span><div class="vs-bars"><div class="vs-bar you" style="width:28%;"></div><div class="vs-bar sec" style="width:32%;"></div></div><div class="vs-vals"><span class="vs-val you">$94K</span><span class="vs-val sec">$108K</span></div></div>
+        <div style="display:flex;gap:14px;padding:7px 14px;border-top:1px solid #dce4ed;background:#f7f9fc;"><span style="display:flex;align-items:center;gap:4px;font-size:11px;font-family:monospace;color:#8fa3b8;"><span style="width:9px;height:9px;border-radius:2px;background:#0f1f38;display:inline-block;"></span>Your school</span><span style="display:flex;align-items:center;gap:4px;font-size:11px;font-family:monospace;color:#8fa3b8;"><span style="width:9px;height:9px;border-radius:2px;background:#c8d8e8;display:inline-block;"></span>SEC avg</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- All commitments table -->
+  <div class="card">
+    <div class="card-head"><div><span class="card-title">All active commitments</span></div><span style="font-family:monospace;font-size:11px;color:#8fa3b8;">107 deals · $4,702,000 committed</span></div>
+    <div style="overflow-y:auto;max-height:340px;">
+      <table class="dtable">
+        <thead><tr><th>Athlete</th><th>Sport</th><th>Position</th><th>Deal value</th><th>Status</th><th class="sorted">Expires ↑↓</th><th>% of sport cap</th><th>vs SEC avg (pos.)</th></tr></thead>
+        <tbody>
+          <tr style="background:#fff8f8;"><td><span class="ath-link">Cameron Ellis</span></td><td style="color:#c0392b;font-weight:600;font-family:monospace;font-size:12px;">Basketball M</td><td class="mono">SG</td><td class="mono" style="font-weight:600;color:#c0392b;">$200,000</td><td><span class="sp sp-active">Active</span></td><td class="mono" style="color:#c0392b;font-weight:600;">Apr 8 ⚠</td><td><div style="display:flex;align-items:center;gap:6px;"><div style="width:72px;height:5px;background:#f0f4f9;border-radius:99px;overflow:hidden;"><div style="width:100%;height:100%;background:#c0392b;border-radius:99px;"></div></div><span class="mono" style="color:#c0392b;">133%</span></div></td><td><span class="delta-up">+42%</span></td></tr>
+          <tr><td><span class="ath-link">Marcus Johnson</span></td><td class="mono">Football</td><td class="mono">WR</td><td class="mono" style="font-weight:600;">$350,000</td><td><span class="sp sp-active">Active</span></td><td class="mono" style="color:#8fa3b8;">Jul 2026</td><td><div style="display:flex;align-items:center;gap:6px;"><div style="width:72px;height:5px;background:#f0f4f9;border-radius:99px;overflow:hidden;"><div style="width:68%;height:100%;background:#1a9e5a;border-radius:99px;"></div></div><span class="mono">68%</span></div></td><td><span class="delta-up">+18%</span></td></tr>
+          <tr><td><span class="ath-link">Davis Carter</span></td><td class="mono">Football</td><td class="mono">QB</td><td class="mono" style="font-weight:600;">$95,000</td><td><span class="sp sp-expiring">Expiring</span></td><td class="mono" style="color:#c0392b;font-weight:600;">Mar 24 ⚠</td><td><div style="display:flex;align-items:center;gap:6px;"><div style="width:72px;height:5px;background:#f0f4f9;border-radius:99px;overflow:hidden;"><div style="width:23%;height:100%;background:#1a9e5a;border-radius:99px;"></div></div><span class="mono">23%</span></div></td><td><span class="delta-dn">-12%</span></td></tr>
+          <tr><td><span class="ath-link">Tyler Rodriguez</span></td><td class="mono">Baseball</td><td class="mono">SP</td><td class="mono" style="font-weight:600;">$44,000</td><td><span class="sp sp-active">Active</span></td><td class="mono" style="color:#8fa3b8;">Aug 2026</td><td><div style="display:flex;align-items:center;gap:6px;"><div style="width:72px;height:5px;background:#f0f4f9;border-radius:99px;overflow:hidden;"><div style="width:52%;height:100%;background:#1a9e5a;border-radius:99px;"></div></div><span class="mono">52%</span></div></td><td><span class="delta-up">+8%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
