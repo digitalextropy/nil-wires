@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NIL Benchmark – Athlete Detail (Basic)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:#f7f9fc;color:#0f1f38;min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* ── NAV ── */
+nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;position:sticky;top:0;z-index:200;}
+.nav-left{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.nav-logo{font-family:Georgia,serif;font-size:17px;color:#fff;text-decoration:none;flex-shrink:0;}
+.nav-logo span{color:#e8a020;}
+.nav-logo:hover{opacity:.85;}
+.nav-tier-pill{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:99px;flex-shrink:0;}
+.nav-tier-pill.basic{background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2);}
+.nav-links{display:flex;gap:2px;}
+.nav-links a{font-size:12px;color:rgba(255,255,255,.55);padding:5px 11px;border-radius:5px;font-weight:500;white-space:nowrap;text-decoration:none;cursor:pointer;}
+.nav-links a:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);}
+.nav-links a.active{background:rgba(232,160,32,.15);color:#e8a020;}
+.nav-link.locked{color:rgba(255,255,255,.22)!important;pointer-events:none;display:flex;align-items:center;gap:5px;}
+.nav-premium-tag{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.07);color:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.1);padding:1px 5px;border-radius:3px;}
+.nav-user{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.nav-school{font-size:11px;color:rgba(255,255,255,.45);font-family:monospace;text-align:right;line-height:1.3;}
+.nav-role{font-size:10px;color:rgba(255,255,255,.3);font-family:monospace;text-align:right;}
+.nav-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.nav-avatar.basic{background:rgba(255,255,255,.15);color:rgba(255,255,255,.7);}
+
+/* ── PAGE ── */
+.body{max-width:1160px;margin:0 auto;padding:20px 24px 40px;}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{font-family:monospace;font-size:11px;color:#8fa3b8;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#3b82c4;text-decoration:underline;cursor:pointer;}
+.breadcrumb-sep{color:#c0cedc;}
+
+/* ── PROFILE HEADER ── */
+.profile-header{background:#fff;border:1.5px solid #dce4ed;border-radius:10px;padding:20px 24px;margin-bottom:16px;display:flex;align-items:flex-start;gap:20px;}
+.profile-av{width:64px;height:64px;border-radius:50%;background:#e8edf5;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#4a6480;flex-shrink:0;border:2px solid #dce4ed;}
+.profile-main{flex:1;}
+.profile-name{font-family:Georgia,serif;font-size:26px;line-height:1.1;margin-bottom:4px;}
+.profile-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.profile-tag{font-family:monospace;font-size:11px;color:#8fa3b8;}
+.profile-tag strong{color:#4a6480;}
+.profile-sport-pill{font-size:10px;font-family:monospace;font-weight:700;letter-spacing:.04em;padding:2px 9px;border-radius:99px;border:1px solid;}
+.sport-football{background:#e8edf5;color:#1a3558;border-color:#9eb8d4;}
+.profile-stats{display:flex;gap:20px;}
+.pstat{text-align:center;}
+.pstat-val{font-family:Georgia,serif;font-size:20px;color:#0f1f38;line-height:1;}
+.pstat-lbl{font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.06em;margin-top:3px;}
+.profile-actions{display:flex;gap:8px;flex-shrink:0;align-items:flex-start;}
+
+/* ── LAYOUT ── */
+.detail-layout{display:grid;grid-template-columns:1fr 320px;gap:16px;}
+.left-col{display:flex;flex-direction:column;gap:16px;}
+.right-col{display:flex;flex-direction:column;gap:16px;}
+
+/* ── CARDS ── */
+.card{background:#fff;border:1.5px solid #dce4ed;border-radius:10px;overflow:hidden;}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1.5px solid #dce4ed;background:#f7f9fc;}
+.card-title{font-size:11px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.08em;}
+.card-link{font-family:monospace;font-size:11px;color:#3b82c4;cursor:pointer;text-decoration:underline;}
+.card-badge{font-size:10px;font-family:monospace;background:#fef3dc;color:#a06c0e;border:1px solid rgba(232,160,32,.35);padding:2px 8px;border-radius:99px;}
+
+/* ── EDIT FIELDS ── */
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px;}
+.field-group{display:flex;flex-direction:column;gap:4px;}
+.field-group.full{grid-column:1/-1;}
+.field-lbl{font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;}
+.field-input{padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;background:#fff;width:100%;}
+.field-input:focus{outline:none;border-color:#3b82c4;box-shadow:0 0 0 3px rgba(59,130,196,.1);}
+.field-select{padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;background:#fff;width:100%;cursor:pointer;}
+.field-static{padding:8px 11px;font-size:13px;color:#4a6480;font-family:monospace;}
+
+/* ── ELIGIBILITY PIPS ── */
+.elig-row{display:flex;align-items:center;gap:8px;padding:12px 16px;}
+.pip-set{display:flex;gap:4px;}
+.pip{width:28px;height:10px;border-radius:3px;}
+.pip.used{background:#0f1f38;}
+.pip.remaining{background:#e8a020;}
+.pip.future{background:#e8edf5;border:1px solid #dce4ed;}
+.elig-lbl{font-size:12px;color:#4a6480;}
+.elig-lbl strong{color:#0f1f38;}
+
+/* ── DEAL TABLE ── */
+.deal-table{width:100%;border-collapse:collapse;font-size:13px;}
+.deal-table th{font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;text-align:left;padding:9px 16px;border-bottom:1.5px solid #dce4ed;background:#f7f9fc;white-space:nowrap;}
+.deal-table td{padding:11px 16px;border-bottom:1px solid #dce4ed;vertical-align:middle;}
+.deal-table tbody tr:last-child td{border-bottom:none;}
+.deal-table tbody tr:hover td{background:#f7f9fc;}
+.deal-brand{font-weight:600;color:#0f1f38;}
+.deal-type-lbl{font-family:monospace;font-size:10px;color:#8fa3b8;margin-top:2px;}
+.deal-val{font-family:monospace;font-size:13px;color:#4a6480;font-weight:600;}
+.deal-date{font-family:monospace;font-size:11px;color:#8fa3b8;white-space:nowrap;}
+.deal-actions{display:flex;align-items:center;gap:8px;}
+
+/* ── STATUS PILLS ── */
+.sp{font-family:monospace;font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px solid;display:inline-block;white-space:nowrap;}
+.sp-active{background:#e6f7ef;color:#0e6637;border-color:#5abf87;}
+.sp-expiring{background:#fff0ee;color:#7a1f1f;border-color:#e8a0a0;}
+.sp-pending{background:#fef3dc;color:#a06c0e;border-color:#e8a020;}
+.sp-closed{background:#f0f4f9;color:#8fa3b8;border-color:#c0cedc;}
+.sp-sign{background:#e6f7ef;color:#0e6637;border-color:#5abf87;}
+.sp-neg{background:#fef3dc;color:#a06c0e;border-color:#e8a020;}
+
+/* ── DOWNLOAD LINK ── */
+.dl-link{display:inline-flex;align-items:center;gap:5px;font-family:monospace;font-size:11px;color:#3b82c4;text-decoration:underline;cursor:pointer;}
+.dl-link svg{flex-shrink:0;}
+
+/* ── ADD DEAL BUTTON ROW ── */
+.add-deal-row{padding:12px 16px;border-top:1.5px solid #dce4ed;background:#f7f9fc;display:flex;justify-content:flex-end;}
+
+/* ── COMPLIANCE ITEMS ── */
+.comp-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid #dce4ed;font-size:13px;}
+.comp-item:last-child{border-bottom:none;}
+.ci-ok{width:20px;height:20px;border-radius:50%;background:#e6f7ef;color:#0e6637;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.ci-warn{width:20px;height:20px;border-radius:50%;background:#fef3dc;color:#a06c0e;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+.ci-label{flex:1;}
+.ci-date{font-family:monospace;font-size:11px;color:#8fa3b8;}
+
+/* ── DOCS ── */
+.doc-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid #dce4ed;cursor:pointer;}
+.doc-item:last-child{border-bottom:none;}
+.doc-item:hover{background:#f7f9fc;}
+.doc-icon{width:32px;height:32px;border-radius:6px;background:#e8edf5;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.doc-body{flex:1;}
+.doc-name{font-size:13px;font-weight:500;color:#0f1f38;}
+.doc-meta{font-family:monospace;font-size:10px;color:#8fa3b8;margin-top:2px;}
+.doc-dl{font-family:monospace;font-size:11px;color:#3b82c4;text-decoration:underline;}
+
+/* ── NOTES ── */
+.notes-area{padding:12px 16px;}
+.notes-ta{width:100%;min-height:80px;padding:10px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#4a6480;background:#fff;resize:vertical;}
+.notes-ta:focus{outline:none;border-color:#3b82c4;}
+
+/* ── SAVE BAR ── */
+.save-bar{position:sticky;bottom:0;background:#fff;border-top:1.5px solid #dce4ed;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;z-index:100;margin:0 -24px;}
+.save-bar-note{font-family:monospace;font-size:11px;color:#8fa3b8;}
+
+/* ── BUTTONS ── */
+.btn-primary{padding:7px 14px;background:#0f1f38;border:none;border-radius:7px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;}
+.btn-primary:hover{background:#162d50;}
+.btn-secondary{padding:7px 14px;background:#fff;border:1.5px solid #dce4ed;border-radius:7px;font-size:12px;font-weight:600;color:#4a6480;cursor:pointer;}
+.btn-secondary:hover{border-color:#9eb8d4;}
+.btn-danger{padding:6px 12px;background:#fff;border:1.5px solid #e8a0a0;border-radius:7px;font-size:11px;font-weight:600;color:#c0392b;cursor:pointer;}
+.btn-icon{width:28px;height:28px;border-radius:6px;background:#f0f4f9;border:1px solid #dce4ed;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;}
+.btn-icon:hover{background:#e8edf5;}
+
+/* ── ACTIVITY LOG ── */
+.log-item{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;border-bottom:1px solid #dce4ed;font-size:12px;}
+.log-item:last-child{border-bottom:none;}
+.log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.log-dot.green{background:#1a9e5a;}
+.log-dot.blue{background:#3b82c4;}
+.log-dot.gold{background:#e8a020;}
+.log-dot.gray{background:#c0cedc;}
+.log-body{flex:1;line-height:1.4;}
+.log-time{font-family:monospace;font-size:10px;color:#8fa3b8;white-space:nowrap;flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-logo">NIL <span>Benchmark</span></a>
+    <span class="nav-tier-pill basic">Basic</span>
+  </div>
+  <div class="nav-links">
+    <a href="nil-basic-athletes.html" class="nav-link active">Athletes</a>
+    <a href="nil-basic-agreements.html" class="nav-link">NIL Agreements</a>
+    <a href="nil-basic-budget.html" class="nav-link">Budget</a>
+    <a href="nil-basic-reporting.html" class="nav-link">Reporting</a>
+    <a href="nil-basic-admin.html" class="nav-link">Admin</a>
+    <a class="nav-link locked">Benchmarks <span class="nav-premium-tag">Premium</span></a>
+  </div>
+  <div class="nav-user">
+    <div>
+      <span class="nav-school">State University</span>
+      <span class="nav-role">Athletic Director</span>
+    </div>
+    <div class="nav-avatar basic">AD</div>
+  </div>
+</nav>
+
+<div class="body">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="nil-basic-athletes.html">Athletes</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Marcus Johnson</span>
+  </div>
+
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <div class="profile-av">MJ</div>
+    <div class="profile-main">
+      <div class="profile-name">Marcus Johnson</div>
+      <div class="profile-meta">
+        <span class="profile-sport-pill sport-football">Football</span>
+        <span class="profile-tag"><strong>WR · #17</strong></span>
+        <span class="profile-tag">ATH-00441</span>
+        <span class="profile-tag">·</span>
+        <span class="profile-tag">Year 3 of 5</span>
+        <span class="profile-tag">·</span>
+        <span class="profile-tag">2025–26</span>
+      </div>
+      <div class="profile-stats">
+        <div class="pstat"><div class="pstat-val" style="color:#1a9e5a;">$84,500</div><div class="pstat-lbl">Total NIL</div></div>
+        <div class="pstat"><div class="pstat-val">3</div><div class="pstat-lbl">Active deals</div></div>
+        <div class="pstat"><div class="pstat-val" style="color:#d48a0a;">1</div><div class="pstat-lbl">Expiring &lt;60d</div></div>
+        <div class="pstat"><div class="pstat-val" style="color:#1a9e5a;">✓</div><div class="pstat-lbl">Compliant</div></div>
+      </div>
+    </div>
+    <div class="profile-actions">
+      <button class="btn-secondary">← Back to roster</button>
+      <button class="btn-primary">Save changes</button>
+    </div>
+  </div>
+
+  <div class="detail-layout">
+    <div class="left-col">
+
+      <!-- Athlete Info (editable) -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Athlete Information</span>
+          <span style="font-family:monospace;font-size:10px;color:#8fa3b8;">ATH-00441</span>
+        </div>
+        <div class="field-grid">
+          <div class="field-group">
+            <label class="field-lbl">First name</label>
+            <input class="field-input" value="Marcus" />
+          </div>
+          <div class="field-group">
+            <label class="field-lbl">Last name</label>
+            <input class="field-input" value="Johnson" />
+          </div>
+          <div class="field-group">
+            <label class="field-lbl">Sport</label>
+            <select class="field-select">
+              <option selected>Football</option>
+              <option>Basketball (M)</option>
+              <option>Basketball (W)</option>
+              <option>Baseball</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-lbl">Position</label>
+            <select class="field-select">
+              <option>QB</option>
+              <option selected>WR</option>
+              <option>RB</option>
+              <option>TE</option>
+              <option>OL</option>
+              <option>DL</option>
+              <option>LB</option>
+              <option>CB</option>
+              <option>S</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-lbl">Jersey number</label>
+            <input class="field-input" value="17" />
+          </div>
+          <div class="field-group">
+            <label class="field-lbl">Eligibility year</label>
+            <select class="field-select">
+              <option>Year 1</option>
+              <option>Year 2</option>
+              <option selected>Year 3</option>
+              <option>Year 4</option>
+              <option>Year 5</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-lbl">Email</label>
+            <input class="field-input" value="m.johnson@stateuniversity.edu" />
+          </div>
+          <div class="field-group">
+            <label class="field-lbl">Phone</label>
+            <input class="field-input" value="(555) 208-4471" />
+          </div>
+          <div class="field-group">
+            <label class="field-lbl">Class year</label>
+            <select class="field-select">
+              <option>Freshman</option>
+              <option>Sophomore</option>
+              <option selected>Junior</option>
+              <option>Senior</option>
+              <option>Graduate</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-lbl">Transfer status</label>
+            <select class="field-select">
+              <option selected>Original signee</option>
+              <option>Transfer portal</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Eligibility visual -->
+        <div style="border-top:1.5px solid #dce4ed;padding:12px 16px;">
+          <div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;">Eligibility used</div>
+          <div class="elig-row" style="padding:0;">
+            <div class="pip-set">
+              <div class="pip used" title="Year 1"></div>
+              <div class="pip used" title="Year 2"></div>
+              <div class="pip used" title="Year 3 — current"></div>
+              <div class="pip remaining" title="Year 4"></div>
+              <div class="pip future" title="Year 5"></div>
+            </div>
+            <span class="elig-lbl"><strong>3 of 5</strong> years used · <strong>2 remaining</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- NIL Agreements / Deal History -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">NIL Agreements</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="card-badge">3 active</span>
+            <a href="nil-basic-upload-wizard.html" class="card-link">+ Add deal</a>
+          </div>
+        </div>
+        <table class="deal-table">
+          <thead>
+            <tr>
+              <th>Brand / deal</th>
+              <th>Type</th>
+              <th>Value</th>
+              <th>Period</th>
+              <th>Status</th>
+              <th>Contract</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Deal 1 — active, expiring -->
+            <tr>
+              <td>
+                <div class="deal-brand">Nike Athlete Program</div>
+                <div class="deal-type-lbl">Endorsement</div>
+              </td>
+              <td><span class="sp sp-active" style="font-size:9px;">Endorsement</span></td>
+              <td><span class="deal-val">$35,000</span></td>
+              <td>
+                <div class="deal-date">Aug 1, 2025</div>
+                <div class="deal-date" style="color:#c0392b;font-weight:600;">Apr 1, 2026 ⚑</div>
+              </td>
+              <td><span class="sp sp-expiring">Expiring</span></td>
+              <td>
+                <a class="dl-link" href="#">
+                  <svg width="12" height="13" viewBox="0 0 12 13" fill="none"><path d="M6 1v7M3 5.5 6 9l3-3.5" stroke="#3b82c4" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="10" width="10" height="1.5" rx=".75" fill="#3b82c4"/></svg>
+                  Nike_contract.pdf
+                </a>
+              </td>
+              <td>
+                <div class="deal-actions">
+                  <button class="btn-icon" title="Edit deal">✎</button>
+                </div>
+              </td>
+            </tr>
+            <!-- Deal 2 — active -->
+            <tr>
+              <td>
+                <div class="deal-brand">Regional Auto Group</div>
+                <div class="deal-type-lbl">Social media</div>
+              </td>
+              <td><span class="sp sp-active" style="font-size:9px;">Social media</span></td>
+              <td><span class="deal-val">$24,500</span></td>
+              <td>
+                <div class="deal-date">Jan 15, 2025</div>
+                <div class="deal-date">Jul 31, 2026</div>
+              </td>
+              <td><span class="sp sp-active">Active</span></td>
+              <td>
+                <a class="dl-link" href="#">
+                  <svg width="12" height="13" viewBox="0 0 12 13" fill="none"><path d="M6 1v7M3 5.5 6 9l3-3.5" stroke="#3b82c4" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="10" width="10" height="1.5" rx=".75" fill="#3b82c4"/></svg>
+                  AutoGroup_agreement.pdf
+                </a>
+              </td>
+              <td>
+                <div class="deal-actions">
+                  <button class="btn-icon" title="Edit deal">✎</button>
+                </div>
+              </td>
+            </tr>
+            <!-- Deal 3 — active -->
+            <tr>
+              <td>
+                <div class="deal-brand">Alumni Booster Event</div>
+                <div class="deal-type-lbl">Appearance</div>
+              </td>
+              <td><span class="sp sp-active" style="font-size:9px;">Appearance</span></td>
+              <td><span class="deal-val">$15,000</span></td>
+              <td>
+                <div class="deal-date">Mar 5, 2026</div>
+                <div class="deal-date">Mar 5, 2026</div>
+              </td>
+              <td><span class="sp sp-active">Active</span></td>
+              <td>
+                <a class="dl-link" href="#">
+                  <svg width="12" height="13" viewBox="0 0 12 13" fill="none"><path d="M6 1v7M3 5.5 6 9l3-3.5" stroke="#3b82c4" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="10" width="10" height="1.5" rx=".75" fill="#3b82c4"/></svg>
+                  Booster_event.pdf
+                </a>
+              </td>
+              <td>
+                <div class="deal-actions">
+                  <button class="btn-icon" title="Edit deal">✎</button>
+                </div>
+              </td>
+            </tr>
+            <!-- Deal 4 — closed/past -->
+            <tr style="opacity:.6;">
+              <td>
+                <div class="deal-brand">Local Sports Bar Promo</div>
+                <div class="deal-type-lbl">Social media</div>
+              </td>
+              <td><span class="sp sp-closed" style="font-size:9px;">Social media</span></td>
+              <td><span class="deal-val">$10,000</span></td>
+              <td>
+                <div class="deal-date">Aug 1, 2024</div>
+                <div class="deal-date">Jan 31, 2025</div>
+              </td>
+              <td><span class="sp sp-closed">Closed</span></td>
+              <td>
+                <a class="dl-link" href="#">
+                  <svg width="12" height="13" viewBox="0 0 12 13" fill="none"><path d="M6 1v7M3 5.5 6 9l3-3.5" stroke="#3b82c4" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="10" width="10" height="1.5" rx=".75" fill="#3b82c4"/></svg>
+                  SportBar_promo.pdf
+                </a>
+              </td>
+              <td>
+                <div class="deal-actions">
+                  <button class="btn-icon" title="View">👁</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="add-deal-row">
+          <a href="nil-basic-upload-wizard.html" class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:7px 14px;background:#0f1f38;border-radius:7px;color:#fff;">+ Upload new deal</a>
+        </div>
+      </div>
+
+    </div><!-- /left-col -->
+
+    <div class="right-col">
+
+      <!-- Compliance -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Compliance</span>
+          <span class="card-badge" style="background:#e6f7ef;color:#0e6637;border-color:#5abf87;">✓ Compliant</span>
+        </div>
+        <div class="comp-item">
+          <div class="ci-ok">✓</div>
+          <span class="ci-label">NIL certification signed</span>
+          <span class="ci-date">Jan 14</span>
+        </div>
+        <div class="comp-item">
+          <div class="ci-ok">✓</div>
+          <span class="ci-label">All disclosures submitted</span>
+          <span class="ci-date">4 of 4</span>
+        </div>
+        <div class="comp-item">
+          <div class="ci-ok">✓</div>
+          <span class="ci-label">Academic eligibility</span>
+          <span class="ci-date">Fall 2025</span>
+        </div>
+        <div class="comp-item">
+          <div class="ci-warn">!</div>
+          <span class="ci-label">Spring cert. pending</span>
+          <span class="ci-date" style="color:#d48a0a;">Due Mar 31</span>
+        </div>
+      </div>
+
+      <!-- All Documents -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Documents</span>
+          <button class="btn-secondary" style="font-size:11px;padding:4px 10px;">Upload</button>
+        </div>
+        <div class="doc-item">
+          <div class="doc-icon">
+            <svg width="14" height="16" viewBox="0 0 14 16"><rect x="1" y="1" width="12" height="14" rx="2" fill="none" stroke="#4a6480" stroke-width="1.2"/><line x1="3.5" y1="5" x2="10.5" y2="5" stroke="#4a6480" stroke-width="1"/><line x1="3.5" y1="7.5" x2="10.5" y2="7.5" stroke="#4a6480" stroke-width="1"/><line x1="3.5" y1="10" x2="7.5" y2="10" stroke="#4a6480" stroke-width="1"/></svg>
+          </div>
+          <div class="doc-body">
+            <div class="doc-name">Nike_contract.pdf</div>
+            <div class="doc-meta">Deal document · Jan 10, 2025 · 244 KB</div>
+          </div>
+          <a class="doc-dl" href="#">⬇</a>
+        </div>
+        <div class="doc-item">
+          <div class="doc-icon">
+            <svg width="14" height="16" viewBox="0 0 14 16"><rect x="1" y="1" width="12" height="14" rx="2" fill="none" stroke="#4a6480" stroke-width="1.2"/><line x1="3.5" y1="5" x2="10.5" y2="5" stroke="#4a6480" stroke-width="1"/><line x1="3.5" y1="7.5" x2="10.5" y2="7.5" stroke="#4a6480" stroke-width="1"/><line x1="3.5" y1="10" x2="7.5" y2="10" stroke="#4a6480" stroke-width="1"/></svg>
+          </div>
+          <div class="doc-body">
+            <div class="doc-name">NIL_certification.pdf</div>
+            <div class="doc-meta">Compliance · Jan 14, 2025 · 88 KB</div>
+          </div>
+          <a class="doc-dl" href="#">⬇</a>
+        </div>
+        <div class="doc-item">
+          <div class="doc-icon">
+            <svg width="14" height="16" viewBox="0 0 14 16"><rect x="1" y="1" width="12" height="14" rx="2" fill="none" stroke="#4a6480" stroke-width="1.2"/><line x1="3.5" y1="5" x2="10.5" y2="5" stroke="#4a6480" stroke-width="1"/><line x1="3.5" y1="7.5" x2="10.5" y2="7.5" stroke="#4a6480" stroke-width="1"/><line x1="3.5" y1="10" x2="7.5" y2="10" stroke="#4a6480" stroke-width="1"/></svg>
+          </div>
+          <div class="doc-body">
+            <div class="doc-name">AutoGroup_agreement.pdf</div>
+            <div class="doc-meta">Deal document · Jan 15, 2025 · 312 KB</div>
+          </div>
+          <a class="doc-dl" href="#">⬇</a>
+        </div>
+        <div class="doc-item">
+          <div class="doc-icon">
+            <svg width="14" height="16" viewBox="0 0 14 16"><rect x="1" y="1" width="12" height="14" rx="2" fill="none" stroke="#4a6480" stroke-width="1.2"/><line x1="3.5" y1="5" x2="10.5" y2="5" stroke="#4a6480" stroke-width="1"/><line x1="3.5" y1="7.5" x2="10.5" y2="7.5" stroke="#4a6480" stroke-width="1"/><line x1="3.5" y1="10" x2="7.5" y2="10" stroke="#4a6480" stroke-width="1"/></svg>
+          </div>
+          <div class="doc-body">
+            <div class="doc-name">Booster_event.pdf</div>
+            <div class="doc-meta">Deal document · Mar 2, 2026 · 56 KB</div>
+          </div>
+          <a class="doc-dl" href="#">⬇</a>
+        </div>
+        <div class="doc-item">
+          <div class="doc-icon">
+            <svg width="14" height="16" viewBox="0 0 14 16"><rect x="1" y="1" width="12" height="14" rx="2" fill="none" stroke="#4a6480" stroke-width="1.2"/><line x1="3.5" y1="5" x2="10.5" y2="5" stroke="#4a6480" stroke-width="1"/><line x1="3.5" y1="7.5" x2="10.5" y2="7.5" stroke="#4a6480" stroke-width="1"/><line x1="3.5" y1="10" x2="7.5" y2="10" stroke="#4a6480" stroke-width="1"/></svg>
+          </div>
+          <div class="doc-body">
+            <div class="doc-name">SportBar_promo.pdf</div>
+            <div class="doc-meta">Deal document · Aug 1, 2024 · 124 KB</div>
+          </div>
+          <a class="doc-dl" href="#">⬇</a>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Internal Notes</span>
+        </div>
+        <div class="notes-area">
+          <textarea class="notes-ta" placeholder="Add internal notes about this athlete...">High-value recruit. Nike renewal conversation needed before Apr 1. Coach Bennett flagged for spring certification follow-up.</textarea>
+        </div>
+      </div>
+
+      <!-- Activity Log -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Activity Log</span>
+        </div>
+        <div class="log-item">
+          <div class="log-dot green"></div>
+          <div class="log-body"><strong>Deal uploaded</strong> — Nike Athlete Program · $35,000<br><span style="color:#8fa3b8;">By J. Williams</span></div>
+          <div class="log-time">Jan 10</div>
+        </div>
+        <div class="log-item">
+          <div class="log-dot blue"></div>
+          <div class="log-body"><strong>NIL cert. signed</strong> — 2025–26 certification<br><span style="color:#8fa3b8;">Athlete self-submitted</span></div>
+          <div class="log-time">Jan 14</div>
+        </div>
+        <div class="log-item">
+          <div class="log-dot green"></div>
+          <div class="log-body"><strong>Deal uploaded</strong> — Regional Auto Group · $24,500<br><span style="color:#8fa3b8;">By J. Williams</span></div>
+          <div class="log-time">Jan 15</div>
+        </div>
+        <div class="log-item">
+          <div class="log-dot gold"></div>
+          <div class="log-body"><strong>Expiry alert triggered</strong> — Nike deal expires in 60 days<br><span style="color:#8fa3b8;">System</span></div>
+          <div class="log-time">Feb 1</div>
+        </div>
+        <div class="log-item">
+          <div class="log-dot green"></div>
+          <div class="log-body"><strong>Deal uploaded</strong> — Alumni Booster Event · $15,000<br><span style="color:#8fa3b8;">By T. Roberts</span></div>
+          <div class="log-time">Mar 2</div>
+        </div>
+      </div>
+
+    </div><!-- /right-col -->
+  </div><!-- /detail-layout -->
+
+  <!-- Sticky save bar -->
+  <div class="save-bar">
+    <span class="save-bar-note">Unsaved changes will be lost on navigation.</span>
+    <div style="display:flex;gap:8px;">
+      <button class="btn-secondary">Cancel</button>
+      <button class="btn-primary">Save changes</button>
+    </div>
+  </div>
+
+</div><!-- /body -->
+
+<script>
+// Highlight unsaved state on any input change
+document.querySelectorAll('input, select, textarea').forEach(el => {
+  el.addEventListener('change', () => {
+    document.querySelectorAll('.save-bar').forEach(b => {
+      b.style.background = '#fffbf0';
+      b.style.borderTopColor = '#e8a020';
+    });
+  });
+});
+</script>
+
+</body>
+</html>
