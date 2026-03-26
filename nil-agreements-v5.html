@@ -299,9 +299,9 @@ col.c-act{width:5%}
 
 <!-- Toolbar -->
 <div class="toolbar">
-  <div class="search-box">
-    <span style="color:var(--text-3);font-size:14px">&#x1F50D;</span>
-    <input type="text" placeholder="Search agreement #, athlete, type…">
+  <div class="search-box" style="position:relative;">
+    <span style="position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:13px;pointer-events:none;">⌕</span>
+    <input type="text" placeholder="Search athlete or deal #…" style="padding-left:24px;">
   </div>
   <div class="toolbar-sep"></div>
   <div style="border-bottom:2px solid var(--border);display:flex">
@@ -310,8 +310,6 @@ col.c-act{width:5%}
       <div class="tab">Verified <span class="tab-count" style="background:var(--green-pale);color:var(--green-dark)">89</span></div>
       <div class="tab">Pending <span class="tab-count tc-warn">3</span></div>
       <div class="tab">Needs Review <span class="tab-count tc-bad">2</span></div>
-      <!-- Drafts as separate tab per decision -->
-      <div class="tab">Drafts <span class="tab-count tc-sky">4</span></div>
     </div>
   </div>
   <div class="toolbar-gap"></div>
@@ -346,14 +344,6 @@ col.c-act{width:5%}
     </div>
   </div>
 
-  <select style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:7px 10px;font-family:'Outfit',sans-serif;font-size:12.5px;color:var(--text-2);cursor:pointer">
-    <option>Sort: Newest First</option>
-    <option>Expiration Date &#x2191;</option>
-    <option>Total Value &#x2193;</option>
-    <option>Agreement Type</option>
-    <option>Comp Type</option>
-    <option>Status</option>
-  </select>
 </div>
 
 <!-- Active filter chips -->
@@ -379,7 +369,7 @@ col.c-act{width:5%}
         <!-- Agreement # first per Matthew -->
         <th>Agree. # &#x21C5;</th>
         <th>Athlete &#x21C5;</th>
-        <th>Sport</th>
+        <th>Sport &#x21C5;</th>
         <th style="color:var(--sky)">Type <span style="background:var(--sky);color:var(--white);border-radius:100px;padding:1px 5px;font-size:8px;font-weight:700;margin-left:2px">2</span> &#x21C5;</th>
         <th>Comp &#x21C5;</th>
         <th class="r">Total &#x21C5;</th>
@@ -649,7 +639,58 @@ function toggleDrop(id){const dd=document.getElementById('dd'+id.replace('fp',''
 function toggleOpt(el){el.classList.toggle('sel');el.querySelector('.filt-ck').textContent=el.classList.contains('sel')?'\u2713':''}
 document.addEventListener('click',function(e){if(!e.target.closest('.filt-pill')&&openDrop){openDrop.classList.remove('open');openDrop=null}})
 function setStrip(el){document.querySelectorAll('.strip-cell').forEach(c=>c.classList.remove('af'));el.classList.add('af')}
-document.querySelectorAll('tbody tr').forEach((r,i)=>{r.style.opacity='0';r.style.transform='translateY(4px)';r.style.transition='opacity .3s ease,transform .3s ease';setTimeout(()=>{r.style.opacity='1';r.style.transform='translateY(0)'},50+i*45)})
+document.querySelectorAll('tbody tr').forEach((r,i)=>{r.style.opacity='0';r.style.transform='translateY(4px)';r.style.transition='opacity .3s ease,transform .3s ease';setTimeout(()=>{r.style.opacity='1';r.style.transform='translateY(0)'},50+i*45)});
+(function(){
+  var table = document.querySelector('table');
+  var thead = table.querySelector('thead tr');
+  var tbody = table.querySelector('tbody');
+  var ths = Array.from(thead.querySelectorAll('th'));
+  var sortState = {col: -1, asc: true};
+
+  ths.forEach(function(th, idx){
+    if(th.textContent.indexOf('\u21C5') === -1) return;
+    th.style.cursor = 'pointer';
+    th.addEventListener('click', function(){
+      if(sortState.col === idx) sortState.asc = !sortState.asc;
+      else { sortState.col = idx; sortState.asc = true; }
+
+      // Reset all sort arrows
+      ths.forEach(function(h){
+        h.innerHTML = h.innerHTML.replace(/[\u2191\u2193]/g, '\u21C5');
+      });
+      // Set active arrow
+      th.innerHTML = th.innerHTML.replace('\u21C5', sortState.asc ? '\u2191' : '\u2193');
+
+      var rows = Array.from(tbody.querySelectorAll('tr'));
+      rows.sort(function(a, b){
+        var aCell = a.querySelectorAll('td')[idx];
+        var bCell = b.querySelectorAll('td')[idx];
+        if(!aCell || !bCell) return 0;
+        var aText = aCell.textContent.trim();
+        var bText = bCell.textContent.trim();
+
+        // Try numeric (dollar values)
+        var aNum = parseFloat(aText.replace(/[^0-9.\-]/g, ''));
+        var bNum = parseFloat(bText.replace(/[^0-9.\-]/g, ''));
+        if(!isNaN(aNum) && !isNaN(bNum) && aText.indexOf('$') !== -1){
+          return sortState.asc ? aNum - bNum : bNum - aNum;
+        }
+
+        // Try date
+        var aDate = Date.parse(aText);
+        var bDate = Date.parse(bText);
+        if(!isNaN(aDate) && !isNaN(bDate)){
+          return sortState.asc ? aDate - bDate : bDate - aDate;
+        }
+
+        // Default string
+        return sortState.asc ? aText.localeCompare(bText) : bText.localeCompare(aText);
+      });
+
+      rows.forEach(function(row){ tbody.appendChild(row); });
+    });
+  });
+})();
 </script>
 </body>
 </html>
