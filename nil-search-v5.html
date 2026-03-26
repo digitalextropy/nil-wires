@@ -77,6 +77,11 @@ a.nav-logo:hover{opacity:.85;}
 
 /* Empty state */
 .empty-state{text-align:center;padding:80px 20px;color:#8fa3b8;font-size:15px;}
+.nav-user{position:relative;}
+.avatar-dropdown{position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1.5px solid #dce4ed;border-radius:8px;box-shadow:0 8px 24px rgba(15,31,56,.15);min-width:160px;z-index:300;overflow:hidden;}
+.avatar-drop-item{display:block;padding:10px 14px;font-size:13px;font-weight:500;color:#0f1f38;text-decoration:none;transition:background .1s;}
+.avatar-drop-item:hover{background:#f7f9fc;}
+.avatar-drop-divider{height:1px;background:#dce4ed;margin:0;}
 </style>
 </head>
 <body>
@@ -92,7 +97,6 @@ a.nav-logo:hover{opacity:.85;}
     <a href="nil-benchmarks-v5.html" class="nav-link">Benchmarks</a>
     <a href="nil-budget-v5.html" class="nav-link">Budget</a>
     <a href="nil-reporting-v5.html" class="nav-link">Reporting</a>
-    <a href="nil-admin-v5.html" class="nav-link">Admin</a>
   </div>
   <div class="nav-search-wrap">
     <span class="nav-search-icon">⌕</span>
@@ -104,7 +108,12 @@ a.nav-logo:hover{opacity:.85;}
       <span class="nav-school">Blue Mountain State</span>
       <span class="nav-role">Athletic Director</span>
     </div>
-    <div class="nav-avatar">AD</div>
+    <a href="nil-admin-v5.html" class="nav-avatar" style="text-decoration:none;color:inherit;">AD</a>
+    <div class="avatar-dropdown" id="avatarDrop" style="display:none;">
+      <a href="nil-admin-v5.html" class="avatar-drop-item">&#9881; Settings</a>
+      <div class="avatar-drop-divider"></div>
+      <a href="#" class="avatar-drop-item">Sign Out</a>
+    </div>
   </div>
 </nav>
 
@@ -187,6 +196,8 @@ a.nav-logo:hover{opacity:.85;}
     '</div>';
   }
 })();
+document.querySelector('.nav-avatar').addEventListener('click',function(e){e.preventDefault();var d=document.getElementById('avatarDrop');d.style.display=d.style.display==='none'?'block':'none';});
+document.addEventListener('click',function(e){if(!e.target.closest('.nav-user')){document.getElementById('avatarDrop').style.display='none';}});
 </script>
 
 </body>

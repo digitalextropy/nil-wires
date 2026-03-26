@@ -43,6 +43,11 @@ a.nav-logo:hover { opacity: .85; }
 .hc:last-child{border-right:none;}
 .hc-num{font-family:'DM Serif Display',Georgia,serif;font-size:22px;}
 .hc-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-top:3px;}
+.nav-user{position:relative;}
+.avatar-dropdown{position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1.5px solid #dce4ed;border-radius:8px;box-shadow:0 8px 24px rgba(15,31,56,.15);min-width:160px;z-index:300;overflow:hidden;}
+.avatar-drop-item{display:block;padding:10px 14px;font-size:13px;font-weight:500;color:#0f1f38;text-decoration:none;transition:background .1s;}
+.avatar-drop-item:hover{background:#f7f9fc;}
+.avatar-drop-divider{height:1px;background:#dce4ed;margin:0;}
 </style>
 </head>
 <body>
@@ -57,16 +62,20 @@ a.nav-logo:hover { opacity: .85; }
       <a href="nil-benchmarks-v5.html" class="nav-link">Benchmarks</a>
       <a href="nil-budget-v5.html" class="nav-link">Budget</a>
       <a href="nil-reporting-v5.html" class="nav-link">Reporting</a>
-      <a href="nil-admin-v5.html" class="nav-link">Admin</a>
     </div>
     <div class="nav-search-wrap">
       <span class="nav-search-icon">⌕</span>
       <input class="nav-search" type="text" placeholder="Search athlete or deal #…"
         oninput="if(this.value.length>=3)window.location.href='nil-search-v5.html?q='+encodeURIComponent(this.value)" />
     </div>
-    <div class="nav-right">
+    <div class="nav-right nav-user" style="position:relative;">
       <span class="nav-school">Blue Mountain State</span>
-      <div class="nav-av">AD</div>
+      <a href="nil-admin-v5.html" class="nav-av" style="text-decoration:none;color:inherit;">AD</a>
+      <div class="avatar-dropdown" id="avatarDrop" style="display:none;">
+        <a href="nil-admin-v5.html" class="avatar-drop-item">&#9881; Settings</a>
+        <div class="avatar-drop-divider"></div>
+        <a href="#" class="avatar-drop-item">Sign Out</a>
+      </div>
     </div>
   </nav>
 
@@ -272,5 +281,9 @@ a.nav-logo:hover { opacity: .85; }
   </div>
 </div>
 
+<script>
+document.querySelector('.nav-av').addEventListener('click',function(e){e.preventDefault();var d=document.getElementById('avatarDrop');d.style.display=d.style.display==='none'?'block':'none';});
+document.addEventListener('click',function(e){if(!e.target.closest('.nav-user')){document.getElementById('avatarDrop').style.display='none';}});
+</script>
 </body>
 </html>
