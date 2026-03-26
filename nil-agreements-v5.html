@@ -115,7 +115,7 @@ td.strong{font-weight:600}
 
 /* col widths */
 col.c-num{width:9%}
-col.c-ath{width:14%}
+col.c-ath{width:18%}
 col.c-sp{width:10%}
 col.c-dt{width:10%}
 col.c-ct{width:9%}
@@ -301,17 +301,9 @@ col.c-act{width:5%}
 <div class="toolbar">
   <div class="search-box" style="position:relative;">
     <span style="position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:13px;pointer-events:none;">⌕</span>
-    <input type="text" placeholder="Search athlete or deal #…" style="padding-left:24px;">
+    <input type="text" placeholder="Search athlete or deal…" style="padding-left:24px;">
   </div>
   <div class="toolbar-sep"></div>
-  <div style="border-bottom:2px solid var(--border);display:flex">
-    <div class="tab-row">
-      <div class="tab active">All <span class="tab-count tc-gray">107</span></div>
-      <div class="tab">Verified <span class="tab-count" style="background:var(--green-pale);color:var(--green-dark)">89</span></div>
-      <div class="tab">Pending <span class="tab-count tc-warn">3</span></div>
-      <div class="tab">Needs Review <span class="tab-count tc-bad">2</span></div>
-    </div>
-  </div>
   <div class="toolbar-gap"></div>
 
   <div class="filt-pill" id="fpDT">
@@ -359,15 +351,13 @@ col.c-act{width:5%}
 <div class="table-wrap">
   <table>
     <colgroup>
-      <col class="c-num"><col class="c-ath"><col class="c-sp">
+      <col class="c-ath"><col class="c-sp">
       <col class="c-dt"><col class="c-ct">
       <col class="c-total"><col class="c-guar"><col class="c-perf">
       <col class="c-exp"><col class="c-status"><col class="c-act">
     </colgroup>
     <thead>
       <tr>
-        <!-- Agreement # first per Matthew -->
-        <th>Agree. # &#x21C5;</th>
         <th>Athlete &#x21C5;</th>
         <th>Sport &#x21C5;</th>
         <th style="color:var(--sky)">Type <span style="background:var(--sky);color:var(--white);border-radius:100px;padding:1px 5px;font-size:8px;font-weight:700;margin-left:2px">2</span> &#x21C5;</th>
@@ -383,9 +373,8 @@ col.c-act{width:5%}
     </thead>
     <tbody>
       <tr>
-        <td class="mono strong" style="color:var(--sky)">#1087</td>
-        <td class="strong">Athlete #44 · QB</td>
-        <td class="muted">Football</td>
+        <td class="strong">Marcus Johnson<br><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--sky);font-weight:500">#NIL-2025-1087</span></td>
+        <td class="muted">Football · QB</td>
         <td><span class="badge b-sky">Endorsement</span></td>
         <td><span class="badge b-gray">Cash</span></td>
         <td class="mono r">$350,000</td>
@@ -396,9 +385,8 @@ col.c-act{width:5%}
         <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View</a></td>
       </tr>
       <tr>
-        <td class="mono strong" style="color:var(--sky)">#1085</td>
-        <td class="strong">Athlete #17 · WR</td>
-        <td class="muted">Football</td>
+        <td class="strong">DeAndre Williams<br><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--sky);font-weight:500">#NIL-2025-1085</span></td>
+        <td class="muted">Football · WR</td>
         <td><span class="badge b-teal">Social Media</span></td>
         <td><span class="badge b-gray">Mixed</span></td>
         <td class="mono r">$180,000</td>
@@ -409,9 +397,8 @@ col.c-act{width:5%}
         <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View</a></td>
       </tr>
       <tr class="nr-row">
-        <td class="mono strong" style="color:var(--amber-dark)">#1091</td>
-        <td class="strong">Athlete #83 · WR</td>
-        <td class="muted">Football</td>
+        <td class="strong">Jasmine Torres<br><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--sky);font-weight:500">#NIL-2025-1091</span></td>
+        <td class="muted">Football · WR</td>
         <td><span class="badge b-sky">Endorsement</span></td>
         <td><span class="badge b-amber">&#x26A0; Missing</span></td>
         <td class="mono r">$95,000</td>
@@ -422,9 +409,8 @@ col.c-act{width:5%}
         <td style="text-align:right"><a style="font-size:12px;color:var(--amber-dark);font-weight:600;cursor:pointer">Fix</a></td>
       </tr>
       <tr>
-        <td class="mono strong" style="color:var(--sky)">#1088</td>
-        <td class="strong">Athlete #55 · LB</td>
-        <td class="muted">Football</td>
+        <td class="strong">Jordan Reed<br><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--sky);font-weight:500">#NIL-2025-1088</span></td>
+        <td class="muted">Football · LB</td>
         <td><span class="badge b-indigo">Appearance</span></td>
         <td><span class="badge b-gray">Cash</span></td>
         <td class="mono r">$72,000</td>
@@ -435,9 +421,8 @@ col.c-act{width:5%}
         <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">Review</a></td>
       </tr>
       <tr>
-        <td class="mono strong" style="color:var(--sky)">#1083</td>
-        <td class="strong">Athlete #22 · RB</td>
-        <td class="muted">Football</td>
+        <td class="strong">Cameron Ellis<br><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--sky);font-weight:500">#NIL-2025-1083</span></td>
+        <td class="muted">Football · RB</td>
         <td><span class="badge b-gray">Licensing</span></td>
         <td><span class="badge b-gray">Mixed</span></td>
         <td class="mono r">$120,000</td>
@@ -448,9 +433,8 @@ col.c-act{width:5%}
         <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View</a></td>
       </tr>
       <tr class="nr-row">
-        <td class="mono strong" style="color:var(--red-dark)">#1090</td>
-        <td class="strong">Athlete #91 · DL</td>
-        <td class="muted">Football</td>
+        <td class="strong">Tyler Washington<br><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--sky);font-weight:500">#NIL-2025-1090</span></td>
+        <td class="muted">Football · DL</td>
         <td><span class="badge b-sky">Endorsement</span></td>
         <td><span class="badge b-gray">Cash</span></td>
         <td class="mono r">$48,000</td>
@@ -461,9 +445,8 @@ col.c-act{width:5%}
         <td style="text-align:right"><a style="font-size:12px;color:var(--red-dark);font-weight:600;cursor:pointer">Fix</a></td>
       </tr>
       <tr>
-        <td class="mono strong" style="color:var(--sky)">#1092</td>
-        <td class="strong">Athlete #7 · QB</td>
-        <td class="muted">Football</td>
+        <td class="strong">Aiden Park<br><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--sky);font-weight:500">#NIL-2025-1092</span></td>
+        <td class="muted">Football · QB</td>
         <td><span class="badge b-teal">Social Media</span></td>
         <td><span class="badge b-gray">Product</span></td>
         <td class="mono r">$35,000</td>
