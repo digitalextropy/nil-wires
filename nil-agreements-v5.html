@@ -272,7 +272,7 @@ col.c-act{width:5%}
   <div style="display:flex;gap:10px;align-items:center">
     <span class="period-badge">2025–26</span><span class="conf-badge">SEC</span>
     <button class="btn btn-outline btn-sm">&#x2B07; Export (CSV)</button>
-    <button class="btn btn-sky btn-sm" onclick="openModal()">+ Submit Agreement</button>
+    <a href="nil-upload-wizard-v5.html" class="btn btn-sky btn-sm" style="text-decoration:none;">+ Submit Agreement</a>
   </div>
 </div>
 
@@ -473,145 +473,7 @@ col.c-act{width:5%}
   </div>
 </div>
 
-<!-- MODAL: Submit Agreement — choice first, then wizard -->
-<div class="modal-overlay" id="modalOverlay" style="display:none">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Submit NIL Agreement</div>
-      <div class="modal-sub">Choose how you'd like to submit</div>
-      <button class="modal-close" onclick="closeModal()">&#x2715;</button>
-    </div>
-
-    <!-- Step 0: Choose submission method -->
-    <div id="step0">
-      <div class="submit-choice">
-        <div class="choice-card selected" onclick="selectMethod(this)">
-          <div class="choice-icon">&#x1F4C4;</div>
-          <div class="choice-title">Upload Contract</div>
-          <div class="choice-desc">Upload a PDF, Word doc, or scan. AI will extract fields automatically — you review and verify.</div>
-        </div>
-        <div class="choice-card" onclick="selectMethod(this)">
-          <div class="choice-icon">&#x270F;&#xFE0F;</div>
-          <div class="choice-title">Enter Manually</div>
-          <div class="choice-desc">Fill in each field directly. Best for simple agreements or when no document is available.</div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-outline btn-sm" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-sky btn-sm" onclick="goStep1()">Continue &#x2192;</button>
-      </div>
-    </div>
-
-    <!-- Step 1+: Upload + Review wizard -->
-    <div id="step1" style="display:none">
-      <div class="wizard-steps">
-        <div class="wiz-step done"><div class="wiz-num">&#x2713;</div><div class="wiz-label">Choose Method</div></div>
-        <div class="wiz-line done"></div>
-        <div class="wiz-step done"><div class="wiz-num">&#x2713;</div><div class="wiz-label">Upload Contract</div></div>
-        <div class="wiz-line done"></div>
-        <div class="wiz-step act"><div class="wiz-num">3</div><div class="wiz-label">Review Extraction</div></div>
-        <div class="wiz-line todo"></div>
-        <div class="wiz-step todo"><div class="wiz-num">4</div><div class="wiz-label">Verify & Submit</div></div>
-      </div>
-
-      <div class="ext-panel">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
-          <div>
-            <div style="font-size:13.5px;font-weight:700;color:var(--navy)">AI-Extracted Fields</div>
-            <div style="font-size:12px;color:var(--text-3);margin-top:2px">From: <strong>Nike_NIL_QB44_2025.pdf</strong> · Review and correct before verifying</div>
-          </div>
-          <span style="display:inline-flex;align-items:center;gap:5px;background:var(--sky-light);color:var(--sky-mid);border-radius:100px;padding:3px 10px;font-size:11px;font-weight:700;flex-shrink:0">&#x2726; AI Extracted</span>
-        </div>
-        <div style="background:var(--sky-light);border:1px solid rgba(59,130,196,.2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:13px;font-size:12.5px;color:var(--sky-mid)">
-          <strong>8 of 9 fields extracted.</strong> 1 field needs your attention (low confidence). All fields are editable — you must verify accuracy before submitting.
-        </div>
-        <div class="ext-grid">
-          <div class="ext-field high">
-            <div class="ext-label">Athlete<span class="conf-badge conf-h">99% High</span></div>
-            <div class="ext-value">Athlete #44 — Football, QB</div>
-            <div class="conf-bar-wrap"><div class="conf-bar-fill" style="width:99%;background:var(--green)"></div></div>
-            <div class="ext-edit">&#x270F; Edit</div>
-          </div>
-          <div class="ext-field high">
-            <div class="ext-label">Agreement Type<span class="conf-badge conf-h">97% High</span></div>
-            <div class="ext-value">Endorsement</div>
-            <div class="conf-bar-wrap"><div class="conf-bar-fill" style="width:97%;background:var(--green)"></div></div>
-            <div class="ext-edit">&#x270F; Edit</div>
-          </div>
-          <div class="ext-field high">
-            <div class="ext-label">Total Agreement Value<span class="conf-badge conf-h">98% High</span></div>
-            <div class="ext-value">$350,000</div>
-            <div class="conf-bar-wrap"><div class="conf-bar-fill" style="width:98%;background:var(--green)"></div></div>
-            <div class="ext-edit">&#x270F; Edit</div>
-          </div>
-          <div class="ext-field high">
-            <div class="ext-label">Guaranteed Value<span class="conf-badge conf-h">95% High</span></div>
-            <div class="ext-value">$310,000</div>
-            <div class="conf-bar-wrap"><div class="conf-bar-fill" style="width:95%;background:var(--green)"></div></div>
-            <div class="ext-edit">&#x270F; Edit</div>
-          </div>
-          <div class="ext-field high">
-            <div class="ext-label">Performance Incentives<span class="conf-badge conf-h">92% High</span></div>
-            <div class="ext-value">$40,000 (bowl participation)</div>
-            <div class="conf-bar-wrap"><div class="conf-bar-fill" style="width:92%;background:var(--green)"></div></div>
-            <div class="ext-edit">&#x270F; Edit</div>
-          </div>
-          <div class="ext-field high">
-            <div class="ext-label">Start Date<span class="conf-badge conf-h">99% High</span></div>
-            <div class="ext-value">August 15, 2025</div>
-            <div class="conf-bar-wrap"><div class="conf-bar-fill" style="width:99%;background:var(--green)"></div></div>
-            <div class="ext-edit">&#x270F; Edit</div>
-          </div>
-          <div class="ext-field high">
-            <div class="ext-label">End / Expiration Date<span class="conf-badge conf-h">99% High</span></div>
-            <div class="ext-value">August 14, 2026</div>
-            <div class="conf-bar-wrap"><div class="conf-bar-fill" style="width:99%;background:var(--green)"></div></div>
-            <div class="ext-edit">&#x270F; Edit</div>
-          </div>
-          <div class="ext-field low" style="grid-column:1/-1">
-            <div class="ext-label">Compensation Type<span class="conf-badge conf-l">61% Low — Action Required</span></div>
-            <div class="ext-value ph">Unclear — Cash only or Mixed (cash + product)?</div>
-            <div class="conf-bar-wrap"><div class="conf-bar-fill" style="width:61%;background:var(--red)"></div></div>
-            <div style="display:flex;gap:7px;margin-top:8px">
-              <button class="btn btn-sm btn-outline">Cash</button>
-              <button class="btn btn-sm btn-outline">Mixed</button>
-              <button class="btn btn-sm btn-outline">Product</button>
-              <button class="btn btn-sm btn-outline">Equity</button>
-              <span style="font-size:12px;color:var(--text-3);align-self:center">Select to resolve</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="cert-section">
-        <div style="font-size:20px;margin-top:2px">&#x1F3DB;</div>
-        <div class="cert-body">
-          <h4>Institutional Verification</h4>
-          <p>By verifying this agreement, Blue Mountain State confirms the extracted information accurately reflects the executed NIL agreement. This data will be anonymized and included in the benchmarking dataset.</p>
-          <div class="cert-check">
-            <div class="cert-cb">&#x2713;</div>
-            <div style="font-size:12px;color:var(--text-1);line-height:1.4">I confirm the above information is accurate and reflects the executed NIL agreement.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-outline btn-sm">&#x2190; Back</button>
-        <div style="display:flex;gap:10px">
-          <button class="btn btn-outline btn-sm">Save as Draft</button>
-          <button class="btn btn-sm" style="background:#d1d5db;color:#9ca3af;cursor:not-allowed">Verify & Submit &#x2192; <span style="font-size:10px">(resolve 1 field)</span></button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
-function openModal(){document.getElementById('modalOverlay').style.display='flex'}
-function closeModal(){document.getElementById('modalOverlay').style.display='none';document.getElementById('step0').style.display='block';document.getElementById('step1').style.display='none'}
-document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal()})
-function selectMethod(el){document.querySelectorAll('.choice-card').forEach(c=>c.classList.remove('selected'));el.classList.add('selected')}
-function goStep1(){document.getElementById('step0').style.display='none';document.getElementById('step1').style.display='block'}
 let openDrop=null;
 function toggleDrop(id){const dd=document.getElementById('dd'+id.replace('fp',''));if(!dd)return;if(openDrop&&openDrop!==dd){openDrop.classList.remove('open');openDrop=null}dd.classList.toggle('open');openDrop=dd.classList.contains('open')?dd:null}
 function toggleOpt(el){el.classList.toggle('sel');el.querySelector('.filt-ck').textContent=el.classList.contains('sel')?'\u2713':''}
