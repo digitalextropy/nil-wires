@@ -156,6 +156,12 @@ table.period-table td.muted{color:var(--text-3);font-size:12px}
 /* INVITE MODAL OPEN */
 .modal-overlay{display:none}
 .modal-overlay.open{display:flex}
+
+.nav-search-wrap{flex:1;max-width:280px;margin:0 16px;position:relative;}
+.nav-search{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:5px 10px 5px 30px;font-family:'Outfit',sans-serif;font-size:12px;color:#fff;outline:none;}
+.nav-search::placeholder{color:rgba(255,255,255,.35);}
+.nav-search:focus{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);}
+.nav-search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:13px;pointer-events:none;}
 </style>
 </head>
 <body>
@@ -171,7 +177,7 @@ table.period-table td.muted{color:var(--text-3);font-size:12px}
   </div>
   <div class="nav-user">
     <div>
-      <span class="nav-user-school">Your University</span>
+      <span class="nav-user-school">Blue Mountain State</span>
       <span class="nav-user-role">Admin</span>
     </div>
     <div class="nav-avatar">AD</div>
@@ -181,7 +187,7 @@ table.period-table td.muted{color:var(--text-3);font-size:12px}
 <div class="page-header">
   <div>
     <div class="page-title">Admin</div>
-    <div class="page-sub">User management, role assignment, and reporting period configuration · Your University</div>
+    <div class="page-sub">User management, role assignment, and reporting period configuration · Blue Mountain State</div>
   </div>
 </div>
 
@@ -225,7 +231,7 @@ table.period-table td.muted{color:var(--text-3);font-size:12px}
               </div>
             </div>
           </td>
-          <td><select class="role-select admin-role"><option>Admin</option><option>Athletic Director</option><option>NIL Compliance Officer</option><option>NIL Strategy Staff</option><option>Assoc. AD (Finance)</option><option>Coach (View Only)</option></select></td>
+          <td><select class="role-select admin-role"><option>Admin</option><option>Athletic Director</option><option>NIL Reviewer</option><option>NIL Strategy Staff</option><option>Assoc. AD (Finance)</option><option>Coach (View Only)</option></select></td>
           <td><span class="badge b-gold">Full Access</span></td>
           <td class="muted">Today, 9:41 AM</td>
           <td><span class="badge b-green">● Active</span></td>
@@ -241,7 +247,7 @@ table.period-table td.muted{color:var(--text-3);font-size:12px}
               </div>
             </div>
           </td>
-          <td><select class="role-select ad-role"><option>Assoc. AD (Finance)</option><option>Admin</option><option>Athletic Director</option><option>NIL Compliance Officer</option><option>NIL Strategy Staff</option><option>Coach (View Only)</option></select></td>
+          <td><select class="role-select ad-role"><option>Assoc. AD (Finance)</option><option>Admin</option><option>Athletic Director</option><option>NIL Reviewer</option><option>NIL Strategy Staff</option><option>Coach (View Only)</option></select></td>
           <td><span class="badge b-sky">Reports + Export</span></td>
           <td class="muted">Yesterday</td>
           <td><span class="badge b-green">● Active</span></td>
@@ -257,7 +263,7 @@ table.period-table td.muted{color:var(--text-3);font-size:12px}
               </div>
             </div>
           </td>
-          <td><select class="role-select comp-role"><option>NIL Compliance Officer</option><option>Admin</option><option>Athletic Director</option><option>Assoc. AD (Finance)</option><option>NIL Strategy Staff</option><option>Coach (View Only)</option></select></td>
+          <td><select class="role-select comp-role"><option>NIL Reviewer</option><option>Admin</option><option>Athletic Director</option><option>Assoc. AD (Finance)</option><option>NIL Strategy Staff</option><option>Coach (View Only)</option></select></td>
           <td><span class="badge b-green">Deals + Compliance</span></td>
           <td class="muted">2 days ago</td>
           <td><span class="badge b-green">● Active</span></td>
@@ -273,7 +279,7 @@ table.period-table td.muted{color:var(--text-3);font-size:12px}
               </div>
             </div>
           </td>
-          <td><select class="role-select"><option>NIL Strategy Staff</option><option>Admin</option><option>Athletic Director</option><option>NIL Compliance Officer</option><option>Assoc. AD (Finance)</option><option>Coach (View Only)</option></select></td>
+          <td><select class="role-select"><option>NIL Strategy Staff</option><option>Admin</option><option>Athletic Director</option><option>NIL Reviewer</option><option>Assoc. AD (Finance)</option><option>Coach (View Only)</option></select></td>
           <td><span class="badge b-gray">Deals (Submit)</span></td>
           <td class="muted">3 days ago</td>
           <td><span class="badge b-green">● Active</span></td>
@@ -289,7 +295,7 @@ table.period-table td.muted{color:var(--text-3);font-size:12px}
               </div>
             </div>
           </td>
-          <td><select class="role-select coach-role"><option>Coach (View Only)</option><option>Admin</option><option>Athletic Director</option><option>NIL Compliance Officer</option><option>Assoc. AD (Finance)</option><option>NIL Strategy Staff</option></select></td>
+          <td><select class="role-select coach-role"><option>Coach (View Only)</option><option>Admin</option><option>Athletic Director</option><option>NIL Reviewer</option><option>Assoc. AD (Finance)</option><option>NIL Strategy Staff</option></select></td>
           <td><span class="badge b-gray">Benchmarks (Read)</span></td>
           <td class="muted">1 week ago</td>
           <td><span class="badge b-green">● Active</span></td>
@@ -319,7 +325,7 @@ table.period-table td.muted{color:var(--text-3);font-size:12px}
       <span style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-right:4px">Roles:</span>
       <div class="role-leg-item"><div class="role-leg-dot" style="background:var(--gold)"></div>Admin — Full access, user mgmt</div>
       <div class="role-leg-item"><div class="role-leg-dot" style="background:var(--sky)"></div>Athletic Director / Assoc. AD — Reports, export, benchmarks</div>
-      <div class="role-leg-item"><div class="role-leg-dot" style="background:var(--green)"></div>Compliance Officer — Deals, certify, compliance</div>
+      <div class="role-leg-item"><div class="role-leg-dot" style="background:var(--green)"></div>Reviewer — Deals, certify, compliance</div>
       <div class="role-leg-item"><div class="role-leg-dot" style="background:#7c3aed"></div>NIL Strategy Staff — Submit deals</div>
       <div class="role-leg-item"><div class="role-leg-dot" style="background:var(--text-3)"></div>Coach — Benchmarks view only</div>
     </div>
@@ -342,7 +348,7 @@ table.period-table td.muted{color:var(--text-3);font-size:12px}
           <th>Open Date</th>
           <th>Deadline</th>
           <th>Deals Submitted</th>
-          <th>Certified</th>
+          <th>Verified</th>
           <th>Status</th>
           <th></th>
         </tr>
@@ -476,7 +482,7 @@ table.period-table td.muted{color:var(--text-3);font-size:12px}
             <div class="ro-desc">Reports, benchmarks, export. Cannot manage users.</div>
           </div>
           <div class="role-option selected" onclick="selectRole(this)">
-            <div class="ro-name">Compliance Officer</div>
+            <div class="ro-name">Reviewer</div>
             <div class="ro-desc">Submit, review, and certify deals. Full compliance access.</div>
           </div>
           <div class="role-option" onclick="selectRole(this)">

@@ -148,6 +148,12 @@ table.pt td.muted{color:var(--text-3);font-size:12px}
 .role-opt-info{}
 .role-opt-name{font-size:13px;font-weight:700;color:var(--navy)}
 .role-opt-desc{font-size:11.5px;color:var(--text-3);margin-top:1px}
+
+.nav-search-wrap{flex:1;max-width:280px;margin:0 16px;position:relative;}
+.nav-search{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:5px 10px 5px 30px;font-family:'Outfit',sans-serif;font-size:12px;color:#fff;outline:none;}
+.nav-search::placeholder{color:rgba(255,255,255,.35);}
+.nav-search:focus{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);}
+.nav-search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:13px;pointer-events:none;}
 </style>
 </head>
 <body>
@@ -162,7 +168,7 @@ table.pt td.muted{color:var(--text-3);font-size:12px}
     <div class="nav-link active">Admin</div>
   </div>
   <div class="nav-user">
-    <div><span class="nav-school">Your University</span><span class="nav-role">System Administrator</span></div>
+    <div><span class="nav-school">Blue Mountain State</span><span class="nav-role">System Administrator</span></div>
     <div class="nav-avatar">SA</div>
   </div>
 </nav>
@@ -170,7 +176,7 @@ table.pt td.muted{color:var(--text-3);font-size:12px}
 <div class="page-header">
   <div>
     <div class="page-title">Admin</div>
-    <div class="page-sub">User management, role assignment, and reporting period configuration · Your University</div>
+    <div class="page-sub">User management, role assignment, and reporting period configuration · Blue Mountain State</div>
   </div>
 </div>
 
@@ -223,7 +229,7 @@ table.pt td.muted{color:var(--text-3);font-size:12px}
     <div class="card-head">
       <div>
         <div class="card-title">Users & Roles</div>
-        <div class="card-sub">6 users · Your University</div>
+        <div class="card-sub">6 users · Blue Mountain State</div>
       </div>
       <div style="display:flex;gap:10px;align-items:center">
         <div class="search-box">

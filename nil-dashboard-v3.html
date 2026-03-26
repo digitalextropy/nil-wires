@@ -198,7 +198,13 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
   .nav-premium-tag { font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.07);color:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.1);padding:1px 5px;border-radius:3px; }
   .nav-avatar.basic { background:rgba(255,255,255,.15);color:rgba(255,255,255,.7); }
 
-  </style>
+  
+.nav-search-wrap{flex:1;max-width:280px;margin:0 16px;position:relative;}
+.nav-search{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:5px 10px 5px 30px;font-family:'Outfit',sans-serif;font-size:12px;color:#fff;outline:none;}
+.nav-search::placeholder{color:rgba(255,255,255,.35);}
+.nav-search:focus{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);}
+.nav-search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:13px;pointer-events:none;}
+</style>
 </head>
 <body>
 
@@ -215,7 +221,7 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
       <a href="nil-admin-v4.html" class="nav-link">Admin</a>
     </div>
     <div class="nav-user">
-      <div><span class="nav-school">Your University</span><span class="nav-role">Athletic Director</span></div>
+      <div><span class="nav-school">Blue Mountain State</span><span class="nav-role">Athletic Director</span></div>
       <div class="nav-avatar">AD</div>
     </div>
   </nav>
@@ -288,7 +294,7 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
     <!-- Welcome band -->
     <div class="welcome-band">
       <div class="welcome-text">
-        <h2>Good morning, Your University</h2>
+        <h2>Good morning, Blue Mountain State</h2>
         <p><strong style="color:var(--gold)">3 agreements</strong> pending verification · <strong style="color:#fca5a5">2 need review</strong> · <strong style="color:var(--amber-pale)">5 expiring within 30 days</strong></p>
       </div>
       <div class="welcome-meta">

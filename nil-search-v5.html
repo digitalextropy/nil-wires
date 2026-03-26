@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NIL Benchmark – Search Results</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:#f7f9fc;color:#0f1f38;min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* ── Nav ── */
+nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;position:sticky;top:0;z-index:200;}
+.nav-left{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+a.nav-logo{font-family:Georgia,serif;font-size:17px;color:#fff;text-decoration:none;flex-shrink:0;}
+a.nav-logo:hover{opacity:.85;}
+.nav-logo span{color:#e8a020;}
+.nav-links{display:flex;gap:2px;}
+.nav-links a.nav-link{font-size:12px;color:rgba(255,255,255,.55);padding:5px 11px;border-radius:5px;font-weight:500;white-space:nowrap;text-decoration:none;cursor:pointer;}
+.nav-links a.nav-link:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);}
+.nav-links a.nav-link.active{background:rgba(232,160,32,.15);color:#e8a020;}
+.nav-user{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.nav-school{font-size:11px;color:rgba(255,255,255,.45);font-family:monospace;text-align:right;line-height:1.3;display:block;}
+.nav-role{font-size:10px;color:rgba(255,255,255,.3);font-family:monospace;display:block;}
+.nav-avatar{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15);color:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+
+/* ── Search bar (nav) ── */
+.nav-search-wrap{flex:1;max-width:280px;margin:0 16px;position:relative;}
+.nav-search{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:5px 10px 5px 30px;font-family:'Outfit',sans-serif;font-size:12px;color:#fff;outline:none;}
+.nav-search::placeholder{color:rgba(255,255,255,.35);}
+.nav-search:focus{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);}
+.nav-search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:13px;pointer-events:none;}
+
+/* ── Page body ── */
+.body{max-width:1200px;margin:0 auto;padding:20px 28px 40px;}
+.pg-title{font-family:'DM Serif Display',Georgia,serif;font-size:22px;margin-bottom:6px;}
+.query-line{font-family:'DM Mono',monospace;font-size:13px;color:#8fa3b8;margin-bottom:6px;}
+.query-line strong{color:#4a6480;}
+.scope-line{font-size:12px;color:#8fa3b8;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+.scope-link{font-family:'DM Mono',monospace;font-size:11px;color:#3b82c4;cursor:pointer;text-decoration:underline;}
+.result-count{font-family:'DM Mono',monospace;font-size:12px;color:#8fa3b8;margin-bottom:18px;}
+
+/* ── Result list ── */
+.result-list{display:flex;flex-direction:column;gap:8px;}
+.result-item{background:#fff;border:1.5px solid #dce4ed;border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:14px;transition:border-color .15s;}
+.result-item:hover{border-color:#3b82c4;}
+.result-item.type-athlete{border-left:4px solid #0f1f38;}
+.result-item.type-deal{border-left:4px solid #e8a020;}
+
+/* Avatar circle */
+.r-avatar{width:36px;height:36px;border-radius:50%;background:#0f1f38;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;font-family:'Outfit',sans-serif;}
+
+/* Deal icon */
+.r-deal-icon{width:36px;height:36px;border-radius:8px;background:#fef3dc;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.r-deal-icon svg{width:18px;height:18px;fill:none;stroke:#a06c0e;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+
+/* Result content */
+.r-content{flex:1;min-width:0;}
+.r-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2px;}
+.r-name{font-weight:600;font-size:14px;}
+.r-name a{color:#3b82c4;text-decoration:underline;font-weight:600;}
+.r-deal-num{font-family:'DM Mono',monospace;font-weight:500;font-size:13px;}
+.r-deal-num a{color:#3b82c4;text-decoration:underline;}
+.r-detail{font-size:12px;color:#8fa3b8;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.r-detail .sep{color:#dce4ed;}
+.r-type-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:#8fa3b8;background:#f0f4f9;padding:1px 7px;border-radius:3px;border:1px solid #dce4ed;flex-shrink:0;}
+
+/* Status pills */
+.sp{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px solid;display:inline-block;white-space:nowrap;}
+.sp-verified{background:#e6f7ef;color:#0e6637;border-color:#5abf87;}
+.sp-review{background:#fef3dc;color:#a06c0e;border-color:#e8a020;}
+.sp-submitted{background:#e8edf5;color:#1a3558;border-color:#9eb8d4;}
+
+/* Deal value */
+.r-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.deal-value{font-family:'DM Mono',monospace;font-size:14px;color:#0f1f38;font-weight:500;}
+
+/* Empty state */
+.empty-state{text-align:center;padding:80px 20px;color:#8fa3b8;font-size:15px;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-logo">NIL <span>Benchmark</span></a>
+  </div>
+  <div class="nav-links">
+    <a href="nil-dashboard-v5.html" class="nav-link">Dashboard</a>
+    <a href="nil-athletes-v5.html" class="nav-link">Athletes</a>
+    <a href="nil-agreements-v5.html" class="nav-link">NIL Agreements</a>
+    <a href="nil-benchmarks-v5.html" class="nav-link">Benchmarks</a>
+    <a href="nil-budget-v5.html" class="nav-link">Budget</a>
+    <a href="nil-reporting-v5.html" class="nav-link">Reporting</a>
+    <a href="nil-admin-v5.html" class="nav-link">Admin</a>
+  </div>
+  <div class="nav-search-wrap">
+    <span class="nav-search-icon">⌕</span>
+    <input id="navSearchInput" class="nav-search" type="text" placeholder="Search athlete or deal #…"
+      oninput="if(this.value.length>=3)window.location.href='nil-search-v5.html?q='+encodeURIComponent(this.value)" />
+  </div>
+  <div class="nav-user">
+    <div>
+      <span class="nav-school">Blue Mountain State</span>
+      <span class="nav-role">Athletic Director</span>
+    </div>
+    <div class="nav-avatar">AD</div>
+  </div>
+</nav>
+
+<div class="body" id="pageBody">
+  <!-- populated by JS -->
+</div>
+
+<script>
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  var q = params.get('q') || '';
+  var scope = params.get('scope') || 'active';
+  var body = document.getElementById('pageBody');
+
+  // Pre-populate nav search
+  var navInput = document.getElementById('navSearchInput');
+  if(q) navInput.value = q;
+
+  if(!q){
+    body.innerHTML = '<div class="empty-state">No results were found.</div>';
+    return;
+  }
+
+  var scopeLabel = scope === 'all' ? 'All periods' : '2025\u201326 (active period)';
+  var scopeLinkText = scope === 'all' ? '' : '<a class="scope-link" id="scopeAll">Search entire history \u2192</a>';
+
+  body.innerHTML =
+    '<div class="pg-title">Search Results</div>' +
+    '<div class="query-line">Showing results for <strong>\u201c' + q.replace(/</g,'&lt;') + '\u201d</strong></div>' +
+    '<div class="scope-line">Showing results from: ' + scopeLabel + ' ' + scopeLinkText + '</div>' +
+    '<div class="result-count">8 results</div>' +
+    '<div class="result-list">' +
+      resultHTML() +
+    '</div>';
+
+  var scopeLink = document.getElementById('scopeAll');
+  if(scopeLink){
+    scopeLink.addEventListener('click', function(){
+      var url = new URL(window.location.href);
+      url.searchParams.set('scope','all');
+      window.location.href = url.toString();
+    });
+  }
+
+  function resultHTML(){
+    return [
+      athlete('MJ','Marcus Johnson','Football','WR','Yr 3','3 deals'),
+      athlete('JT','Jasmine Torres','Basketball W','PG','Yr 2','1 deal'),
+      athlete('JR','Jordan Reed','Football','RB','Yr 4','2 deals'),
+      deal('#NIL-2025-0041','Jordan Reed','Nike Athlete Program','Verified','sp-verified','$35,000'),
+      deal('#NIL-2025-0089','Marcus Johnson','Regional Auto Group','Verified','sp-verified','$24,500'),
+      deal('#NIL-2025-0102','Jasmine Torres','State Farm','Needs Review','sp-review','$18,000'),
+      deal('#NIL-2025-0118','DeAndre Williams','Jordan Brand','Submitted','sp-submitted','$42,000'),
+      deal('#NIL-2025-0127','Cameron Ellis','Local Chevy Dealer','Verified','sp-verified','$12,500'),
+    ].join('');
+  }
+
+  function athlete(initials,name,sport,pos,yr,deals){
+    return '<div class="result-item type-athlete">' +
+      '<div class="r-avatar">' + initials + '</div>' +
+      '<div class="r-content">' +
+        '<div class="r-top"><span class="r-name"><a href="nil-athletes-v5.html">' + name + '</a></span></div>' +
+        '<div class="r-detail">' + sport + ' <span class="sep">\u00b7</span> ' + pos + ' <span class="sep">\u00b7</span> ' + yr + ' <span class="sep">\u00b7</span> ' + deals + '</div>' +
+      '</div>' +
+      '<span class="r-type-label">Athlete</span>' +
+    '</div>';
+  }
+
+  function deal(num,athlete,sponsor,status,statusClass,value){
+    return '<div class="result-item type-deal">' +
+      '<div class="r-deal-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>' +
+      '<div class="r-content">' +
+        '<div class="r-top"><span class="r-deal-num"><a href="nil-agreements-v5.html">' + num + '</a></span> <span class="sep" style="color:#dce4ed">\u00b7</span> <span style="font-size:13px">' + athlete + '</span> <span class="sep" style="color:#dce4ed">\u00b7</span> <span style="font-size:12px;color:#8fa3b8">' + sponsor + '</span></div>' +
+        '<div class="r-detail"><span class="sp ' + statusClass + '">' + status + '</span></div>' +
+      '</div>' +
+      '<div class="r-right">' +
+        '<span class="deal-value">' + value + '</span>' +
+      '</div>' +
+      '<span class="r-type-label">Deal</span>' +
+    '</div>';
+  }
+})();
+</script>
+
+</body>
+</html>

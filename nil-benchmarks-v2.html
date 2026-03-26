@@ -145,6 +145,12 @@ table.bench-table td.sub-val{font-family:'DM Mono',monospace;font-size:12px;colo
 .chart-toggle-btn{padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text-2);background:var(--white);border-right:1px solid var(--border);transition:all .12s}
 .chart-toggle-btn:last-child{border-right:none}
 .chart-toggle-btn.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+
+.nav-search-wrap{flex:1;max-width:280px;margin:0 16px;position:relative;}
+.nav-search{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:5px 10px 5px 30px;font-family:'Outfit',sans-serif;font-size:12px;color:#fff;outline:none;}
+.nav-search::placeholder{color:rgba(255,255,255,.35);}
+.nav-search:focus{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);}
+.nav-search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:13px;pointer-events:none;}
 </style>
 </head>
 <body>
@@ -160,7 +166,7 @@ table.bench-table td.sub-val{font-family:'DM Mono',monospace;font-size:12px;colo
   </div>
   <div class="nav-user">
     <div>
-      <span class="nav-user-school">Your University</span>
+      <span class="nav-user-school">Blue Mountain State</span>
       <span class="nav-user-role">Athletic Director</span>
     </div>
     <div class="nav-avatar">AD</div>

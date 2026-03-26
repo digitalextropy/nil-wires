@@ -222,6 +222,12 @@ col.c-act{width:5%}
 .cert-check-label{font-size:12px;color:var(--text-1);line-height:1.4}
 
 .modal-footer{padding:14px 28px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--white);position:sticky;bottom:0}
+
+.nav-search-wrap{flex:1;max-width:280px;margin:0 16px;position:relative;}
+.nav-search{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:5px 10px 5px 30px;font-family:'Outfit',sans-serif;font-size:12px;color:#fff;outline:none;}
+.nav-search::placeholder{color:rgba(255,255,255,.35);}
+.nav-search:focus{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);}
+.nav-search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:13px;pointer-events:none;}
 </style>
 </head>
 <body>
@@ -237,7 +243,7 @@ col.c-act{width:5%}
   </div>
   <div class="nav-user">
     <div>
-      <span class="nav-user-school">Your University</span>
+      <span class="nav-user-school">Blue Mountain State</span>
       <span class="nav-user-role">Athletic Director</span>
     </div>
     <div class="nav-avatar">AD</div>
@@ -248,7 +254,7 @@ col.c-act{width:5%}
 <div class="page-header">
   <div>
     <div class="page-title">Deals</div>
-    <div class="page-sub">All NIL deals submitted by Your University · 2025–26 Academic Year</div>
+    <div class="page-sub">All NIL deals submitted by Blue Mountain State · 2025–26 Academic Year</div>
   </div>
   <div style="display:flex;gap:10px">
     <button class="btn btn-outline btn-sm">⬇ Export (CSV)</button>
@@ -268,7 +274,7 @@ col.c-act{width:5%}
   </div>
   <div class="strip-cell" onclick="setStripFilter(this,'cert')">
     <div class="strip-val ok">89</div>
-    <div class="strip-lbl">Certified</div>
+    <div class="strip-lbl">Verified</div>
   </div>
   <div class="strip-cell" onclick="setStripFilter(this,'pend')">
     <div class="strip-val warn">3</div>
@@ -276,7 +282,7 @@ col.c-act{width:5%}
   </div>
   <div class="strip-cell" onclick="setStripFilter(this,'flag')">
     <div class="strip-val bad">2</div>
-    <div class="strip-lbl">Flagged</div>
+    <div class="strip-lbl">Needs Review</div>
   </div>
   <div class="strip-cell">
     <div class="strip-val">$4.8M</div>
@@ -411,7 +417,7 @@ col.c-act{width:5%}
         <td class="mono r" style="color:var(--green-dark)">$310,000</td>
         <td class="mono r" style="color:var(--text-2)">$40,000</td>
         <td class="muted">Fall 2025</td>
-        <td><span class="badge b-green">● Certified</span></td>
+        <td><span class="badge b-green">● Verified</span></td>
         <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View</a></td>
       </tr>
       <tr>
@@ -426,7 +432,7 @@ col.c-act{width:5%}
         <td class="mono r" style="color:var(--green-dark)">$150,000</td>
         <td class="mono r" style="color:var(--text-2)">$30,000</td>
         <td class="muted">Fall 2025</td>
-        <td><span class="badge b-green">● Certified</span></td>
+        <td><span class="badge b-green">● Verified</span></td>
         <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View</a></td>
       </tr>
       <tr class="flagged-row">
@@ -439,7 +445,7 @@ col.c-act{width:5%}
         <td class="mono r" style="color:var(--text-3)">—</td>
         <td class="mono r" style="color:var(--text-3)">—</td>
         <td class="muted">Fall 2025</td>
-        <td><span class="badge b-amber">⚠ Flagged</span></td>
+        <td><span class="badge b-amber">⚠ Needs Review</span></td>
         <td style="text-align:right"><a style="font-size:12px;color:var(--amber-dark);font-weight:600;cursor:pointer">Fix</a></td>
       </tr>
       <tr>
@@ -467,7 +473,7 @@ col.c-act{width:5%}
         <td class="mono r" style="color:var(--green-dark)">$100,000</td>
         <td class="mono r" style="color:var(--text-2)">$20,000</td>
         <td class="muted">Fall 2025</td>
-        <td><span class="badge b-green">● Certified</span></td>
+        <td><span class="badge b-green">● Verified</span></td>
         <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View</a></td>
       </tr>
       <tr class="flagged-row">
@@ -480,7 +486,7 @@ col.c-act{width:5%}
         <td class="mono r" style="color:var(--green-dark)">$48,000</td>
         <td class="mono r" style="color:var(--text-3)">—</td>
         <td class="muted">Fall 2025</td>
-        <td><span class="badge b-red">⚠ Flagged</span></td>
+        <td><span class="badge b-red">⚠ Needs Review</span></td>
         <td style="text-align:right"><a style="font-size:12px;color:var(--red-dark);font-weight:600;cursor:pointer">Fix</a></td>
       </tr>
       <tr>
@@ -652,7 +658,7 @@ col.c-act{width:5%}
       <div class="cert-icon">🏛</div>
       <div class="cert-body">
         <h4>Institutional Certification</h4>
-        <p>By certifying this deal, Your University confirms the extracted information accurately reflects the executed NIL agreement. Certified data will be included in the anonymized benchmarking dataset.</p>
+        <p>By certifying this deal, Blue Mountain State confirms the extracted information accurately reflects the executed NIL agreement. Verified data will be included in the anonymized benchmarking dataset.</p>
         <div class="cert-check">
           <div class="cert-cb">✓</div>
           <div class="cert-check-label">I confirm the above information is accurate and reflects the executed NIL contract. I understand this data will be anonymized and included in the benchmarking dataset.</div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>NIL Benchmark – Athlete Detail (Premium)</title>
+<title>NIL Benchmark – Athlete Detail</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -15,8 +15,6 @@ nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-bet
 .nav-logo{font-family:Georgia,serif;font-size:17px;color:#fff;text-decoration:none;flex-shrink:0;}
 .nav-logo span{color:#e8a020;}
 .nav-logo:hover{opacity:.85;}
-.nav-tier-pill{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:99px;flex-shrink:0;}
-.nav-tier-pill.basic{background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2);}
 .nav-links{display:flex;gap:2px;}
 .nav-links a{font-size:12px;color:rgba(255,255,255,.55);padding:5px 11px;border-radius:5px;font-weight:500;white-space:nowrap;text-decoration:none;cursor:pointer;}
 .nav-links a:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);}
@@ -27,7 +25,6 @@ nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-bet
 .nav-school{font-size:11px;color:rgba(255,255,255,.45);font-family:monospace;text-align:right;line-height:1.3;}
 .nav-role{font-size:10px;color:rgba(255,255,255,.3);font-family:monospace;text-align:right;}
 .nav-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
-.nav-avatar.basic{background:rgba(255,255,255,.15);color:rgba(255,255,255,.7);}
 
 /* ── PAGE ── */
 .body{max-width:1160px;margin:0 auto;padding:20px 24px 40px;}
@@ -172,14 +169,18 @@ nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-bet
 <nav>
   <div class="nav-left">
     <a href="index.html" class="nav-logo">NIL <span>Benchmark</span></a>
-    <span class="nav-tier-pill premium">Premium</span>
   </div>
   <div class="nav-links">
-    <a href="nil-athletes-v1.html" class="nav-link active">Athletes</a>
-    <a href="nil-benchmarks-v3.html" class="nav-link">Benchmarks</a>
-    <a href="nil-budget-v1.html" class="nav-link">Budget</a>
-    <a href="nil-reporting-v3.html" class="nav-link">Reporting</a>
-    <a href="nil-admin-v4.html" class="nav-link">Admin</a>
+    <a href="nil-athletes-v5.html" class="nav-link active">Athletes</a>
+    <a href="nil-benchmarks-v5.html" class="nav-link">Benchmarks</a>
+    <a href="nil-budget-v5.html" class="nav-link">Budget</a>
+    <a href="nil-reporting-v5.html" class="nav-link">Reporting</a>
+    <a href="nil-admin-v5.html" class="nav-link">Admin</a>
+  </div>
+  <div class="nav-search-wrap">
+    <span class="nav-search-icon">⌕</span>
+    <input class="nav-search" type="text" placeholder="Search athlete or deal #…"
+      oninput="if(this.value.length>=3)window.location.href='nil-search-v5.html?q='+encodeURIComponent(this.value)" />
   </div>
   <div class="nav-user">
     <div>
@@ -194,7 +195,7 @@ nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-bet
 
   <!-- Breadcrumb -->
   <div class="breadcrumb">
-    <a href="nil-athletes-v1.html">Athletes</a>
+    <a href="nil-athletes-v5.html">Athletes</a>
     <span class="breadcrumb-sep">›</span>
     <span>Marcus Johnson</span>
   </div>
@@ -330,7 +331,7 @@ nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-bet
           <span class="card-title">NIL Agreements</span>
           <div style="display:flex;align-items:center;gap:8px;">
             <span class="card-badge">3 active</span>
-            <a href="nil-basic-upload-wizard.html" class="card-link">+ Add deal</a>
+            <a href="nil-upload-wizard-v5.html" class="card-link">+ Add deal</a>
           </div>
         </div>
         <table class="deal-table">
@@ -449,7 +450,7 @@ nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-bet
           </tbody>
         </table>
         <div class="add-deal-row">
-          <a href="nil-basic-upload-wizard.html" class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:7px 14px;background:#0f1f38;border-radius:7px;color:#fff;">+ Upload new deal</a>
+          <a href="nil-upload-wizard-v5.html" class="btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:7px 14px;background:#0f1f38;border-radius:7px;color:#fff;">+ Upload new deal</a>
         </div>
       </div>
 

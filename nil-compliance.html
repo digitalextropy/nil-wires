@@ -156,6 +156,12 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
 .dl-days{background:rgba(232,160,32,.2);border:1px solid rgba(232,160,32,.3);border-radius:6px;padding:6px 12px;text-align:center}
 .dl-days-num{font-family:'DM Mono',monospace;font-size:20px;color:var(--gold);font-weight:500}
 .dl-days-lbl{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em}
+
+.nav-search-wrap{flex:1;max-width:280px;margin:0 16px;position:relative;}
+.nav-search{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:5px 10px 5px 30px;font-family:'Outfit',sans-serif;font-size:12px;color:#fff;outline:none;}
+.nav-search::placeholder{color:rgba(255,255,255,.35);}
+.nav-search:focus{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);}
+.nav-search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:13px;pointer-events:none;}
 </style>
 </head>
 <body>
@@ -171,8 +177,8 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
   </div>
   <div class="nav-user">
     <div>
-      <span class="nav-user-school">Your University</span>
-      <span class="nav-user-role">Compliance Officer</span>
+      <span class="nav-user-school">Blue Mountain State</span>
+      <span class="nav-user-role">Reviewer</span>
     </div>
     <div class="nav-avatar">CO</div>
   </div>
@@ -199,7 +205,7 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
 <div class="stats-row">
   <div class="stat-cell">
     <div class="stat-val ok">89</div>
-    <div class="stat-lbl">Certified</div>
+    <div class="stat-lbl">Verified</div>
     <div class="stat-bar"><div class="stat-bar-fill" style="width:83%;background:var(--green)"></div></div>
   </div>
   <div class="stat-cell">
@@ -209,7 +215,7 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
   </div>
   <div class="stat-cell">
     <div class="stat-val bad">2</div>
-    <div class="stat-lbl">Flagged</div>
+    <div class="stat-lbl">Needs Review</div>
     <div class="stat-bar"><div class="stat-bar-fill" style="width:2%;background:var(--red)"></div></div>
   </div>
   <div class="stat-cell">
@@ -250,11 +256,11 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
         <div class="tab-bar">
           <div class="tab active">Needs Action <span class="tab-count bad">5</span></div>
           <div class="tab">All Deals <span class="tab-count ok" style="background:var(--off-white);color:var(--text-3)">107</span></div>
-          <div class="tab">Certified <span class="tab-count ok">89</span></div>
+          <div class="tab">Verified <span class="tab-count ok">89</span></div>
         </div>
       </div>
 
-      <!-- Flagged items -->
+      <!-- Needs Review items -->
       <div class="deal-item flagged">
         <div class="deal-status-icon flagged">⛔</div>
         <div class="deal-info">
@@ -422,13 +428,13 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
           <div class="gauge-center">95%</div>
         </div>
         <div class="gauge-info">
-          <div class="gauge-label">94.7% Certified</div>
+          <div class="gauge-label">94.7% Verified</div>
           <div class="gauge-sub">89 of 94 submitted deals certified · 5 need action before Dec 15</div>
         </div>
       </div>
       <div style="padding:0 16px 14px;display:flex;flex-direction:column;gap:6px">
         <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
-          <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block"></span>Certified</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--green);display:inline-block"></span>Verified</span>
           <span style="font-family:'DM Mono',monospace;font-weight:600">89</span>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
@@ -436,7 +442,7 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
           <span style="font-family:'DM Mono',monospace;font-weight:600">3</span>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
-          <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--red);display:inline-block"></span>Flagged</span>
+          <span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:var(--red);display:inline-block"></span>Needs Review</span>
           <span style="font-family:'DM Mono',monospace;font-weight:600">2</span>
         </div>
       </div>

@@ -35,7 +35,13 @@
   /* ── Basic avatar ── */
   .nav-avatar.basic { background: rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
 
-  </style>
+  
+.nav-search-wrap{flex:1;max-width:280px;margin:0 16px;position:relative;}
+.nav-search{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:5px 10px 5px 30px;font-family:'Outfit',sans-serif;font-size:12px;color:#fff;outline:none;}
+.nav-search::placeholder{color:rgba(255,255,255,.35);}
+.nav-search:focus{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);}
+.nav-search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:13px;pointer-events:none;}
+</style>
 </head>
 <body>
 <nav>
@@ -51,9 +57,14 @@
       <a href="nil-basic-admin.html" class="nav-link active">Admin</a>
       <a class="nav-link locked">Benchmarks <span class="nav-premium-tag">Premium</span></a>
     </div>
+    <div class="nav-search-wrap">
+    <span class="nav-search-icon">⌕</span>
+    <input class="nav-search" type="text" placeholder="Search athlete or deal #…"
+      oninput="if(this.value.length>=3)window.location.href='nil-search.html?q='+encodeURIComponent(this.value)" />
+  </div>
     <div class="nav-user">
       <div>
-        <span class="nav-school">State University</span>
+        <span class="nav-school">Blue Mountain State</span>
         <span class="nav-role">Athletic Director</span>
       </div>
       <div class="nav-avatar basic">AD</div>
@@ -61,7 +72,7 @@
   </nav>
 <div class="body">
   <div class="pg-header">
-    <div><div class="pg-title">Admin</div><div style="font-size:12px;color:#8fa3b8;margin-top:2px;font-family:monospace;">State University · Settings, users &amp; reporting periods</div></div>
+    <div><div class="pg-title">Admin</div><div style="font-size:12px;color:#8fa3b8;margin-top:2px;font-family:monospace;">Blue Mountain State · Settings, users &amp; reporting periods</div></div>
   </div>
 
   <div class="three-col">

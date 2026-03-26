@@ -169,22 +169,22 @@ table.bt td.gsep{border-left:2px solid var(--border)}
 .btn-ghost{background:transparent;color:var(--text-3);border:1.5px dashed var(--border)}
 .btn-sm{padding:6px 12px;font-size:12px}
 
-  .nav-tier-pill { font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:99px;flex-shrink:0; }
-  .nav-tier-pill.premium { background:rgba(232,160,32,.2);color:var(--gold);border:1px solid rgba(232,160,32,.4); }
-  .nav-tier-pill.basic { background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.2); }
   a.nav-logo { text-decoration:none; } a.nav-logo:hover { opacity:.85; }
   .nav-left { display:flex;align-items:center;gap:10px;flex-shrink:0; }
   .nav-links a.nav-link { text-decoration:none; }
-  .nav-link.locked { color:rgba(255,255,255,.22)!important;pointer-events:none;display:flex;align-items:center;gap:5px; }
-  .nav-premium-tag { font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.07);color:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.1);padding:1px 5px;border-radius:3px; }
-  .nav-avatar.basic { background:rgba(255,255,255,.15);color:rgba(255,255,255,.7); }
 
-  
+/* Nav search */
 .nav-search-wrap{flex:1;max-width:280px;margin:0 16px;position:relative;}
 .nav-search{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:5px 10px 5px 30px;font-family:'Outfit',sans-serif;font-size:12px;color:#fff;outline:none;}
 .nav-search::placeholder{color:rgba(255,255,255,.35);}
 .nav-search:focus{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);}
 .nav-search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:13px;pointer-events:none;}
+
+/* Premium callout */
+.premium-callout{background:linear-gradient(135deg,#fffdf7 0%,#fef8e8 100%);border:1.5px solid rgba(232,160,32,.25);border-radius:10px;position:relative;overflow:hidden;}
+.premium-callout::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#e8a020,#f0c060);}
+.premium-tag{font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(232,160,32,.15);color:#a06c0e;border:1px solid rgba(232,160,32,.35);padding:2px 7px;border-radius:3px;display:inline-block;}
+.premium-banner{background:linear-gradient(135deg,#fffdf7,#fef8e8);border:1.5px solid rgba(232,160,32,.25);border-radius:8px;padding:10px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:12px;color:#a06c0e;}
 </style>
 </head>
 <body>
@@ -192,14 +192,20 @@ table.bt td.gsep{border-left:2px solid var(--border)}
 <nav>
     <div class="nav-left">
       <a href="index.html" class="nav-logo">NIL <span>Benchmark</span></a>
-      <span class="nav-tier-pill premium">Premium</span>
     </div>
     <div class="nav-links">
-      <a href="nil-athletes-v1.html" class="nav-link">Athletes</a>
-      <a href="nil-benchmarks-v3.html" class="nav-link active">Benchmarks</a>
-      <a href="nil-budget-v1.html" class="nav-link">Budget</a>
-      <a href="nil-reporting-v3.html" class="nav-link">Reporting</a>
-      <a href="nil-admin-v4.html" class="nav-link">Admin</a>
+      <a href="nil-dashboard-v5.html" class="nav-link">Dashboard</a>
+      <a href="nil-athletes-v5.html" class="nav-link">Athletes</a>
+      <a href="nil-agreements-v5.html" class="nav-link">NIL Agreements</a>
+      <a href="nil-benchmarks-v5.html" class="nav-link active">Benchmarks</a>
+      <a href="nil-budget-v5.html" class="nav-link">Budget</a>
+      <a href="nil-reporting-v5.html" class="nav-link">Reporting</a>
+      <a href="nil-admin-v5.html" class="nav-link">Admin</a>
+    </div>
+    <div class="nav-search-wrap">
+      <span class="nav-search-icon">&#x2315;</span>
+      <input class="nav-search" type="text" placeholder="Search athlete or deal #&hellip;"
+        oninput="if(this.value.length>=3)window.location.href='nil-search-v5.html?q='+encodeURIComponent(this.value)" />
     </div>
     <div class="nav-user">
       <div><span class="nav-school">Blue Mountain State</span><span class="nav-role">Athletic Director</span></div>
@@ -208,7 +214,7 @@ table.bt td.gsep{border-left:2px solid var(--border)}
   </nav>
 
 <div class="breadcrumb">
-  <span class="bc">Home</span><span class="bcs">›</span><span class="bcc">Benchmarks</span>
+  <span class="bc">Home</span><span class="bcs">&#x203A;</span><span class="bcc">Benchmarks</span>
 </div>
 
 <div class="page-layout">
@@ -226,11 +232,11 @@ table.bt td.gsep{border-left:2px solid var(--border)}
 
     <div class="filter-group">
       <span class="filter-label">Division <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-3);font-size:10px">(fixed)</span></span>
-      <div class="fixed-label">FBS <span class="lock">🔒</span></div>
+      <div class="fixed-label">FBS <span class="lock">&#x1F512;</span></div>
     </div>
     <div class="filter-group">
       <span class="filter-label">Conference <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-3);font-size:10px">(fixed)</span></span>
-      <div class="fixed-label">SEC <span class="lock">🔒</span></div>
+      <div class="fixed-label">SEC <span class="lock">&#x1F512;</span></div>
     </div>
 
     <div class="filter-group">
@@ -248,7 +254,7 @@ table.bt td.gsep{border-left:2px solid var(--border)}
     <div class="filter-group">
       <span class="filter-label">Class Year</span>
       <div class="chip-row">
-        <div class="chip on"><div class="chip-ck">✓</div>All</div>
+        <div class="chip on"><div class="chip-ck">&#x2713;</div>All</div>
         <div class="chip">FR</div><div class="chip">SO</div>
         <div class="chip">JR</div><div class="chip">SR</div><div class="chip">Grad</div>
       </div>
@@ -256,7 +262,7 @@ table.bt td.gsep{border-left:2px solid var(--border)}
     <div class="filter-group">
       <span class="filter-label">Comp Type</span>
       <div class="chip-row">
-        <div class="chip on"><div class="chip-ck">✓</div>All</div>
+        <div class="chip on"><div class="chip-ck">&#x2713;</div>All</div>
         <div class="chip">Cash</div><div class="chip">Mixed</div>
       </div>
     </div>
@@ -268,18 +274,24 @@ table.bt td.gsep{border-left:2px solid var(--border)}
       <span class="filter-label">Peer Group</span>
       <div class="peer-builder">
         <div class="peer-builder-title">Custom Comp Set</div>
-        <div class="peer-conf-chip">ACC <span class="rm">✕</span></div>
-        <div class="peer-conf-chip">Big Ten <span class="rm">✕</span></div>
-        <div class="peer-conf-chip">Big 12 <span class="rm">✕</span></div>
+        <div class="peer-conf-chip">ACC <span class="rm">&#x2715;</span></div>
+        <div class="peer-conf-chip">Big Ten <span class="rm">&#x2715;</span></div>
+        <div class="peer-conf-chip">Big 12 <span class="rm">&#x2715;</span></div>
         <div class="add-peer-btn">+ Add Conference / School</div>
       </div>
     </div>
 
-    <div class="filter-note">ⓘ Peer averages only shown where ≥ 2 schools have reported eligible data. Class year filter applies to your school only — does not affect conference or peer averages.</div>
+    <div class="filter-note">&#x24D8; Peer averages only shown where &ge; 2 schools have reported eligible data. Class year filter applies to your school only — does not affect conference or peer averages.</div>
     <button class="apply-btn">Apply Filters</button>
   </aside>
 
   <main class="main">
+
+    <!-- Premium banner -->
+    <div class="premium-banner">
+      <span class="premium-tag">Premium</span>
+      Premium Feature — Benchmarking data includes conference, division, and peer group comparisons
+    </div>
 
     <!-- View toggle -->
     <div style="display:flex;align-items:center;justify-content:space-between">
@@ -302,7 +314,7 @@ table.bt td.gsep{border-left:2px solid var(--border)}
           <div class="sum-metric"><div class="sum-src yours">Yours</div><div class="sum-val">$45K</div></div>
           <div class="sum-divider"></div>
           <div class="sum-metric"><div class="sum-src comp">SEC Avg</div><div class="sum-val comp">$42K</div></div>
-          <div class="delta-up">▲ +7%</div>
+          <div class="delta-up">&#x25B2; +7%</div>
         </div>
       </div>
       <div class="sum-card gold">
@@ -311,7 +323,7 @@ table.bt td.gsep{border-left:2px solid var(--border)}
           <div class="sum-metric"><div class="sum-src yours">Yours</div><div class="sum-val">$26K</div></div>
           <div class="sum-divider"></div>
           <div class="sum-metric"><div class="sum-src comp">SEC Avg</div><div class="sum-val comp">$22K</div></div>
-          <div class="delta-up">▲ +18%</div>
+          <div class="delta-up">&#x25B2; +18%</div>
         </div>
       </div>
       <div class="sum-card green">
@@ -320,7 +332,7 @@ table.bt td.gsep{border-left:2px solid var(--border)}
           <div class="sum-metric"><div class="sum-src yours">Yours</div><div class="sum-val">68%</div></div>
           <div class="sum-divider"></div>
           <div class="sum-metric"><div class="sum-src comp">SEC Avg</div><div class="sum-val comp">61%</div></div>
-          <div class="delta-up">▲ +7 pts</div>
+          <div class="delta-up">&#x25B2; +7 pts</div>
         </div>
       </div>
       <!-- Total NIL added per Matthew -->
@@ -330,7 +342,7 @@ table.bt td.gsep{border-left:2px solid var(--border)}
           <div class="sum-metric"><div class="sum-src yours">Yours</div><div class="sum-val">$4.8M</div></div>
           <div class="sum-divider"></div>
           <div class="sum-metric"><div class="sum-src comp">SEC Avg</div><div class="sum-val comp">$4.2M</div></div>
-          <div class="delta-up">▲ +14%</div>
+          <div class="delta-up">&#x25B2; +14%</div>
         </div>
       </div>
     </div>
@@ -367,7 +379,7 @@ table.bt td.gsep{border-left:2px solid var(--border)}
             <td class="cg cg-yours" colspan="3">Your School</td>
             <td class="cg cg-conf" colspan="4" style="border-left:2px solid rgba(255,255,255,.1)">SEC Conference</td>
             <td class="cg cg-peer" colspan="4" style="border-left:2px solid rgba(255,255,255,.1)">Peer Group</td>
-            <td class="cg cg-dim" colspan="2">Δ</td>
+            <td class="cg cg-dim" colspan="2">&#x394;</td>
           </tr>
           <tr class="sub">
             <th style="text-align:left">Dimension</th>
@@ -403,8 +415,8 @@ table.bt td.gsep{border-left:2px solid var(--border)}
                 </div>
               </div>
             </td>
-            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+7%</span></td>
-            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+13%</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">&#x25B2;+7%</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">&#x25B2;+13%</span></td>
           </tr>
           <tr>
             <td class="dim">Avg Agreement Value</td>
@@ -423,8 +435,8 @@ table.bt td.gsep{border-left:2px solid var(--border)}
                 <div class="pct-bar" style="background:#d1fae5"><div class="pct-fill" style="left:0;width:100%;background:#86efac;opacity:.5"></div><div class="pct-median" style="left:50%;background:#059669"></div><div class="pct-you" style="left:65%"></div></div>
               </div>
             </td>
-            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+18%</span></td>
-            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+8%</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">&#x25B2;+18%</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">&#x25B2;+8%</span></td>
           </tr>
           <tr>
             <td class="dim">Sponsorship Share</td>
@@ -443,8 +455,8 @@ table.bt td.gsep{border-left:2px solid var(--border)}
                 <div class="pct-bar" style="background:#d1fae5"><div class="pct-fill" style="left:0;width:100%;background:#86efac;opacity:.5"></div><div class="pct-median" style="left:50%;background:#059669"></div><div class="pct-you" style="left:77%"></div></div>
               </div>
             </td>
-            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+8pt</span></td>
-            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+5pt</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">&#x25B2;+8pt</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">&#x25B2;+5pt</span></td>
           </tr>
           <tr>
             <td class="dim">Total NIL Value</td>
@@ -453,8 +465,8 @@ table.bt td.gsep{border-left:2px solid var(--border)}
             <td style="color:var(--text-3);font-size:11.5px;font-style:italic;text-align:center">varies by roster size</td>
             <td class="pv gsep">$4.5M</td><td class="pv">$3.8M</td><td class="pv">$0.7M</td>
             <td style="color:var(--text-3);font-size:11.5px;font-style:italic;text-align:center">varies by roster size</td>
-            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+14%</span></td>
-            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+7%</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">&#x25B2;+14%</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">&#x25B2;+7%</span></td>
           </tr>
           <tr>
             <td class="dim">% Athletes w/ Agreement</td>
@@ -473,13 +485,13 @@ table.bt td.gsep{border-left:2px solid var(--border)}
                 <div class="pct-bar" style="background:#d1fae5"><div class="pct-fill" style="left:0;width:100%;background:#86efac;opacity:.5"></div><div class="pct-median" style="left:53%;background:#059669"></div><div class="pct-you" style="left:75%"></div></div>
               </div>
             </td>
-            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+7pt</span></td>
-            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">▲+4pt</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">&#x25B2;+7pt</span></td>
+            <td><span style="display:inline-flex;align-items:center;gap:2px;background:var(--green-pale);color:var(--green-dark);border-radius:100px;padding:2px 7px;font-size:10.5px;font-weight:700;font-family:'DM Mono',monospace">&#x25B2;+4pt</span></td>
           </tr>
         </tbody>
       </table>
       <div style="background:var(--off-white);padding:8px 16px;border-top:1px solid var(--border);font-size:11.5px;color:var(--text-3)">
-        ⓘ <strong style="color:var(--text-2)">Percentile bars</strong>: range shows 25th–75th percentile · <span style="display:inline-block;width:8px;height:8px;background:var(--navy);border-radius:1px;vertical-align:middle;margin:0 3px"></span> = your school · <span style="display:inline-block;width:6px;height:8px;background:var(--sky);border-radius:1px;vertical-align:middle;margin:0 3px"></span> = median · Class year filter applies to your school only.
+        &#x24D8; <strong style="color:var(--text-2)">Percentile bars</strong>: range shows 25th–75th percentile · <span style="display:inline-block;width:8px;height:8px;background:var(--navy);border-radius:1px;vertical-align:middle;margin:0 3px"></span> = your school · <span style="display:inline-block;width:6px;height:8px;background:var(--sky);border-radius:1px;vertical-align:middle;margin:0 3px"></span> = median · Class year filter applies to your school only.
       </div>
     </div>
 
@@ -558,9 +570,9 @@ table.bt td.gsep{border-left:2px solid var(--border)}
 
     <!-- Footer -->
     <div style="display:flex;gap:10px;padding-bottom:8px">
-      <button class="btn btn-navy btn-sm">⬇ Export Benchmarks (CSV)</button>
-      <button class="btn btn-outline btn-sm">← Back to Dashboard</button>
-      <button class="btn btn-ghost btn-sm">🔖 Save View <span style="font-size:10px;opacity:.6;margin-left:3px">(coming soon)</span></button>
+      <button class="btn btn-navy btn-sm">&#x2B07; Export Benchmarks (CSV)</button>
+      <button class="btn btn-outline btn-sm">&#x2190; Back to Dashboard</button>
+      <button class="btn btn-ghost btn-sm">&#x1F516; Save View <span style="font-size:10px;opacity:.6;margin-left:3px">(coming soon)</span></button>
     </div>
 
   </main>

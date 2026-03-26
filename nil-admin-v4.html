@@ -35,7 +35,13 @@
   /* ── Basic avatar ── */
   .nav-avatar.basic { background: rgba(255,255,255,.15); color: rgba(255,255,255,.7); }
 
-  </style>
+  
+.nav-search-wrap{flex:1;max-width:280px;margin:0 16px;position:relative;}
+.nav-search{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:5px 10px 5px 30px;font-family:'Outfit',sans-serif;font-size:12px;color:#fff;outline:none;}
+.nav-search::placeholder{color:rgba(255,255,255,.35);}
+.nav-search:focus{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);}
+.nav-search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:13px;pointer-events:none;}
+</style>
 </head>
 <body>
 <nav>
@@ -52,7 +58,7 @@
     </div>
     <div class="nav-user">
       <div>
-        <span class="nav-school">Your University</span>
+        <span class="nav-school">Blue Mountain State</span>
         <span class="nav-role">Athletic Director</span>
       </div>
       <div class="nav-avatar">AD</div>
@@ -60,7 +66,7 @@
   </nav>
 <div class="body">
   <div class="pg-header">
-    <div><div class="pg-title">Admin</div><div style="font-size:12px;color:#8fa3b8;margin-top:2px;font-family:monospace;">Settings, users, and configuration · Your University</div></div>
+    <div><div class="pg-title">Admin</div><div style="font-size:12px;color:#8fa3b8;margin-top:2px;font-family:monospace;">Settings, users, and configuration · Blue Mountain State</div></div>
   </div>
   <div style="display:flex;margin-bottom:24px;background:#fff;border:1.5px solid #dce4ed;border-radius:10px;overflow:hidden;">
     <div style="padding:10px 18px;font-size:13px;font-weight:500;background:#0f1f38;color:#fff;cursor:pointer;border-right:1px solid #dce4ed;white-space:nowrap;">Users &amp; Roles</div>
@@ -75,7 +81,7 @@
     <div style="display:flex;gap:8px;align-items:center;"><input style="padding:6px 10px;border:1.5px solid #dce4ed;border-radius:7px;font-size:12px;font-family:inherit;color:#4a6480;width:180px;" placeholder="Search users…" /><button class="btn-primary">+ Invite user</button></div>
   </div>
   <div class="card">
-    <div class="card-head"><span class="card-title">6 users · Your University</span></div>
+    <div class="card-head"><span class="card-title">6 users · Blue Mountain State</span></div>
     <table class="dtable">
       <thead><tr><th class="sorted">User ↑↓</th><th>Role</th><th>Last active</th><th>Status</th><th></th></tr></thead>
       <tbody>
