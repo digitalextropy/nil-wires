@@ -38,6 +38,8 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
 .page-header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 28px 14px;display:flex;align-items:flex-end;justify-content:space-between}
 .page-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy)}
 .page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
+.period-badge{font-size:11px;font-family:monospace;background:#fef3dc;color:#a06c0e;border:1px solid rgba(232,160,32,.35);padding:3px 10px;border-radius:99px;cursor:pointer;}
+.conf-badge{font-size:11px;font-family:monospace;background:#e8edf5;color:#1a3558;border:1px solid #9eb8d4;padding:3px 10px;border-radius:99px;cursor:pointer;}
 
 /* ALERT BANNER — 7-day rule */
 .alert-banner{background:var(--amber-pale);border-bottom:2px solid var(--amber);padding:11px 28px;display:flex;align-items:center;gap:12px}
@@ -250,7 +252,8 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
     <div class="page-title">Reporting</div>
     <div class="page-sub">Agreement verification status, policy checks, and submission audit log · 2025–26 Academic Year</div>
   </div>
-  <div style="display:flex;gap:10px">
+  <div style="display:flex;gap:10px;align-items:center">
+    <span class="period-badge">2025–26</span><span class="conf-badge">SEC</span>
     <button class="btn btn-outline btn-sm">⬇ Export Report</button>
   </div>
 </div>
