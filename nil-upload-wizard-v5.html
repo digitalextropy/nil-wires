@@ -101,19 +101,56 @@
       <div style="width:20px;height:20px;border-radius:50%;background:#e8a020;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px;">i</div>
       <div style="font-size:12px;color:#7a4f00;line-height:1.6;">Please verify all fields before saving.</div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+    <!-- Row 1: Athlete + Sport/Position (auto-populated from athlete record) -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
       <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Athlete <span style="background:#e6f7ef;color:#0e6637;padding:1px 5px;border-radius:3px;font-size:9px;">98%</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;" value="Marcus Johnson" /></div>
-      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Brand / sponsor <span style="background:#e6f7ef;color:#0e6637;padding:1px 5px;border-radius:3px;font-size:9px;">96%</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;" value="Nike Athlete Program" /></div>
-      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Guaranteed value <span style="background:#e6f7ef;color:#0e6637;padding:1px 5px;border-radius:3px;font-size:9px;">97%</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;" value="$30,000" /></div>
-      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Performance bonus <span style="background:#fef3dc;color:#a06c0e;padding:1px 5px;border-radius:3px;font-size:9px;">74%</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #e8a020;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;background:#fffbf0;" value="$5,000" /></div>
-      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Start date <span style="background:#e6f7ef;color:#0e6637;padding:1px 5px;border-radius:3px;font-size:9px;">95%</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;" value="08 / 01 / 2025" /></div>
-      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Expiration date <span style="background:#fef3dc;color:#a06c0e;padding:1px 5px;border-radius:3px;font-size:9px;">71%</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #e8a020;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;background:#fffbf0;" value="07 / 31 / 2026" /></div>
+      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Sport / Position <span style="background:#e0ecf7;color:#3b82c4;padding:1px 5px;border-radius:3px;font-size:9px;">Auto</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#8fa3b8;background:#f7f9fc;" value="Football · WR" readonly /></div>
+    </div>
+    <!-- Row 2: Sponsor + Agreement Type -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Brand / Sponsor <span style="background:#e6f7ef;color:#0e6637;padding:1px 5px;border-radius:3px;font-size:9px;">96%</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;" value="Nike Athlete Program" /></div>
+      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Agreement Type <span style="background:#e6f7ef;color:#0e6637;padding:1px 5px;border-radius:3px;font-size:9px;">97%</span></div>
+        <select style="width:100%;padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;background:#fff;cursor:pointer;">
+          <option selected>Endorsement</option><option>Social Media</option><option>Appearance</option><option>Licensing</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+    <!-- Row 3: Compensation Types (multi-select) + Reporting Period -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      <div>
+        <div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Compensation Type(s) <span style="background:#fef3dc;color:#a06c0e;padding:1px 5px;border-radius:3px;font-size:9px;">74%</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <label style="display:flex;align-items:center;gap:5px;padding:6px 11px;border:1.5px solid #3b82c4;border-radius:7px;font-size:12px;font-weight:500;color:#3b82c4;background:#e0ecf7;cursor:pointer;"><input type="checkbox" checked style="accent-color:#3b82c4;"> Cash</label>
+          <label style="display:flex;align-items:center;gap:5px;padding:6px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:12px;font-weight:500;color:#4a6480;cursor:pointer;"><input type="checkbox"> Product</label>
+          <label style="display:flex;align-items:center;gap:5px;padding:6px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:12px;font-weight:500;color:#4a6480;cursor:pointer;"><input type="checkbox"> Equity</label>
+          <label style="display:flex;align-items:center;gap:5px;padding:6px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:12px;font-weight:500;color:#4a6480;cursor:pointer;"><input type="checkbox"> Revenue Share</label>
+        </div>
+      </div>
+      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Reporting Period</div>
+        <select style="width:100%;padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;background:#fff;cursor:pointer;">
+          <option selected>2025–26 Academic Year</option><option>2024–25 Academic Year</option>
+        </select>
+      </div>
+    </div>
+    <!-- Row 4: Guaranteed + Performance -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Guaranteed Value <span style="background:#e6f7ef;color:#0e6637;padding:1px 5px;border-radius:3px;font-size:9px;">97%</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;" value="$30,000" /></div>
+      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Performance Bonus <span style="background:#fef3dc;color:#a06c0e;padding:1px 5px;border-radius:3px;font-size:9px;">74%</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #e8a020;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;background:#fffbf0;" value="$5,000" /></div>
+    </div>
+    <!-- Row 5: Total Value (calculated) -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Total Value <span style="background:#e0ecf7;color:#3b82c4;padding:1px 5px;border-radius:3px;font-size:9px;">Calculated</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:'DM Mono',monospace;font-weight:600;color:#0f1f38;background:#f7f9fc;" value="$35,000" readonly /></div>
+      <div></div>
+    </div>
+    <!-- Row 6: Dates -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Start Date <span style="background:#e6f7ef;color:#0e6637;padding:1px 5px;border-radius:3px;font-size:9px;">95%</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #dce4ed;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;" value="08 / 01 / 2025" /></div>
+      <div><div style="font-size:10px;font-weight:700;color:#8fa3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;">Expiration Date <span style="background:#fef3dc;color:#a06c0e;padding:1px 5px;border-radius:3px;font-size:9px;">71%</span></div><input style="width:100%;padding:8px 11px;border:1.5px solid #e8a020;border-radius:7px;font-size:13px;font-family:inherit;color:#0f1f38;background:#fffbf0;" value="07 / 31 / 2026" /></div>
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;padding-top:18px;border-top:1.5px solid #dce4ed;">
       <button class="btn-secondary">&larr; Back</button>
       <div style="display:flex;align-items:center;gap:10px;">
-
-        <button class="btn-primary">Save deal &rarr;</button>
+        <button class="btn-primary" style="background:#1a9e5a;">Save and Verify &rarr;</button>
       </div>
     </div>
   </div>
