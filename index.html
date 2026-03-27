@@ -25,8 +25,6 @@ body{font-family:'Outfit',sans-serif;background:#f7f9fc;color:#0f1f38;-webkit-fo
 
 a.pl{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#fff;border:1.5px solid #dce4ed;border-radius:9px;color:#0f1f38;font-weight:600;font-size:13px;text-decoration:none;transition:all .15s;min-height:62px;}
 a.pl:hover{border-color:#3b82c4;background:#dbeafe;color:#3b82c4;}
-a.pl.premium-page{border-left:3px solid rgba(232,160,32,.5);}
-a.pl.premium-page:hover{border-color:#e8a020;background:#fef3dc;color:#a06c0e;}
 
 .pl-inner{display:flex;flex-direction:column;gap:2px;min-width:0;}
 .pl-name{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;}
@@ -39,12 +37,6 @@ a.pl:hover .arrow{color:inherit;opacity:.6;}
 .b-upd{background:#e8edf5;color:#1a3558;border:1px solid #9eb8d4;}
 .b-ai{background:rgba(232,160,32,.12);color:#a06c0e;border:1px solid rgba(232,160,32,.3);font-size:8px;}
 .b-prem{background:rgba(232,160,32,.15);color:#a06c0e;border:1px solid rgba(232,160,32,.35);font-size:8px;}
-
-/* Sub-link for upload wizard */
-a.sub-link{display:flex;align-items:center;justify-content:space-between;padding:8px 13px 8px 32px;background:#f7f9fc;border:1px solid #dce4ed;border-radius:7px;color:#4a6480;font-size:12px;font-weight:500;text-decoration:none;transition:all .15s;min-height:38px;}
-a.sub-link:hover{border-color:#3b82c4;background:#dbeafe;color:#3b82c4;}
-.sub-name{font-size:12px;font-weight:500;display:flex;align-items:center;gap:6px;}
-.sub-desc{font-size:10px;color:#8fa3b8;margin-top:1px;}
 
 .footer-note{max-width:640px;margin:24px auto 0;font-size:11px;color:#8fa3b8;text-align:center;font-family:monospace;line-height:1.7;}
 </style>
@@ -67,7 +59,7 @@ a.sub-link:hover{border-color:#3b82c4;background:#dbeafe;color:#3b82c4;}
       <!-- Dashboard -->
       <a class="pl" href="nil-dashboard-v5.html">
         <div class="pl-inner">
-          <div class="pl-name">Dashboard <span class="badge b-upd">Updated</span></div>
+          <div class="pl-name">Dashboard</div>
           <div class="pl-desc">KPIs, benchmark snapshot, budget snapshot, expiring deals</div>
         </div>
         <span class="arrow">&rarr;</span>
@@ -82,6 +74,24 @@ a.sub-link:hover{border-color:#3b82c4;background:#dbeafe;color:#3b82c4;}
         <span class="arrow">&rarr;</span>
       </a>
 
+      <!-- Athlete Profile -->
+      <a class="pl" href="nil-athlete-v5.html">
+        <div class="pl-inner">
+          <div class="pl-name">Athlete Profile</div>
+          <div class="pl-desc">Single athlete view with benchmarks, deal history, compliance</div>
+        </div>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+      <!-- Athlete Detail -->
+      <a class="pl" href="nil-athlete-detail-v5.html">
+        <div class="pl-inner">
+          <div class="pl-name">Athlete Detail</div>
+          <div class="pl-desc">Full profile editing, deal management, compliance, activity log</div>
+        </div>
+        <span class="arrow">&rarr;</span>
+      </a>
+
       <!-- NIL Agreements -->
       <a class="pl" href="nil-agreements-v5.html">
         <div class="pl-inner">
@@ -91,16 +101,16 @@ a.sub-link:hover{border-color:#3b82c4;background:#dbeafe;color:#3b82c4;}
         <span class="arrow">&rarr;</span>
       </a>
 
-      <!-- Upload Wizard (sub-link) -->
-      <a class="sub-link" href="nil-upload-wizard-v5.html">
+      <!-- Upload Wizard -->
+      <a class="pl" href="nil-upload-wizard-v5.html">
         <div class="pl-inner">
-          <div class="sub-name">Upload Wizard <span class="badge b-ai">AI</span></div>
-          <div class="sub-desc">Step 1: drop PDF &middot; Step 2: review &amp; confirm</div>
+          <div class="pl-name">Upload Wizard <span class="badge b-ai">AI</span></div>
+          <div class="pl-desc">Step 1: drop PDF &middot; Step 2: review &amp; confirm</div>
         </div>
-        <span style="color:#c0cedc;font-size:12px;">&rarr;</span>
+        <span class="arrow">&rarr;</span>
       </a>
 
-      <!-- Budget -->
+      <!-- Budget Tracker -->
       <a class="pl" href="nil-budget-v5.html">
         <div class="pl-inner">
           <div class="pl-name">Budget Tracker</div>
@@ -110,9 +120,9 @@ a.sub-link:hover{border-color:#3b82c4;background:#dbeafe;color:#3b82c4;}
       </a>
 
       <!-- Benchmarks -->
-      <a class="pl premium-page" href="nil-benchmarks-v5.html">
+      <a class="pl" href="nil-benchmarks-v5.html">
         <div class="pl-inner">
-          <div class="pl-name">Benchmarks <span class="badge b-prem">Premium</span></div>
+          <div class="pl-name">Benchmarks</div>
           <div class="pl-desc">Conference + peer group views, percentile ranges, position chart</div>
         </div>
         <span class="arrow">&rarr;</span>
@@ -127,10 +137,10 @@ a.sub-link:hover{border-color:#3b82c4;background:#dbeafe;color:#3b82c4;}
         <span class="arrow">&rarr;</span>
       </a>
 
-      <!-- Admin -->
+      <!-- Settings -->
       <a class="pl" href="nil-admin-v5.html">
         <div class="pl-inner">
-          <div class="pl-name">Admin</div>
+          <div class="pl-name">Settings</div>
           <div class="pl-desc">Users, roles, reporting periods, budget caps</div>
         </div>
         <span class="arrow">&rarr;</span>
@@ -145,28 +155,10 @@ a.sub-link:hover{border-color:#3b82c4;background:#dbeafe;color:#3b82c4;}
         <span class="arrow">&rarr;</span>
       </a>
 
-      <!-- Athlete Profile (sub-page) -->
-      <a class="sub-link" href="nil-athlete-v5.html">
-        <div class="pl-inner">
-          <div class="sub-name">Athlete Profile</div>
-          <div class="sub-desc">Single athlete view with benchmarks, deal history, compliance</div>
-        </div>
-        <span style="color:#c0cedc;font-size:12px;">&rarr;</span>
-      </a>
-
-      <!-- Athlete Detail (sub-page) -->
-      <a class="sub-link" href="nil-athlete-detail-v5.html">
-        <div class="pl-inner">
-          <div class="sub-name">Athlete Detail (editable)</div>
-          <div class="sub-desc">Full profile editing, deal management, compliance, activity log</div>
-        </div>
-        <span style="color:#c0cedc;font-size:12px;">&rarr;</span>
-      </a>
-
     </div>
   </div>
 
-  <div class="footer-note">NIL Benchmark &middot; Wireframes v5 &middot; Unified pages (Basic + Premium merged) &middot; Premium features called out with gold background</div>
+  <div class="footer-note">v5 &mdash; Merged Basic + Premium into unified pages. Premium features indicated with gold callout.</div>
 </div>
 
 </body>
