@@ -75,10 +75,6 @@ a.nav-logo:hover{opacity:.85;}
 .main{padding:22px 24px;display:flex;flex-direction:column;gap:20px}
 
 /* VIEW TOGGLE */
-.view-toggle{display:flex;gap:0;border:1.5px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;align-self:flex-start}
-.vt-btn{padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;color:var(--text-2);background:var(--white);border-right:1px solid var(--border);transition:all .12s}
-.vt-btn:last-child{border-right:none}
-.vt-btn.active{background:var(--navy);color:var(--white)}
 
 /* SUMMARY CARDS */
 .sum-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -305,11 +301,6 @@ table.bt td.gsep{border-left:2px solid var(--border)}
       <div>
         <div style="font-family:'DM Serif Display',serif;font-size:19px;color:var(--navy)">Benchmarks</div>
         <div style="font-size:12.5px;color:var(--text-3);margin-top:2px">Football · SEC · 2025–26 Academic Year</div>
-      </div>
-      <div class="view-toggle">
-        <div class="vt-btn active">vs Conference</div>
-        <div class="vt-btn">vs Peer Group</div>
-        <div class="vt-btn">My School Only</div>
       </div>
     </div>
 
@@ -591,7 +582,6 @@ function hideTip(el){const tip=el.querySelector('.tip');if(tip)tip.classList.rem
 document.querySelectorAll('.bar').forEach((b,i)=>{const h=b.style.height;b.style.height='0';b.style.transition='height 0.5s cubic-bezier(.34,1.4,.64,1)';setTimeout(()=>b.style.height=h,100+i*30)});
 document.querySelectorAll('.sum-card').forEach((c,i)=>{c.style.opacity='0';c.style.transform='translateY(8px)';c.style.transition='opacity .4s ease,transform .4s ease';setTimeout(()=>{c.style.opacity='1';c.style.transform='translateY(0)'},80+i*80)});
 document.querySelectorAll('.ct-btn').forEach(b=>{b.addEventListener('click',function(){document.querySelectorAll('.ct-btn').forEach(x=>x.classList.remove('active'));this.classList.add('active')})});
-document.querySelectorAll('.vt-btn').forEach(b=>{b.addEventListener('click',function(){document.querySelectorAll('.vt-btn').forEach(x=>x.classList.remove('active'));this.classList.add('active')})});
 </script>
 
 <hr style="border:none;border-top:2px solid #dce4ed;margin:40px 0 0;">
