@@ -22,7 +22,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Outfit',sans-serif;background:var(--off-white);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
 
-nav{background:var(--navy);display:flex;align-items:center;padding:0 24px;height:52px;position:sticky;top:0;z-index:200;}
+nav{background:var(--navy);display:flex;align-items:center;padding:0 24px;height:52px;position:sticky;top:0;z-index:200;border-bottom:2.5px solid #e8a020;}
 .nav-left{display:flex;align-items:center;gap:10px;flex-shrink:0;}
 a.nav-logo{font-family:'DM Serif Display',serif;color:var(--white);font-size:17px;text-decoration:none;flex-shrink:0;}
 a.nav-logo:hover{opacity:.85;}
@@ -259,7 +259,7 @@ table.bt td.gsep{border-left:2px solid var(--border)}
       <select class="filter-select"><option>All Positions</option><option>QB</option><option>RB</option><option>WR</option><option>OL</option></select>
     </div>
     <div class="filter-group">
-      <span class="filter-label">Class Year</span>
+      <span class="filter-label">Eligibility Year</span>
       <div class="chip-row">
         <div class="chip on"><div class="chip-ck">&#x2713;</div>All</div>
         <div class="chip">FR</div><div class="chip">SO</div>
@@ -285,11 +285,10 @@ table.bt td.gsep{border-left:2px solid var(--border)}
         <div class="peer-conf-chip">Big Ten <span class="rm">&#x2715;</span></div>
         <div class="peer-conf-chip">Big 12 <span class="rm">&#x2715;</span></div>
         <div class="add-peer-btn">+ Add Conference / School</div>
-        <div style="margin-top:8px;"><a href="nil-admin-v5.html" style="font-family:'DM Mono',monospace;font-size:10px;color:#3b82c4;text-decoration:underline;">Manage peer group in Settings &rarr;</a></div>
       </div>
     </div>
 
-    <div class="filter-note">&#x24D8; Peer averages only shown where &ge; 2 schools have reported eligible data. Class year filter applies to your school only — does not affect conference or peer averages.</div>
+    <div class="filter-note">&#x24D8; Peer averages only shown where &ge; 2 schools have reported eligible data. Eligibility year filter applies to your school only — does not affect conference or peer averages.</div>
     <button class="apply-btn">Apply Filters</button>
   </aside>
 
@@ -499,7 +498,7 @@ table.bt td.gsep{border-left:2px solid var(--border)}
         </tbody>
       </table>
       <div style="background:var(--off-white);padding:8px 16px;border-top:1px solid var(--border);font-size:11.5px;color:var(--text-3)">
-        &#x24D8; <strong style="color:var(--text-2)">Percentile bars</strong>: range shows 25th–75th percentile · <span style="display:inline-block;width:8px;height:8px;background:var(--navy);border-radius:1px;vertical-align:middle;margin:0 3px"></span> = your school · <span style="display:inline-block;width:6px;height:8px;background:var(--sky);border-radius:1px;vertical-align:middle;margin:0 3px"></span> = median · Class year filter applies to your school only.
+        &#x24D8; <strong style="color:var(--text-2)">Percentile bars</strong>: range shows 25th–75th percentile · <span style="display:inline-block;width:8px;height:8px;background:var(--navy);border-radius:1px;vertical-align:middle;margin:0 3px"></span> = your school · <span style="display:inline-block;width:6px;height:8px;background:var(--sky);border-radius:1px;vertical-align:middle;margin:0 3px"></span> = median · Eligibility year filter applies to your school only.
       </div>
     </div>
 
