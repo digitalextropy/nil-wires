@@ -22,7 +22,8 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Outfit',sans-serif;background:var(--off-white);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
 
-nav{background:var(--navy);display:flex;align-items:center;padding:0 24px;height:52px;position:sticky;top:0;z-index:200;border-bottom:2.5px solid #e8a020;}
+nav{background:var(--navy);height:52px;position:sticky;top:0;z-index:200;border-bottom:2.5px solid #e8a020;}
+.nav-inner{max-width:1300px;margin:0 auto;padding:0 28px;display:flex;align-items:center;width:100%;height:100%;}
 .nav-left{display:flex;align-items:center;gap:10px;flex-shrink:0;}
 a.nav-logo{font-family:'DM Serif Display',serif;color:var(--white);font-size:17px;text-decoration:none;flex-shrink:0;}
 a.nav-logo:hover{opacity:.85;}
@@ -193,6 +194,7 @@ table.bt td.gsep{border-left:2px solid var(--border)}
 <body>
 
 <nav>
+  <div class="nav-inner">
     <div class="nav-left">
       <a href="index.html" class="nav-logo">NIL <span>Benchmark</span></a>
     </div>
@@ -218,6 +220,7 @@ table.bt td.gsep{border-left:2px solid var(--border)}
         <a href="#" class="avatar-drop-item">Sign Out</a>
       </div>
     </div>
+  </div>
   </nav>
 
 <div class="page-layout">
