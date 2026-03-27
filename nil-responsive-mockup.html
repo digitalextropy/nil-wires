@@ -29,8 +29,20 @@ a.nav-logo:hover{opacity:.85}
 .nav-logo span{color:var(--gold)}
 .nav-links{display:flex;gap:2px;margin-left:32px}
 .nav-links a{color:rgba(255,255,255,.55);font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .15s;text-decoration:none;white-space:nowrap}
-.nav-links a:hover{color:var(--white);background:rgba(255,255,255,.07)}
-.nav-links a.active{color:var(--gold);background:rgba(232,160,32,.13)}
+.nav-left{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.nav-links a.nav-link{color:rgba(255,255,255,.55);font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .15s;text-decoration:none;white-space:nowrap;}
+.nav-links a.nav-link:hover{color:var(--white);background:rgba(255,255,255,.07)}
+.nav-links a.nav-link.active{color:var(--gold);background:rgba(232,160,32,.13)}
+.nav-role{color:rgba(255,255,255,.5);font-size:11px;text-align:right;display:block;}
+.nav-search-wrap{flex:1;max-width:280px;margin:0 16px;position:relative;}
+.nav-search{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;padding:5px 10px 5px 30px;font-family:'Outfit',sans-serif;font-size:12px;color:#fff;outline:none;}
+.nav-search::placeholder{color:rgba(255,255,255,.35);}
+.nav-search:focus{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);}
+.nav-search-icon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.35);font-size:13px;pointer-events:none;}
+.avatar-dropdown{position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1.5px solid #dce4ed;border-radius:8px;box-shadow:0 8px 24px rgba(15,31,56,.15);min-width:160px;z-index:300;overflow:hidden;}
+.avatar-drop-item{display:block;padding:10px 14px;font-size:13px;font-weight:500;color:#0f1f38;text-decoration:none;transition:background .1s;}
+.avatar-drop-item:hover{background:#f7f9fc;}
+.avatar-drop-divider{height:1px;background:#dce4ed;margin:0;}
 .nav-user{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0}
 .nav-avatar{width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:700;font-size:10px;display:flex;align-items:center;justify-content:center}
 .nav-school{font-size:11px;color:rgba(255,255,255,.45);font-family:'DM Mono',monospace}
@@ -154,18 +166,30 @@ a.nav-logo:hover{opacity:.85}
 <!-- ════════ TOP NAV ════════ -->
 <nav>
   <div class="nav-inner">
-    <a class="nav-logo" href="#">NIL <span>Benchmark</span></a>
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo">NIL <span>Benchmark</span></a>
+    </div>
     <div class="nav-links">
-      <a href="#">Dashboard</a>
-      <a href="#">Athletes</a>
-      <a href="#" class="active">Agreements</a>
-      <a href="#">Budget</a>
-      <a href="#">Reporting</a>
-      <a href="#">Benchmarks</a>
+      <a href="nil-dashboard-v5.html" class="nav-link">Dashboard</a>
+      <a href="nil-athletes-v5.html" class="nav-link">Athletes</a>
+      <a href="nil-agreements-v5.html" class="nav-link">NIL Agreements</a>
+      <a href="nil-benchmarks-v5.html" class="nav-link">Benchmarks</a>
+      <a href="nil-budget-v5.html" class="nav-link">Budget</a>
+      <a href="nil-reporting-v5.html" class="nav-link">Reporting</a>
+    </div>
+    <div class="nav-search-wrap">
+      <span class="nav-search-icon">&#x2315;</span>
+      <input class="nav-search" type="text" placeholder="Search athlete or deal #…"
+        oninput="if(this.value.length>=3)window.location.href='nil-search-v5.html?q='+encodeURIComponent(this.value)" />
     </div>
     <div class="nav-user">
-      <span class="nav-school">Auburn University</span>
-      <div class="nav-avatar">AD</div>
+      <div><span class="nav-school">Blue Mountain State</span><span class="nav-role">Athletic Director</span></div>
+      <a href="nil-admin-v5.html" class="nav-avatar" style="text-decoration:none;color:inherit;">AD</a>
+      <div class="avatar-dropdown" id="avatarDrop" style="display:none;">
+        <a href="nil-admin-v5.html" class="avatar-drop-item">&#9881; Settings</a>
+        <div class="avatar-drop-divider"></div>
+        <a href="#" class="avatar-drop-item">Sign Out</a>
+      </div>
     </div>
   </div>
 </nav>
@@ -442,5 +466,9 @@ a.nav-logo:hover{opacity:.85}
 
 </div><!-- /body -->
 
+<script>
+document.querySelector('.nav-avatar').addEventListener('click',function(e){e.preventDefault();var d=document.getElementById('avatarDrop');d.style.display=d.style.display==='none'?'block':'none';});
+document.addEventListener('click',function(e){if(!e.target.closest('.nav-user')){document.getElementById('avatarDrop').style.display='none';}});
+</script>
 </body>
 </html>
