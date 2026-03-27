@@ -37,7 +37,7 @@ a.nav-logo:hover{opacity:.85;}
 .nav-role{color:rgba(255,255,255,.5);font-size:11px;text-align:right;display:block;}
 
 .body{max-width:1300px;margin:0 auto;padding:20px 28px 40px;}
-.page-header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 28px 14px;display:flex;align-items:flex-end;justify-content:space-between}
+.page-header{padding:18px 28px 14px;display:flex;align-items:flex-end;justify-content:space-between}
 .page-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy)}
 .page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
 .period-badge{font-size:11px;font-family:'DM Mono',monospace;background:#fef3dc;color:#a06c0e;border:1px solid rgba(232,160,32,.35);padding:3px 10px;border-radius:99px;cursor:pointer;}
@@ -130,6 +130,7 @@ col.c-guar{width:8%}
 col.c-perf{width:8%}
 col.c-exp{width:9%}
 col.c-status{width:10%}
+col.c-sub{width:9%}
 col.c-act{width:5%}
 
 .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap}
@@ -322,7 +323,6 @@ col.c-act{width:5%}
     <span style="position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:13px;pointer-events:none;">⌕</span>
     <input type="text" placeholder="Search athlete or deal #…" style="padding-left:24px;">
   </div>
-  <div class="toolbar-sep"></div>
   <div class="toolbar-gap"></div>
 
   <div class="filt-pill" id="fpDT">
@@ -365,7 +365,7 @@ col.c-act{width:5%}
       <col class="c-ath"><col class="c-sp">
       <col class="c-dt"><col class="c-ct">
       <col class="c-total"><col class="c-guar"><col class="c-perf">
-      <col class="c-exp"><col class="c-status"><col class="c-act">
+      <col class="c-exp"><col class="c-status"><col class="c-sub"><col class="c-act">
     </colgroup>
     <thead>
       <tr>
@@ -379,6 +379,7 @@ col.c-act{width:5%}
         <!-- Expiration Date added per Matthew -->
         <th>Expires &#x21C5;</th>
         <th>Status &#x21C5;</th>
+        <th>Submitted by</th>
         <th></th>
       </tr>
     </thead>
@@ -393,6 +394,7 @@ col.c-act{width:5%}
         <td class="mono r" style="color:var(--text-2)">$40,000</td>
         <td class="exp-urgent">Nov 20, 2025</td>
         <td><span class="badge b-green">&#x25CF; Verified</span></td>
+        <td class="muted">James Williams</td>
         <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View</a></td>
       </tr>
       <tr>
@@ -405,6 +407,7 @@ col.c-act{width:5%}
         <td class="mono r" style="color:var(--text-2)">$30,000</td>
         <td class="exp-soon">Nov 22, 2025</td>
         <td><span class="badge b-green">&#x25CF; Verified</span></td>
+        <td class="muted">Monica Johnson</td>
         <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View</a></td>
       </tr>
       <tr class="nr-row">
@@ -417,6 +420,7 @@ col.c-act{width:5%}
         <td class="mono r" style="color:var(--text-3)">—</td>
         <td class="muted">Dec 31, 2025</td>
         <td><span class="badge b-amber">&#x26A0; Needs Review</span></td>
+        <td class="muted">Tom Roberts</td>
         <td style="text-align:right"><a style="font-size:12px;color:var(--amber-dark);font-weight:600;cursor:pointer">Fix</a></td>
       </tr>
       <tr>
@@ -429,6 +433,7 @@ col.c-act{width:5%}
         <td class="mono r" style="color:var(--text-3)">—</td>
         <td class="exp-ok">Mar 15, 2026</td>
         <td><span class="badge b-amber">&#x25CF; Pending Review</span></td>
+        <td class="muted">Monica Johnson</td>
         <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">Review</a></td>
       </tr>
       <tr>
@@ -441,6 +446,7 @@ col.c-act{width:5%}
         <td class="mono r" style="color:var(--text-2)">$20,000</td>
         <td class="exp-soon">Nov 29, 2025</td>
         <td><span class="badge b-green">&#x25CF; Verified</span></td>
+        <td class="muted">James Williams</td>
         <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">View</a></td>
       </tr>
       <tr class="nr-row">
@@ -453,6 +459,7 @@ col.c-act{width:5%}
         <td class="mono r" style="color:var(--text-3)">—</td>
         <td class="muted">—</td>
         <td><span class="badge b-red">&#x26A0; Needs Review</span></td>
+        <td class="muted">Tom Roberts</td>
         <td style="text-align:right"><a style="font-size:12px;color:var(--red-dark);font-weight:600;cursor:pointer">Fix</a></td>
       </tr>
       <tr>
@@ -465,6 +472,7 @@ col.c-act{width:5%}
         <td class="mono r" style="color:var(--text-3)">—</td>
         <td class="exp-ok">Aug 31, 2026</td>
         <td><span class="badge b-amber">&#x25CF; Pending Review</span></td>
+        <td class="muted">Monica Johnson</td>
         <td style="text-align:right"><a style="font-size:12px;color:var(--sky);font-weight:600;cursor:pointer">Review</a></td>
       </tr>
     </tbody>

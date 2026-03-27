@@ -41,7 +41,7 @@ a.nav-logo:hover{opacity:.85;}
 .body{max-width:1300px;margin:0 auto;padding:20px 28px 40px;}
 
 /* PAGE HEADER */
-.page-header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 28px 14px;display:flex;align-items:flex-end;justify-content:space-between}
+.page-header{padding:18px 28px 14px;display:flex;align-items:flex-end;justify-content:space-between}
 .page-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy)}
 .page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
 .period-badge{font-size:11px;font-family:'DM Mono',monospace;background:#fef3dc;color:#a06c0e;border:1px solid rgba(232,160,32,.35);padding:3px 10px;border-radius:99px;cursor:pointer;}
@@ -56,8 +56,10 @@ a.nav-logo:hover{opacity:.85;}
 
 /* STATS ROW */
 .stats-row{display:grid;grid-template-columns:repeat(5,1fr);background:var(--white);border-bottom:1px solid var(--border)}
-.stat-cell{padding:13px 18px;border-right:1px solid var(--border);text-align:center}
-.stat-cell:last-child{border-right:none}
+.stat-cell{padding:13px 18px;border-right:1px solid var(--border);text-align:center;cursor:pointer;transition:background .12s}
+.stat-cell:last-child{border-right:none;cursor:default}
+.stat-cell:hover:not(:last-child){background:var(--off-white)}
+.stat-cell.af{background:var(--sky-light);border-bottom:2.5px solid var(--sky)}
 .stat-val{font-family:'DM Mono',monospace;font-size:24px;font-weight:500;color:var(--navy)}
 .stat-val.ok{color:var(--green-dark)}
 .stat-val.warn{color:var(--amber-dark)}
@@ -278,22 +280,22 @@ a.nav-logo:hover{opacity:.85;}
 
 <!-- Stats row -->
 <div class="stats-row">
-  <div class="stat-cell">
+  <div class="stat-cell" onclick="setStatStrip(this)">
     <div class="stat-val ok">89</div>
     <div class="stat-lbl">Verified</div>
     <div class="stat-bar"><div class="stat-bar-fill" style="width:84%;background:var(--green)"></div></div>
   </div>
-  <div class="stat-cell">
+  <div class="stat-cell" onclick="setStatStrip(this)">
     <div class="stat-val warn">3</div>
     <div class="stat-lbl">Pending Review</div>
     <div class="stat-bar"><div class="stat-bar-fill" style="width:3%;background:var(--amber)"></div></div>
   </div>
-  <div class="stat-cell">
+  <div class="stat-cell" onclick="setStatStrip(this)">
     <div class="stat-val bad">2</div>
     <div class="stat-lbl">Needs Review</div>
     <div class="stat-bar"><div class="stat-bar-fill" style="width:2%;background:var(--red)"></div></div>
   </div>
-  <div class="stat-cell">
+  <div class="stat-cell" onclick="setStatStrip(this)">
     <div class="stat-val bad">2</div>
     <div class="stat-lbl">Overdue (&gt;7 days)</div>
     <div class="stat-bar"><div class="stat-bar-fill" style="width:2%;background:var(--red)"></div></div>
@@ -320,9 +322,9 @@ a.nav-logo:hover{opacity:.85;}
             <div style="font-size:12px;color:var(--text-3);margin-top:1px">Agreements requiring action · sorted by urgency</div>
           </div>
           <div style="display:flex;gap:10px;align-items:center;padding-bottom:12px">
-            <div class="search-box" style="width:190px">
-              <span style="color:var(--text-3);font-size:13px">🔍</span>
-              <input type="text" placeholder="Search athlete or deal #…">
+            <div style="position:relative;width:190px">
+              <span style="position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:13px;pointer-events:none">⌕</span>
+              <input type="text" placeholder="Search athlete or deal #…" style="width:100%;border:1px solid #dce4ed;border-radius:6px;padding:7px 11px 7px 28px;font-family:'Outfit',sans-serif;font-size:12px;color:var(--text-1);outline:none;background:var(--white)">
             </div>
             <select style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:7px 10px;font-family:'Outfit',sans-serif;font-size:12.5px;color:var(--text-2);cursor:pointer">
               <option>All Sports</option>
@@ -330,11 +332,6 @@ a.nav-logo:hover{opacity:.85;}
               <option>Basketball</option>
             </select>
           </div>
-        </div>
-        <div class="tab-bar">
-          <div class="tab active">Needs Action <span class="tab-ct tc-bad">5</span></div>
-          <div class="tab">All <span class="tab-ct" style="background:var(--off-white);color:var(--text-3);border:1px solid var(--border)">94</span></div>
-          <div class="tab">Verified <span class="tab-ct tc-ok">89</span></div>
         </div>
       </div>
 
@@ -714,6 +711,8 @@ a.nav-logo:hover{opacity:.85;}
 </div><!-- /.body -->
 
 <script>
+// Stat strip click handler
+function setStatStrip(el){document.querySelectorAll('.stat-cell').forEach(c=>c.classList.remove('af'));el.classList.add('af')}
 // Animate stat bars
 document.querySelectorAll('.stat-bar-fill').forEach((b,i)=>{
   const w=b.style.width;b.style.width='0';
