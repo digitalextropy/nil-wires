@@ -12,16 +12,16 @@ body{font-family:'Outfit',sans-serif;background:#f7f9fc;color:#0f1f38;min-height
 /* ── Nav ── */
 nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;position:sticky;top:0;z-index:200;}
 .nav-left{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-a.nav-logo{font-family:Georgia,serif;font-size:17px;color:#fff;text-decoration:none;flex-shrink:0;}
+a.nav-logo{font-family:'DM Serif Display',serif;font-size:17px;color:#fff;text-decoration:none;flex-shrink:0;}
 a.nav-logo:hover{opacity:.85;}
 .nav-logo span{color:#e8a020;}
 .nav-links{display:flex;gap:2px;}
-.nav-links a.nav-link{font-size:12px;color:rgba(255,255,255,.55);padding:5px 11px;border-radius:5px;font-weight:500;white-space:nowrap;text-decoration:none;cursor:pointer;}
-.nav-links a.nav-link:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);}
-.nav-links a.nav-link.active{background:rgba(232,160,32,.15);color:#e8a020;}
+.nav-links a.nav-link{font-size:12px;color:rgba(255,255,255,.55);padding:7px 14px;border-radius:6px;font-weight:600;white-space:nowrap;text-decoration:none;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .15s;}
+.nav-links a.nav-link:hover{color:#fff;background:rgba(255,255,255,.07);}
+.nav-links a.nav-link.active{background:rgba(232,160,32,.13);color:#e8a020;}
 .nav-user{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.nav-school{font-size:11px;color:rgba(255,255,255,.45);font-family:monospace;text-align:right;line-height:1.3;display:block;}
-.nav-role{font-size:10px;color:rgba(255,255,255,.3);font-family:monospace;display:block;}
+.nav-school{font-size:11px;color:rgba(255,255,255,.45);font-family:'DM Mono',monospace;text-align:right;line-height:1.3;display:block;}
+.nav-role{font-size:10px;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;display:block;}
 .nav-avatar{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15);color:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
 
 /* ── Search bar (nav) ── */
@@ -33,7 +33,7 @@ a.nav-logo:hover{opacity:.85;}
 
 /* ── Page body ── */
 .body{max-width:1300px;margin:0 auto;padding:20px 28px 40px;}
-.pg-title{font-family:'DM Serif Display',Georgia,serif;font-size:22px;margin-bottom:6px;}
+.page-title{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:6px;}
 .query-line{font-family:'DM Mono',monospace;font-size:13px;color:#8fa3b8;margin-bottom:6px;}
 .query-line strong{color:#4a6480;}
 .scope-line{font-size:12px;color:#8fa3b8;margin-bottom:4px;display:flex;align-items:center;gap:8px;}
@@ -69,7 +69,7 @@ a.nav-logo:hover{opacity:.85;}
 .sp{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px solid;display:inline-block;white-space:nowrap;}
 .sp-verified{background:#e6f7ef;color:#0e6637;border-color:#5abf87;}
 .sp-review{background:#fef3dc;color:#a06c0e;border-color:#e8a020;}
-.sp-submitted{background:#e8edf5;color:#1a3558;border-color:#9eb8d4;}
+.sp-pending{background:#fef3dc;color:#a06c0e;border-color:#e8a020;}
 
 /* Deal value */
 .r-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
@@ -141,7 +141,7 @@ a.nav-logo:hover{opacity:.85;}
   var scopeLinkText = scope === 'all' ? '' : '<a class="scope-link" id="scopeAll">Search entire history \u2192</a>';
 
   body.innerHTML =
-    '<div class="pg-title">Search Results</div>' +
+    '<div class="page-title">Search Results</div>' +
     '<div class="query-line">Showing results for <strong>\u201c' + q.replace(/</g,'&lt;') + '\u201d</strong></div>' +
     '<div class="scope-line">Showing results from: ' + scopeLabel + ' ' + scopeLinkText + '</div>' +
     '<div class="result-count">8 results</div>' +
@@ -161,12 +161,12 @@ a.nav-logo:hover{opacity:.85;}
   function resultHTML(){
     return [
       athlete('MJ','Marcus Johnson','Football','WR','Yr 3','3 deals'),
-      athlete('JT','Jasmine Torres','Basketball W','PG','Yr 2','1 deal'),
+      athlete('JT','Jasmine Torres','Basketball (W)','PG','Yr 2','1 deal'),
       athlete('JR','Jordan Reed','Football','RB','Yr 4','2 deals'),
       deal('#NIL-2025-0041','Jordan Reed','Nike Athlete Program','Verified','sp-verified','$35,000'),
       deal('#NIL-2025-0089','Marcus Johnson','Regional Auto Group','Verified','sp-verified','$24,500'),
       deal('#NIL-2025-0102','Jasmine Torres','State Farm','Needs Review','sp-review','$18,000'),
-      deal('#NIL-2025-0118','DeAndre Williams','Jordan Brand','Submitted','sp-submitted','$42,000'),
+      deal('#NIL-2025-0118','DeAndre Williams','Jordan Brand','Pending Review','sp-pending','$42,000'),
       deal('#NIL-2025-0127','Cameron Ellis','Local Chevy Dealer','Verified','sp-verified','$12,500'),
     ].join('');
   }
