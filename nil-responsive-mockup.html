@@ -63,11 +63,10 @@ a.nav-logo:hover{opacity:.85}
 .nav-mobile-menu .mob-user-name{color:rgba(255,255,255,.8);font-weight:600;}
 
 @media(max-width:860px){
-  nav{height:auto;min-height:52px;}
-  .nav-inner{flex-wrap:wrap;position:relative;}
-  .nav-links,.nav-search-wrap,.nav-school,.nav-role{display:none!important;}
+  nav{height:52px;}
+  .nav-inner{flex-wrap:nowrap;position:relative;height:100%;}
+  .nav-links,.nav-search-wrap,.nav-school,.nav-role,.nav-user{display:none!important;}
   .nav-hamburger{display:block;}
-  .nav-user{margin-left:0;}
 }
 
 /* ── BODY ── */
@@ -229,7 +228,7 @@ a.nav-logo:hover{opacity:.85}
       <a href="nil-reporting-v5.html">Reporting</a>
       <div class="mob-user">
         <div class="nav-avatar">AD</div>
-        <div><div class="mob-user-name">Blue Mountain State</div><div class="mob-user-info">Athletic Director · <a href="nil-admin-v5.html" style="color:var(--gold);text-decoration:none;">Settings</a></div></div>
+        <div><div class="mob-user-name">Blue Mountain State</div><div class="mob-user-info">Athletic Director</div><div class="mob-user-info" style="margin-top:2px;"><a href="nil-admin-v5.html" style="color:var(--gold);text-decoration:none;">Settings</a></div></div>
       </div>
     </div>
   </div>
