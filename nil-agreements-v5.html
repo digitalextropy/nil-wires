@@ -33,6 +33,7 @@ nav{background:var(--navy);display:flex;align-items:center;padding:0 28px;height
 .nav-school{color:var(--white);font-weight:600;font-size:12px;display:block;text-align:right}
 .nav-role{color:rgba(255,255,255,.5);font-size:11px;text-align:right;display:block}
 
+.body{max-width:1300px;margin:0 auto;padding:20px 28px 40px;}
 .page-header{background:var(--white);border-bottom:1px solid var(--border);padding:18px 28px 14px;display:flex;align-items:flex-end;justify-content:space-between}
 .page-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--navy)}
 .page-sub{font-size:13px;color:var(--text-3);margin-top:3px}
@@ -273,6 +274,8 @@ col.c-act{width:5%}
     </div>
   </nav>
 
+<div class="body">
+
 <div class="page-header">
   <div>
     <div class="page-title">NIL Agreements</div>
@@ -482,6 +485,8 @@ col.c-act{width:5%}
   </div>
 </div>
 
+</div><!-- /.body -->
+
 <script>
 let openDrop=null;
 function toggleDrop(id){const dd=document.getElementById('dd'+id.replace('fp',''));if(!dd)return;if(openDrop&&openDrop!==dd){openDrop.classList.remove('open');openDrop=null}dd.classList.toggle('open');openDrop=dd.classList.contains('open')?dd:null}
@@ -543,5 +548,13 @@ document.querySelectorAll('tbody tr').forEach((r,i)=>{r.style.opacity='0';r.styl
 document.querySelector('.nav-avatar').addEventListener('click',function(e){e.preventDefault();var d=document.getElementById('avatarDrop');d.style.display=d.style.display==='none'?'block':'none';});
 document.addEventListener('click',function(e){if(!e.target.closest('.nav-user')){document.getElementById('avatarDrop').style.display='none';}});
 </script>
+<!-- Floating Help Widget -->
+<div id="helpWidget" style="position:fixed;bottom:24px;right:24px;z-index:400;">
+  <div id="helpPanel" style="display:none;position:absolute;bottom:56px;right:0;width:340px;background:#fff;border:1.5px solid #dce4ed;border-radius:12px;box-shadow:0 12px 36px rgba(15,31,56,.18);overflow:hidden;">
+    <img src="no-help.png" alt="No help for you!" style="width:100%;display:block;" />
+  </div>
+  <button onclick="var p=document.getElementById('helpPanel');p.style.display=p.style.display==='none'?'block':'none';" style="width:48px;height:48px;border-radius:50%;background:#0f1f38;border:2px solid #e8a020;color:#fff;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(15,31,56,.3);display:flex;align-items:center;justify-content:center;">?</button>
+</div>
+<script>document.addEventListener('click',function(e){if(!e.target.closest('#helpWidget')){document.getElementById('helpPanel').style.display='none';}});</script>
 </body>
 </html>

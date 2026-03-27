@@ -27,7 +27,7 @@ nav{background:#0f1f38;display:flex;align-items:center;justify-content:space-bet
 .nav-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
 
 /* ── PAGE ── */
-.body{max-width:1160px;margin:0 auto;padding:20px 24px 40px;}
+.body{max-width:1300px;margin:0 auto;padding:20px 28px 40px;}
 
 /* ── BREADCRUMB ── */
 .breadcrumb{font-family:monospace;font-size:11px;color:#8fa3b8;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
@@ -624,5 +624,13 @@ document.querySelector('.nav-avatar').addEventListener('click',function(e){e.pre
 document.addEventListener('click',function(e){if(!e.target.closest('.nav-user')){document.getElementById('avatarDrop').style.display='none';}});
 </script>
 
+<!-- Floating Help Widget -->
+<div id="helpWidget" style="position:fixed;bottom:24px;right:24px;z-index:400;">
+  <div id="helpPanel" style="display:none;position:absolute;bottom:56px;right:0;width:340px;background:#fff;border:1.5px solid #dce4ed;border-radius:12px;box-shadow:0 12px 36px rgba(15,31,56,.18);overflow:hidden;">
+    <img src="no-help.png" alt="No help for you!" style="width:100%;display:block;" />
+  </div>
+  <button onclick="var p=document.getElementById('helpPanel');p.style.display=p.style.display==='none'?'block':'none';" style="width:48px;height:48px;border-radius:50%;background:#0f1f38;border:2px solid #e8a020;color:#fff;font-size:20px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(15,31,56,.3);display:flex;align-items:center;justify-content:center;">?</button>
+</div>
+<script>document.addEventListener('click',function(e){if(!e.target.closest('#helpWidget')){document.getElementById('helpPanel').style.display='none';}});</script>
 </body>
 </html>
