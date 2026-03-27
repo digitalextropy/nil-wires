@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIL Benchmark – Responsive Table Approaches</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f1f38;--navy-mid:#162d50;--navy-light:#1e3d6e;
+  --gold:#e8a020;--gold-pale:#fdf3df;
+  --sky:#3b82c4;--sky-mid:#2563a8;--sky-light:#dbeafe;
+  --white:#fff;--off-white:#f7f9fc;--border:#dce4ed;--border-mid:#c8d4e0;
+  --text-1:#0f1f38;--text-2:#4a6480;--text-3:#8fa3b8;
+  --green:#22c55e;--green-pale:#dcfce7;--green-dark:#16a34a;
+  --red:#ef4444;--red-pale:#fee2e2;--red-dark:#dc2626;
+  --amber:#f59e0b;--amber-pale:#fef3c7;--amber-dark:#d97706;
+  --radius:10px;--radius-sm:6px;
+  --shadow-md:0 2px 12px rgba(15,31,56,.08);--shadow-lg:0 8px 28px rgba(15,31,56,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;background:var(--off-white);color:var(--text-1);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* ── PAGE NAV ── */
+nav{background:var(--navy);height:52px;position:sticky;top:0;z-index:200;border-bottom:2.5px solid var(--gold)}
+.nav-inner{max-width:1300px;margin:0 auto;padding:0 28px;display:flex;align-items:center;width:100%;height:100%}
+a.nav-logo{font-family:'DM Serif Display',serif;color:var(--white);font-size:17px;text-decoration:none;flex-shrink:0}
+a.nav-logo:hover{opacity:.85}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2px;margin-left:32px}
+.nav-links a{color:rgba(255,255,255,.55);font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:all .15s;text-decoration:none;white-space:nowrap}
+.nav-links a:hover{color:var(--white);background:rgba(255,255,255,.07)}
+.nav-links a.active{color:var(--gold);background:rgba(232,160,32,.13)}
+.nav-user{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0}
+.nav-avatar{width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:700;font-size:10px;display:flex;align-items:center;justify-content:center}
+.nav-school{font-size:11px;color:rgba(255,255,255,.45);font-family:'DM Mono',monospace}
+
+/* ── BODY ── */
+.body{max-width:1300px;margin:0 auto;padding:24px 28px 60px}
+.page-header{margin-bottom:28px}
+.page-title{font-family:'DM Serif Display',serif;font-size:28px;color:var(--navy)}
+.page-sub{font-size:14px;color:var(--text-3);margin-top:4px}
+
+/* ── SECTION GRID ── */
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:40px}
+@media(max-width:920px){.options-grid{grid-template-columns:1fr;gap:40px}}
+
+.option-section{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);overflow:hidden}
+.option-header{padding:18px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.option-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;padding:3px 9px;border-radius:100px;flex-shrink:0}
+.label-a{background:var(--sky-light);color:var(--sky-mid)}
+.label-b{background:var(--gold-pale);color:#a06c0e}
+.option-title{font-family:'DM Serif Display',serif;font-size:18px;color:var(--navy)}
+.option-desc{font-size:12.5px;color:var(--text-3);padding:0 22px 14px;line-height:1.55}
+
+/* ── PHONE FRAME ── */
+.phone-wrap{display:flex;justify-content:center;padding:20px 22px 22px}
+.phone-frame{width:375px;max-width:100%;border:2px solid var(--navy);border-radius:28px;overflow:hidden;background:var(--white);box-shadow:0 8px 32px rgba(15,31,56,.12);position:relative}
+.phone-notch{height:28px;background:var(--navy);display:flex;align-items:center;justify-content:center}
+.phone-notch-pill{width:80px;height:6px;background:rgba(255,255,255,.15);border-radius:99px}
+.phone-screen{min-height:480px;overflow:hidden;position:relative}
+.phone-home{height:6px;margin:8px auto;width:100px;background:var(--border);border-radius:99px}
+
+/* ── SCROLL HINT ── */
+.scroll-hint{text-align:center;padding:10px 0 4px;font-size:11px;color:var(--text-3);font-weight:500;letter-spacing:.04em}
+.scroll-hint span{display:inline-flex;align-items:center;gap:6px;background:var(--off-white);padding:4px 12px;border-radius:100px;border:1px solid var(--border)}
+
+/* ── OPTION A: HORIZONTAL SCROLL TABLE ── */
+.scroll-table-wrap{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.scroll-table-wrap::-webkit-scrollbar{height:4px}
+.scroll-table-wrap::-webkit-scrollbar-thumb{background:var(--border-mid);border-radius:99px}
+.scroll-table-wrap table{min-width:560px;width:100%;border-collapse:collapse}
+.scroll-table-wrap thead tr{background:var(--off-white);border-bottom:1.5px solid var(--border)}
+.scroll-table-wrap th{padding:8px 10px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);text-align:left;white-space:nowrap}
+.scroll-table-wrap th.r{text-align:right}
+.scroll-table-wrap td{padding:9px 10px;font-size:11.5px;white-space:nowrap;border-bottom:1px solid var(--border)}
+.scroll-table-wrap td.mono{font-family:'DM Mono',monospace;font-size:11px;font-weight:500}
+.scroll-table-wrap td.r{text-align:right}
+.scroll-table-wrap tbody tr:last-child td{border-bottom:none}
+.scroll-table-wrap tbody tr:hover{background:#f0f6ff}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:100px;font-size:10px;font-weight:600;white-space:nowrap}
+.b-green{background:var(--green-pale);color:var(--green-dark)}
+.b-amber{background:var(--amber-pale);color:var(--amber-dark)}
+.b-red{background:var(--red-pale);color:var(--red-dark)}
+.b-sky{background:var(--sky-light);color:var(--sky-mid)}
+.b-gray{background:var(--off-white);color:var(--text-3);border:1px solid var(--border)}
+
+/* ── OPTION B: CARD REFLOW ── */
+.card-list{padding:10px 12px;display:flex;flex-direction:column;gap:10px}
+.reflow-card{border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 14px 12px;background:var(--white);transition:border-color .15s}
+.reflow-card:hover{border-color:var(--sky)}
+.card-name{font-family:'DM Serif Display',serif;font-size:15px;color:var(--navy);margin-bottom:1px}
+.card-id{font-family:'DM Mono',monospace;font-size:10.5px;color:var(--text-3);margin-bottom:10px}
+.card-divider{height:1px;background:var(--border);margin-bottom:10px}
+.card-row{display:flex;align-items:center;justify-content:space-between;padding:3px 0}
+.card-label{font-size:11px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.card-value{font-size:12.5px;font-weight:500;color:var(--text-1);text-align:right}
+.card-value.mono{font-family:'DM Mono',monospace;font-size:12px}
+
+/* ── NOTES SECTION ── */
+.notes-section{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);padding:24px 28px;margin-bottom:40px}
+.notes-title{font-family:'DM Serif Display',serif;font-size:20px;color:var(--navy);margin-bottom:16px}
+.notes-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:700px){.notes-grid{grid-template-columns:1fr}}
+.note-card{border:1.5px solid var(--border);border-radius:var(--radius);padding:18px 20px}
+.note-card-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.note-card-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:100px}
+.note-card-title{font-family:'DM Serif Display',serif;font-size:15px;color:var(--navy)}
+.pro-con-list{list-style:none;padding:0}
+.pro-con-list li{font-size:13px;color:var(--text-2);padding:5px 0;padding-left:20px;position:relative;line-height:1.5}
+.pro-con-list li::before{position:absolute;left:0;font-weight:700;font-size:12px}
+.pro-list li::before{content:"+";color:var(--green-dark)}
+.con-list li::before{content:"\2212";color:var(--red-dark)}
+
+/* ── MOBILE NAV MOCKUP ── */
+.mobile-nav-section{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);padding:24px 28px;margin-bottom:40px}
+.mobile-nav-section .section-title{font-family:'DM Serif Display',serif;font-size:20px;color:var(--navy);margin-bottom:6px}
+.mobile-nav-section .section-sub{font-size:13px;color:var(--text-3);margin-bottom:20px}
+.nav-mockup-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+@media(max-width:700px){.nav-mockup-grid{grid-template-columns:1fr}}
+.nav-mockup-col{text-align:center}
+.nav-mockup-col h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:12px}
+
+/* Collapsed Nav */
+.mock-nav-collapsed{width:375px;max-width:100%;margin:0 auto;border-radius:0;overflow:hidden;border:2px solid var(--navy);border-radius:10px 10px 0 0}
+.mock-nav-bar{background:var(--navy);height:48px;display:flex;align-items:center;padding:0 16px;border-bottom:2.5px solid var(--gold)}
+.mock-nav-bar .logo{font-family:'DM Serif Display',serif;color:var(--white);font-size:15px}
+.mock-nav-bar .logo span{color:var(--gold)}
+.mock-nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.mock-avatar{width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:700;font-size:9px;display:flex;align-items:center;justify-content:center}
+.mock-hamburger{color:var(--white);font-size:22px;cursor:pointer;line-height:1}
+.mock-content-hint{background:var(--off-white);height:60px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-3);border:2px solid var(--navy);border-top:none;border-radius:0 0 10px 10px}
+
+/* Expanded Nav */
+.mock-nav-expanded{width:375px;max-width:100%;margin:0 auto;border:2px solid var(--navy);border-radius:10px;overflow:hidden}
+.mock-dropdown{background:var(--navy-mid);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.mock-dropdown a{display:flex;align-items:center;gap:10px;padding:11px 18px;color:rgba(255,255,255,.65);font-size:13px;font-weight:600;text-decoration:none;transition:all .12s;letter-spacing:.03em}
+.mock-dropdown a:hover{background:rgba(255,255,255,.05);color:var(--white)}
+.mock-dropdown a.active{color:var(--gold);background:rgba(232,160,32,.1)}
+.mock-dropdown a .icon{width:18px;text-align:center;font-size:14px;opacity:.7}
+.mock-dropdown .divider{height:1px;background:rgba(255,255,255,.06);margin:4px 16px}
+.mock-dropdown .user-section{display:flex;align-items:center;gap:10px;padding:12px 18px;border-top:1px solid rgba(255,255,255,.08)}
+.mock-dropdown .user-name{color:rgba(255,255,255,.85);font-size:12.5px;font-weight:600}
+.mock-dropdown .user-role{color:rgba(255,255,255,.4);font-size:11px;font-family:'DM Mono',monospace}
+.mock-content-hint-exp{background:var(--off-white);height:40px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-3)}
+
+/* ── UTILITIES ── */
+.section-divider{height:1px;background:var(--border);margin:0 0 40px}
+</style>
+</head>
+<body>
+
+<!-- ════════ TOP NAV ════════ -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">NIL <span>Benchmark</span></a>
+    <div class="nav-links">
+      <a href="#">Dashboard</a>
+      <a href="#">Athletes</a>
+      <a href="#" class="active">Agreements</a>
+      <a href="#">Budget</a>
+      <a href="#">Reporting</a>
+      <a href="#">Benchmarks</a>
+    </div>
+    <div class="nav-user">
+      <span class="nav-school">Auburn University</span>
+      <div class="nav-avatar">AD</div>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════ BODY ════════ -->
+<div class="body">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-title">Responsive Table Approaches</div>
+    <div class="page-sub">Two options for handling data tables on mobile viewports</div>
+  </div>
+
+  <!-- ════════ OPTIONS SIDE-BY-SIDE ════════ -->
+  <div class="options-grid">
+
+    <!-- ──── OPTION A: Horizontal Scroll ──── -->
+    <div class="option-section">
+      <div class="option-header">
+        <span class="option-label label-a">A</span>
+        <span class="option-title">Option A &mdash; Horizontal Scroll</span>
+      </div>
+      <div class="option-desc">The table retains its standard column layout inside a scrollable container. Users swipe horizontally to reveal off-screen columns.</div>
+      <div class="phone-wrap">
+        <div class="phone-frame">
+          <div class="phone-notch"><div class="phone-notch-pill"></div></div>
+          <div class="phone-screen">
+            <!-- Mini nav inside phone -->
+            <div style="background:var(--navy);height:36px;display:flex;align-items:center;padding:0 12px;border-bottom:2px solid var(--gold)">
+              <span style="font-family:'DM Serif Display',serif;color:var(--white);font-size:12px">NIL <span style="color:var(--gold)">Benchmark</span></span>
+              <span style="margin-left:auto;color:rgba(255,255,255,.7);font-size:16px">&#9776;</span>
+              <span style="margin-left:8px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:700;font-size:8px;display:inline-flex;align-items:center;justify-content:center">AD</span>
+            </div>
+            <!-- Page title -->
+            <div style="padding:12px 12px 8px">
+              <div style="font-family:'DM Serif Display',serif;font-size:14px;color:var(--navy)">NIL Agreements</div>
+              <div style="font-size:10px;color:var(--text-3);margin-top:2px">5 agreements &middot; Total $1.43M</div>
+            </div>
+            <!-- Scrollable table -->
+            <div class="scroll-table-wrap" style="margin:0 8px;border:1px solid var(--border);border-radius:var(--radius-sm)">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="min-width:120px">Athlete</th>
+                    <th style="min-width:90px">Sport</th>
+                    <th style="min-width:100px">Deal Type</th>
+                    <th style="min-width:90px" class="r">Value</th>
+                    <th style="min-width:90px">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="font-weight:600">Marcus Johnson</td>
+                    <td>Football &middot; WR</td>
+                    <td>Endorsement</td>
+                    <td class="mono r">$350,000</td>
+                    <td><span class="badge b-green">&#9679; Verified</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600">Cameron Ellis</td>
+                    <td>Basketball &middot; G</td>
+                    <td>Licensing</td>
+                    <td class="mono r">$280,000</td>
+                    <td><span class="badge b-green">&#9679; Verified</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600">Jasmine Torres</td>
+                    <td>Softball &middot; P</td>
+                    <td>Appearance</td>
+                    <td class="mono r">$175,000</td>
+                    <td><span class="badge b-amber">&#9679; Pending</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600">DeAndre Williams</td>
+                    <td>Football &middot; QB</td>
+                    <td>Social Media</td>
+                    <td class="mono r">$425,000</td>
+                    <td><span class="badge b-sky">&#9679; In Review</span></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight:600">Jordan Reed</td>
+                    <td>Baseball &middot; OF</td>
+                    <td>Merchandise</td>
+                    <td class="mono r">$200,000</td>
+                    <td><span class="badge b-green">&#9679; Verified</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="scroll-hint"><span>&larr; Scroll &rarr;</span></div>
+          </div>
+          <div class="phone-home"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ──── OPTION B: Card Reflow ──── -->
+    <div class="option-section">
+      <div class="option-header">
+        <span class="option-label label-b">B</span>
+        <span class="option-title">Option B &mdash; Card Reflow</span>
+      </div>
+      <div class="option-desc">Each table row becomes a self-contained card with stacked label-value pairs. No horizontal scrolling required.</div>
+      <div class="phone-wrap">
+        <div class="phone-frame">
+          <div class="phone-notch"><div class="phone-notch-pill"></div></div>
+          <div class="phone-screen">
+            <!-- Mini nav inside phone -->
+            <div style="background:var(--navy);height:36px;display:flex;align-items:center;padding:0 12px;border-bottom:2px solid var(--gold)">
+              <span style="font-family:'DM Serif Display',serif;color:var(--white);font-size:12px">NIL <span style="color:var(--gold)">Benchmark</span></span>
+              <span style="margin-left:auto;color:rgba(255,255,255,.7);font-size:16px">&#9776;</span>
+              <span style="margin-left:8px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:700;font-size:8px;display:inline-flex;align-items:center;justify-content:center">AD</span>
+            </div>
+            <!-- Page title -->
+            <div style="padding:12px 12px 8px">
+              <div style="font-family:'DM Serif Display',serif;font-size:14px;color:var(--navy)">NIL Agreements</div>
+              <div style="font-size:10px;color:var(--text-3);margin-top:2px">5 agreements &middot; Total $1.43M</div>
+            </div>
+            <!-- Card list -->
+            <div class="card-list">
+              <!-- Card 1 -->
+              <div class="reflow-card">
+                <div class="card-name">Marcus Johnson</div>
+                <div class="card-id">ATH-00441</div>
+                <div class="card-divider"></div>
+                <div class="card-row"><span class="card-label">Sport</span><span class="card-value">Football &middot; WR</span></div>
+                <div class="card-row"><span class="card-label">Type</span><span class="card-value">Endorsement</span></div>
+                <div class="card-row"><span class="card-label">Deal value</span><span class="card-value mono">$350,000</span></div>
+                <div class="card-row"><span class="card-label">Status</span><span class="card-value"><span class="badge b-green">&#9679; Verified</span></span></div>
+              </div>
+              <!-- Card 2 -->
+              <div class="reflow-card">
+                <div class="card-name">Cameron Ellis</div>
+                <div class="card-id">ATH-00387</div>
+                <div class="card-divider"></div>
+                <div class="card-row"><span class="card-label">Sport</span><span class="card-value">Basketball &middot; G</span></div>
+                <div class="card-row"><span class="card-label">Type</span><span class="card-value">Licensing</span></div>
+                <div class="card-row"><span class="card-label">Deal value</span><span class="card-value mono">$280,000</span></div>
+                <div class="card-row"><span class="card-label">Status</span><span class="card-value"><span class="badge b-green">&#9679; Verified</span></span></div>
+              </div>
+              <!-- Card 3 -->
+              <div class="reflow-card">
+                <div class="card-name">Jasmine Torres</div>
+                <div class="card-id">ATH-00512</div>
+                <div class="card-divider"></div>
+                <div class="card-row"><span class="card-label">Sport</span><span class="card-value">Softball &middot; P</span></div>
+                <div class="card-row"><span class="card-label">Type</span><span class="card-value">Appearance</span></div>
+                <div class="card-row"><span class="card-label">Deal value</span><span class="card-value mono">$175,000</span></div>
+                <div class="card-row"><span class="card-label">Status</span><span class="card-value"><span class="badge b-amber">&#9679; Pending</span></span></div>
+              </div>
+              <!-- Card 4 -->
+              <div class="reflow-card">
+                <div class="card-name">DeAndre Williams</div>
+                <div class="card-id">ATH-00298</div>
+                <div class="card-divider"></div>
+                <div class="card-row"><span class="card-label">Sport</span><span class="card-value">Football &middot; QB</span></div>
+                <div class="card-row"><span class="card-label">Type</span><span class="card-value">Social Media</span></div>
+                <div class="card-row"><span class="card-label">Deal value</span><span class="card-value mono">$425,000</span></div>
+                <div class="card-row"><span class="card-label">Status</span><span class="card-value"><span class="badge b-sky">&#9679; In Review</span></span></div>
+              </div>
+              <!-- Card 5 -->
+              <div class="reflow-card">
+                <div class="card-name">Jordan Reed</div>
+                <div class="card-id">ATH-00605</div>
+                <div class="card-divider"></div>
+                <div class="card-row"><span class="card-label">Sport</span><span class="card-value">Baseball &middot; OF</span></div>
+                <div class="card-row"><span class="card-label">Type</span><span class="card-value">Merchandise</span></div>
+                <div class="card-row"><span class="card-label">Deal value</span><span class="card-value mono">$200,000</span></div>
+                <div class="card-row"><span class="card-label">Status</span><span class="card-value"><span class="badge b-green">&#9679; Verified</span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="phone-home"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /options-grid -->
+
+  <!-- ════════ NOTES ════════ -->
+  <div class="notes-section">
+    <div class="notes-title">Notes</div>
+    <div class="notes-grid">
+      <div class="note-card">
+        <div class="note-card-header">
+          <span class="note-card-label label-a">A</span>
+          <span class="note-card-title">Horizontal Scroll</span>
+        </div>
+        <ul class="pro-con-list pro-list">
+          <li>Preserves column alignment &mdash; familiar table structure</li>
+          <li>Better for power users comparing values across rows</li>
+          <li>Minimal layout changes needed from desktop</li>
+        </ul>
+        <ul class="pro-con-list con-list" style="margin-top:8px">
+          <li>User must scroll horizontally to see all columns</li>
+          <li>Easy to miss off-screen data without a scroll hint</li>
+          <li>Horizontal scrolling is less natural on mobile</li>
+        </ul>
+      </div>
+      <div class="note-card">
+        <div class="note-card-header">
+          <span class="note-card-label label-b">B</span>
+          <span class="note-card-title">Card Reflow</span>
+        </div>
+        <ul class="pro-con-list pro-list">
+          <li>No horizontal scroll needed &mdash; all data visible</li>
+          <li>Each record is self-contained and easy to scan</li>
+          <li>Better for quick scanning individual athlete records</li>
+        </ul>
+        <ul class="pro-con-list con-list" style="margin-top:8px">
+          <li>Takes more vertical space &mdash; more scrolling overall</li>
+          <li>Harder to compare values across multiple athletes</li>
+          <li>Requires a separate mobile template / component</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════ MOBILE NAV MOCKUP ════════ -->
+  <div class="mobile-nav-section">
+    <div class="section-title">Mobile Navigation</div>
+    <div class="section-sub">Collapsed hamburger nav with expanded dropdown state</div>
+
+    <div class="nav-mockup-grid">
+      <!-- Collapsed State -->
+      <div class="nav-mockup-col">
+        <h4>Collapsed State</h4>
+        <div class="mock-nav-collapsed">
+          <div class="mock-nav-bar">
+            <span class="logo">NIL <span>Benchmark</span></span>
+            <div class="mock-nav-right">
+              <div class="mock-avatar">AD</div>
+              <span class="mock-hamburger">&#9776;</span>
+            </div>
+          </div>
+        </div>
+        <div class="mock-content-hint">Page content appears here&hellip;</div>
+      </div>
+
+      <!-- Expanded State -->
+      <div class="nav-mockup-col">
+        <h4>Expanded State</h4>
+        <div class="mock-nav-expanded">
+          <div class="mock-nav-bar">
+            <span class="logo">NIL <span>Benchmark</span></span>
+            <div class="mock-nav-right">
+              <div class="mock-avatar">AD</div>
+              <span class="mock-hamburger" style="font-size:18px">&times;</span>
+            </div>
+          </div>
+          <div class="mock-dropdown">
+            <a href="#"><span class="icon">&#9632;</span> Dashboard</a>
+            <a href="#"><span class="icon">&#9679;</span> Athletes</a>
+            <a href="#" class="active"><span class="icon">&#9830;</span> Agreements</a>
+            <a href="#"><span class="icon">&#9650;</span> Budget</a>
+            <a href="#"><span class="icon">&#9670;</span> Reporting</a>
+            <a href="#"><span class="icon">&#9733;</span> Benchmarks</a>
+            <a href="#"><span class="icon">&#128269;</span> Search</a>
+            <div class="divider"></div>
+            <a href="#"><span class="icon">&#9881;</span> Admin</a>
+            <div class="user-section">
+              <div class="mock-avatar" style="width:30px;height:30px;font-size:10px">AD</div>
+              <div>
+                <div class="user-name">Alex Davis</div>
+                <div class="user-role">Auburn University</div>
+              </div>
+            </div>
+          </div>
+          <div class="mock-content-hint-exp">Page content below&hellip;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /body -->
+
+</body>
+</html>
